@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Zone Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=9">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ================= LOGIN (Premium SaaS) ================= -->
+  <section id="view-login" class="view view--login">
+    <!-- LoginPage > LoginCard -->
+    <div class="login-card">
+      <!-- LoginCard > LoginHeader -->
+      <div class="login-card-header">
+        <div class="login-badge">
+          <span class="material-symbols-outlined">sports_esports</span>
+        </div>
+        <h1 class="login-title">Zone Manager</h1>
+        <p class="login-subtitle">Zonangizni boshqaring</p>
+        <svg class="login-wave-svg" viewBox="0 0 750 56" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,40 C220,64 500,16 750,40 L750,56 L0,56 Z" fill="#f8faf9"/>
+        </svg>
+      </div>
+
+      <!-- LoginCard > LoginForm -->
+      <div class="login-card-body">
+        <form id="login-form" class="login-form" novalidate>
+          <!-- Input: Login -->
+          <div class="field">
+            <label for="login-username">Login</label>
+            <div class="input-wrap">
+              <span class="input-icon material-symbols-outlined">person</span>
+              <input id="login-username" type="text" placeholder="Loginni kiriting" autocomplete="username" aria-label="Login">
+            </div>
+            <span class="field-error" id="err-username"></span>
+          </div>
+
+          <!-- Input: Parol -->
+          <div class="field">
+            <label for="login-password">Parol</label>
+            <div class="input-wrap">
+              <span class="input-icon material-symbols-outlined">lock</span>
+              <input id="login-password" type="password" placeholder="Parolni kiriting" autocomplete="current-password" aria-label="Parol">
+              <button type="button" class="eye" id="eye-toggle" aria-label="Parolni ko'rsatish">
+                <span class="material-symbols-outlined">visibility</span>
+              </button>
+            </div>
+            <span class="field-error" id="err-password"></span>
+          </div>
+
+          <!-- FormOptions -->
+          <div class="form-options">
+            <label class="checkbox">
+              <input type="checkbox" id="remember-me" aria-label="Meni eslab qol">
+              <span class="checkbox-box"><span class="material-symbols-outlined">check</span></span>
+              Meni eslab qol
+            </label>
+            <button type="button" class="forgot-link" id="forgot-link">Parolni unutdingizmi?</button>
+          </div>
+
+          <div class="login-error" id="login-error" hidden>Login yoki parol noto'g'ri</div>
+
+          <!-- LoginButton -->
+          <button type="submit" class="btn btn--login" id="login-btn" aria-label="Kirish">
+            <span class="btn-label">Kirish</span>
+            <span class="arrow-ic material-symbols-outlined">arrow_forward</span>
+            <span class="spinner" hidden></span>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider"><span>yoki</span></div>
+
+          <!-- DemoLogin -->
+          <button type="button" class="demo-btn" id="demo-btn">
+            <span class="material-symbols-outlined">verified_user</span>
+            Demo kirish: admin / 1234
+          </button>
+        </form>
+
+        <!-- SecurityFooter -->
+        <div class="security-footer">
+          <span class="material-symbols-outlined">shield</span>
+          Xavfsiz va himoyalangan tizim
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ASOSIY (Home) ================= -->
+  <section id="view-home" class="view" hidden>
+    <header class="app-header">
+      <h1>Asosiy Floor</h1>
+      <div class="search-box">
+        <input id="search-input" class="search-input" placeholder="Stol nomi..." hidden>
+        <button class="icon-btn" id="search-toggle" aria-label="Qidirish">
+          <span class="material-symbols-outlined">search</span>
+        </button>
+        <button class="icon-btn" id="more-btn" aria-label="Ko'proq">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="chips" id="filter-chips">
+      <button class="chip active" data-filter="all">Barchasi</button>
+      <button class="chip" data-filter="free">Bo'sh</button>
+      <button class="chip" data-filter="busy">Band</button>
+      <button class="chip" data-filter="repair">Ta'mirlashda</button>
+    </div>
+
+    <div id="home-empty" class="empty-state" hidden>
+      <span class="material-symbols-outlined empty-icon">table_restaurant</span>
+      <p>Hali stol qo'shilmagan</p>
+      <button class="btn btn--primary" id="first-table-btn">Birinchi stolni qo'shish</button>
+    </div>
+
+    <main class="grid" id="table-grid"></main>
+  </section>
+
+  <!-- ================= STATISTIKA ================= -->
+  <section id="view-stats" class="view" hidden>
+    <header class="app-header app-header--title">
+      <h1 class="text-primary">Statistika</h1>
+    </header>
+
+    <div id="stats-empty" class="empty-state" hidden>
+      <span class="material-symbols-outlined empty-icon">insights</span>
+      <p>Hali statistika mavjud emas — birinchi sessiyani boshlang</p>
+    </div>
+
+    <div id="stats-content">
+      <div class="segmented" id="stat-tabs">
+        <button class="seg-btn active" data-range="day">Bugun</button>
+        <button class="seg-btn" data-range="week">Hafta</button>
+        <button class="seg-btn" data-range="month">Oy</button>
+      </div>
+
+      <div class="bento">
+        <div class="bento-card bento-card--wide">
+          <p class="bento-label">Umumiy tushum</p>
+          <p class="bento-total" id="stat-total">14,285,000 so'm</p>
+        </div>
+        <div class="bento-card">
+          <div class="bento-head">
+            <p class="bento-label">Stollar</p>
+            <span class="material-symbols-outlined bento-icon">table_restaurant</span>
+          </div>
+          <div class="bento-value-row">
+            <p class="bento-value" id="stat-tables-pct">60%</p>
+            <span class="trend trend--up" id="stat-tables-trend"><span class="material-symbols-outlined">trending_up</span> 12%</span>
+          </div>
+        </div>
+        <div class="bento-card">
+          <div class="bento-head">
+            <p class="bento-label">Mahsulotlar</p>
+            <span class="material-symbols-outlined bento-icon bento-icon--secondary">local_bar</span>
+          </div>
+          <div class="bento-value-row">
+            <p class="bento-value" id="stat-prod-pct">40%</p>
+            <span class="trend trend--down" id="stat-prod-trend"><span class="material-symbols-outlined">trending_down</span> 3%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Kunlik daromad</h2>
+        <div class="bar-chart" id="bar-chart"></div>
+      </div>
+
+      <div class="panel panel--list">
+        <h2 class="panel-title">
+          Top mahsulotlar
+          <button class="panel-link" id="more-products">Barchasi</button>
+        </h2>
+        <div class="rank-list" id="top-products"></div>
+      </div>
+
+      <div class="panel panel--list">
+        <h2 class="panel-title">
+          Eng band stollar
+          <button class="panel-link" id="more-tables">Barchasi</button>
+        </h2>
+        <div class="busy-grid" id="top-tables"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ZONALAR ================= -->
+  <section id="view-zones" class="view" hidden>
+    <header class="app-header app-header--title">
+      <h1>Zonalar</h1>
+    </header>
+    <div id="zones-list"></div>
+    <button class="btn btn--outline btn--block" id="add-zone-btn">+ Yangi zona qo'shish</button>
+  </section>
+
+  <!-- ================= PROFIL ================= -->
+  <section id="view-profile" class="view" hidden>
+    <header class="app-header app-header--title">
+      <h1>Profil</h1>
+    </header>
+    <div class="list-group">
+      <button class="list-row" data-nav="products">
+        <span class="list-row-left"><span class="material-symbols-outlined">local_bar</span> Mahsulotlar</span>
+        <span class="material-symbols-outlined list-chev">chevron_right</span>
+      </button>
+      <button class="list-row" data-nav="zones">
+        <span class="list-row-left"><span class="material-symbols-outlined">grid_view</span> Zonalar</span>
+        <span class="material-symbols-outlined list-chev">chevron_right</span>
+      </button>
+      <div class="list-divider"></div>
+      <button class="list-row list-row--danger" id="logout-btn">
+        <span class="list-row-left"><span class="material-symbols-outlined">logout</span> Chiqish</span>
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= MAHSULOTLAR (Profil ichida) ================= -->
+  <section id="view-products" class="view" hidden>
+    <header class="app-header app-header--back">
+      <button class="icon-btn back-btn">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <h1>Mahsulotlar</h1>
+    </header>
+    <div class="segmented segmented--scroll" id="prod-tabs"></div>
+    <ul class="list-group" id="products-list"></ul>
+    <button class="btn btn--outline btn--block" id="add-product-btn">+ Yangi mahsulot qo'shish</button>
+  </section>
+
+  <!-- ================= PASTKI NAVIGATSIYA ================= -->
+  <nav class="bottom-nav" id="bottom-nav" hidden>
+    <button class="nav-btn active" data-tab="home">
+      <span class="material-symbols-outlined">home</span>
+      <span>Asosiy</span>
+    </button>
+    <button class="nav-btn" data-tab="stats">
+      <span class="material-symbols-outlined">insights</span>
+      <span>Statistika</span>
+    </button>
+    <button class="nav-btn" data-tab="zones">
+      <span class="material-symbols-outlined">grid_view</span>
+      <span>Zonalar</span>
+    </button>
+    <button class="nav-btn" data-tab="profile">
+      <span class="material-symbols-outlined">person</span>
+      <span>Profil</span>
+    </button>
+  </nav>
+
+  <!-- ================= MODAL (bottom sheet) ================= -->
+  <div class="overlay" id="sheet" hidden>
+    <div class="sheet" id="sheet-body" role="dialog"></div>
+  </div>
+
+  <!-- ================= ALERT ================= -->
+  <div class="overlay overlay--center" id="alert" hidden>
+    <div class="alert-box" id="alert-body" role="alertdialog"></div>
+  </div>
+
+  <!-- ================= TOASTS ================= -->
+  <div class="toasts" id="toasts"></div>
+
+</div>
+
+<script src="app.js?v=9"></script>
+</body>
+</html>
