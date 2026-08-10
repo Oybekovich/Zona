@@ -51,29 +51,7 @@ sessions.t3 = { mode: 'countdown', tableId: 't3', start: NOW - (3600 - 299) * 10
 sessions.t6 = { mode: 'countdown', tableId: 't6', start: NOW - (3600 + 452) * 1000, duration: 3600, products: [{ pid: 'p2', qty: 1 }] };
 sessions.t8 = { mode: 'stopwatch', tableId: 't8', start: NOW - 25 * 60 * 1000, products: [] };
 
-/* Statistika (seed — Stitch misollariga mos) */
-const stats = {
-  day: { table: 8571000, products: 5714000 },
-  week: { table: 45200000, products: 31800000 },
-  month: { table: 191000000, products: 128000000 },
-  live: { table: 0, products: 0 },
-  trends: { table: 12, products: -3 },
-  weekDays: [
-    { d: 'Du', v: 1820000 }, { d: 'Se', v: 2240000 }, { d: 'Ch', v: 1980000 },
-    { d: 'Pa', v: 2450000 }, { d: 'Ju', v: 2210000 }, { d: 'Sh', v: 2860000 },
-  ],
-  todayIdx: 5,
-  topProducts: [
-    { name: 'Hunarmand pivosi', count: 145, sum: 2900000 },
-    { name: 'Nachos Grande', count: 89, sum: 1780000 },
-    { name: 'Ko\'k choy', count: 210, sum: 735000 },
-  ],
-  topTables: [
-    { name: 'T4', zone: 'Asosiy floor', min: 252 },
-    { name: 'V1', zone: 'VIP xona', min: 225 },
-    { name: 'Stol 02', zone: 'Asosiy floor', min: 150 },
-  ],
-};
+/* Statistika — olib tashlandi */
 
 /* ---------------- Yordamchilar ---------------- */
 const fmtMoney = n => Math.round(n).toLocaleString('en-US') + ' so\'m';
@@ -90,12 +68,6 @@ function fmtDur(sec) {
   const h = Math.floor(m / 60), r = m % 60;
   return r ? `${h} soat ${r} daqiqa` : `${h} soat`;
 }
-function minToStr(min) {
-  min = Math.round(min);
-  const h = Math.floor(min / 60), r = min % 60;
-  return `${h} soat, ${pad(r)} min`;
-}
-
 const findZone = tid => state.zones.find(z => z.tables.some(t => t.id === tid));
 const findTable = tid => state.zones.flatMap(z => z.tables).find(t => t.id === tid);
 const productById = (zid, pid) => state.zones.find(z => z.id === zid).products.find(p => p.id === pid);
@@ -214,18 +186,17 @@ $('#demo-btn').addEventListener('click', () => {
 });
 
 /* ---------------- Navigatsiya ---------------- */
-const VIEWS = ['home', 'stats', 'zones', 'profile', 'products'];
+const VIEWS = ['home', 'zones', 'profile', 'products'];
 
 function showView(v) {
   VIEWS.forEach(x => { $(`#view-${x}`).hidden = x !== v; });
-  const mainTabs = ['home', 'stats', 'zones', 'profile'];
+  const mainTabs = ['home', 'zones', 'profile'];
   if (mainTabs.includes(v)) {
     $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === v));
   } else {
     $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === 'profile'));
   }
   if (v === 'home') renderHome();
-  if (v === 'stats') renderStats();
   if (v === 'zones') renderZones();
   if (v === 'products') renderProducts();
 }
@@ -625,7 +596,6 @@ function finishConfirm() {
   $('#abort-finish').addEventListener('click', closeAlert);
   $('#ok-finish').addEventListener('click', () => {
     const sum = timePrice + prod;
-    recordSession(s, t.name);
     delete sessions[currentPanel];
     delete lastStatus[currentPanel];
     closeAlert(); closeSheet();
@@ -654,100 +624,6 @@ function cancelConfirm() {
     toast('Sessiya bekor qilindi');
   });
 }
-
-/* ---------------- STATISTIKA ---------------- */
-let statRange = 'day';
-let showAllProducts = false;
-let showAllTables = false;
-
-function recordSession(s, tableName) {
-  const sec = sessionSeconds(s);
-  const elMin = Math.floor(sec.elapsed / 60);
-  const timePrice = sessionPrice(s);
-  const prod = productSum(s);
-  stats.live.table += timePrice;
-  stats.live.products += prod;
-
-  const zone = findZone(s.tableId);
-  const tt = stats.topTables.find(x => x.name === tableName);
-  if (tt) tt.min += elMin;
-  else stats.topTables.push({ name: tableName, zone: zone.name, min: elMin });
-
-  s.products.forEach(e => {
-    const p = productById(zone.id, e.pid);
-    if (!p) return;
-    const tp = stats.topProducts.find(x => x.name === p.name);
-    if (tp) { tp.count += e.qty; tp.sum += p.price * e.qty; }
-    else stats.topProducts.push({ name: p.name, count: e.qty, sum: p.price * e.qty });
-    p.sold += e.qty;
-  });
-}
-
-function renderStats() {
-  const t = stats[statRange];
-  const total = t.table + t.products + stats.live.table + stats.live.products;
-  if (total === 0) {
-    $('#stats-empty').hidden = false;
-    $('#stats-content').hidden = true;
-    return;
-  }
-  $('#stats-empty').hidden = true;
-  $('#stats-content').hidden = false;
-
-  const tb = t.table + stats.live.table;
-  const pd = t.products + stats.live.products;
-  $('#stat-total').textContent = fmtMoney(total);
-  $('#stat-tables-pct').textContent = Math.round(tb / total * 100) + '%';
-  $('#stat-prod-pct').textContent = Math.round(pd / total * 100) + '%';
-  const tUp = stats.trends.table > 0;
-  $('#stat-tables-trend').className = 'trend ' + (tUp ? 'trend--up' : 'trend--down');
-  $('#stat-tables-trend').innerHTML = `<span class="material-symbols-outlined">${tUp ? 'trending_up' : 'trending_down'}</span> ${Math.abs(stats.trends.table)}%`;
-  const tDown = stats.trends.products < 0;
-  $('#stat-prod-trend').className = 'trend ' + (tDown ? 'trend--down' : 'trend--up');
-  $('#stat-prod-trend').innerHTML = `<span class="material-symbols-outlined">${tDown ? 'trending_down' : 'trending_up'}</span> ${Math.abs(stats.trends.products)}%`;
-
-  const max = Math.max(...stats.weekDays.map(d => d.v));
-  $('#bar-chart').innerHTML = `
-    <div class="grid-lines"><div></div><div></div><div></div><div></div></div>` +
-    stats.weekDays.map((d, i) => `
-      <div class="bar-col">
-        <span class="bar-tip">${fmtMoney(d.v)}</span>
-        <div class="bar ${i === stats.todayIdx ? 'bar--today' : ''}" style="height:${(d.v / max * 100).toFixed(1)}%"></div>
-        <span class="bar-day ${i === stats.todayIdx ? 'today' : ''}">${d.d}</span>
-      </div>`).join('');
-
-  const tp = [...stats.topProducts].sort((a, b) => b.count - a.count);
-  const tpShown = showAllProducts ? tp : tp.slice(0, 3);
-  $('#top-products').innerHTML = tpShown.map((p, i) => `
-    <div class="rank-item">
-      <span class="rank-num">${i + 1}</span>
-      <span class="rank-name">${p.name}<br><span class="rank-sub">${p.count} ta sotildi</span></span>
-      <span class="rank-val">${fmtMoney(p.sum)}</span>
-    </div>`).join('') || '<div class="rank-item"><span class="rank-sub">Ma\'lumot yo\'q</span></div>';
-
-  const tt = [...stats.topTables].sort((a, b) => b.min - a.min);
-  const ttShown = showAllTables ? tt : tt.slice(0, 3);
-  $('#top-tables').innerHTML = ttShown.map((x, i) => `
-    <div class="busy-card ${i === 0 ? 'busy-card--top' : ''}">
-      <div class="busy-head">
-        <span class="busy-name">${x.name}</span>
-        <span class="material-symbols-outlined busy-icon">${i === 0 ? 'schedule' : 'star'}</span>
-      </div>
-      <div>
-        <p class="busy-zone">${x.zone}</p>
-        <p class="busy-time">${minToStr(x.min)}</p>
-      </div>
-    </div>`).join('') || '<div class="rank-item"><span class="rank-sub">Ma\'lumot yo\'q</span></div>';
-}
-
-$$('#stat-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
-  $$('#stat-tabs .seg-btn').forEach(x => x.classList.remove('active'));
-  b.classList.add('active');
-  statRange = b.dataset.range;
-  renderStats();
-}));
-$('#more-products').addEventListener('click', () => { showAllProducts = !showAllProducts; renderStats(); });
-$('#more-tables').addEventListener('click', () => { showAllTables = !showAllTables; renderStats(); });
 
 /* ---------------- ZONALAR ---------------- */
 let openZoneId = 'z1';

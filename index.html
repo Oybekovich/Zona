@@ -119,74 +119,6 @@
     <main class="grid" id="table-grid"></main>
   </section>
 
-  <!-- ================= STATISTIKA ================= -->
-  <section id="view-stats" class="view" hidden>
-    <header class="app-header app-header--title">
-      <h1 class="text-primary">Statistika</h1>
-    </header>
-
-    <div id="stats-empty" class="empty-state" hidden>
-      <span class="material-symbols-outlined empty-icon">insights</span>
-      <p>Hali statistika mavjud emas — birinchi sessiyani boshlang</p>
-    </div>
-
-    <div id="stats-content">
-      <div class="segmented" id="stat-tabs">
-        <button class="seg-btn active" data-range="day">Bugun</button>
-        <button class="seg-btn" data-range="week">Hafta</button>
-        <button class="seg-btn" data-range="month">Oy</button>
-      </div>
-
-      <div class="bento">
-        <div class="bento-card bento-card--wide">
-          <p class="bento-label">Umumiy tushum</p>
-          <p class="bento-total" id="stat-total">14,285,000 so'm</p>
-        </div>
-        <div class="bento-card">
-          <div class="bento-head">
-            <p class="bento-label">Stollar</p>
-            <span class="material-symbols-outlined bento-icon">table_restaurant</span>
-          </div>
-          <div class="bento-value-row">
-            <p class="bento-value" id="stat-tables-pct">60%</p>
-            <span class="trend trend--up" id="stat-tables-trend"><span class="material-symbols-outlined">trending_up</span> 12%</span>
-          </div>
-        </div>
-        <div class="bento-card">
-          <div class="bento-head">
-            <p class="bento-label">Mahsulotlar</p>
-            <span class="material-symbols-outlined bento-icon bento-icon--secondary">local_bar</span>
-          </div>
-          <div class="bento-value-row">
-            <p class="bento-value" id="stat-prod-pct">40%</p>
-            <span class="trend trend--down" id="stat-prod-trend"><span class="material-symbols-outlined">trending_down</span> 3%</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2 class="panel-title">Kunlik daromad</h2>
-        <div class="bar-chart" id="bar-chart"></div>
-      </div>
-
-      <div class="panel panel--list">
-        <h2 class="panel-title">
-          Top mahsulotlar
-          <button class="panel-link" id="more-products">Barchasi</button>
-        </h2>
-        <div class="rank-list" id="top-products"></div>
-      </div>
-
-      <div class="panel panel--list">
-        <h2 class="panel-title">
-          Eng band stollar
-          <button class="panel-link" id="more-tables">Barchasi</button>
-        </h2>
-        <div class="busy-grid" id="top-tables"></div>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= ZONALAR ================= -->
   <section id="view-zones" class="view" hidden>
     <header class="app-header app-header--title">
@@ -237,10 +169,6 @@
       <span class="material-symbols-outlined">home</span>
       <span>Asosiy</span>
     </button>
-    <button class="nav-btn" data-tab="stats">
-      <span class="material-symbols-outlined">insights</span>
-      <span>Statistika</span>
-    </button>
     <button class="nav-btn" data-tab="zones">
       <span class="material-symbols-outlined">grid_view</span>
       <span>Zonalar</span>
@@ -266,6 +194,6 @@
 
 </div>
 
-<script src="app.js?v=9"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>
