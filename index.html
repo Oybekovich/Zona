@@ -134,15 +134,6 @@
       <h1>Profil</h1>
     </header>
     <div class="list-group">
-      <button class="list-row" data-nav="products">
-        <span class="list-row-left"><span class="material-symbols-outlined">local_bar</span> Mahsulotlar</span>
-        <span class="material-symbols-outlined list-chev">chevron_right</span>
-      </button>
-      <button class="list-row" data-nav="zones">
-        <span class="list-row-left"><span class="material-symbols-outlined">grid_view</span> Zonalar</span>
-        <span class="material-symbols-outlined list-chev">chevron_right</span>
-      </button>
-      <div class="list-divider"></div>
       <button class="list-row list-row--danger" id="logout-btn">
         <span class="list-row-left"><span class="material-symbols-outlined">logout</span> Chiqish</span>
         <span class="material-symbols-outlined">chevron_right</span>
@@ -150,12 +141,9 @@
     </div>
   </section>
 
-  <!-- ================= MAHSULOTLAR (Profil ichida) ================= -->
+  <!-- ================= MAHSULOTLAR ================= -->
   <section id="view-products" class="view" hidden>
-    <header class="app-header app-header--back">
-      <button class="icon-btn back-btn">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </button>
+    <header class="app-header app-header--title">
       <h1>Mahsulotlar</h1>
     </header>
     <div class="segmented segmented--scroll" id="prod-tabs"></div>
@@ -172,6 +160,10 @@
     <button class="nav-btn" data-tab="zones">
       <span class="material-symbols-outlined">grid_view</span>
       <span>Zonalar</span>
+    </button>
+    <button class="nav-btn" data-tab="products">
+      <span class="material-symbols-outlined">local_bar</span>
+      <span>Mahsulotlar</span>
     </button>
     <button class="nav-btn" data-tab="profile">
       <span class="material-symbols-outlined">person</span>
@@ -194,6 +186,6 @@
 
 </div>
 
-<script src="app.js?v=10"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>

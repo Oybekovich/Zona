@@ -28,18 +28,6 @@ const state = {
         { id: 'p6', name: 'Kofe', price: 10000, icon: 'coffee', sold: 77 },
       ],
     },
-    {
-      id: 'z2', name: 'VIP xona',
-      tables: [
-        { id: 't7', name: 'V1', tariff: 40000, repair: true },
-        { id: 't8', name: 'V2', tariff: 40000 },
-      ],
-      products: [
-        { id: 'p7', name: 'Suv', price: 5000, icon: 'water_drop', sold: 88 },
-        { id: 'p8', name: 'Energik', price: 15000, icon: 'bolt', sold: 64 },
-        { id: 'p9', name: 'Banan', price: 8000, icon: 'nutrition', sold: 34 },
-      ],
-    },
   ],
 };
 
@@ -49,7 +37,6 @@ const sessions = {};
 sessions.t2 = { mode: 'stopwatch', tableId: 't2', start: NOW - (42 * 60 + 15) * 1000, products: [{ pid: 'p1', qty: 2 }] };
 sessions.t3 = { mode: 'countdown', tableId: 't3', start: NOW - (3600 - 299) * 1000, duration: 3600, products: [] };
 sessions.t6 = { mode: 'countdown', tableId: 't6', start: NOW - (3600 + 452) * 1000, duration: 3600, products: [{ pid: 'p2', qty: 1 }] };
-sessions.t8 = { mode: 'stopwatch', tableId: 't8', start: NOW - 25 * 60 * 1000, products: [] };
 
 /* Statistika — olib tashlandi */
 
@@ -190,12 +177,7 @@ const VIEWS = ['home', 'zones', 'profile', 'products'];
 
 function showView(v) {
   VIEWS.forEach(x => { $(`#view-${x}`).hidden = x !== v; });
-  const mainTabs = ['home', 'zones', 'profile'];
-  if (mainTabs.includes(v)) {
-    $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === v));
-  } else {
-    $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === 'profile'));
-  }
+  $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === v));
   if (v === 'home') renderHome();
   if (v === 'zones') renderZones();
   if (v === 'products') renderProducts();
