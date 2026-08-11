@@ -68,7 +68,7 @@ function sessionSeconds(s, now = Date.now()) {
 }
 function sessionPrice(s, now = Date.now()) {
   const sec = sessionSeconds(s, now);
-  const tariff = findTable(s.tableId).tariff;
+  const tariff = s.rate ?? findTable(s.tableId).tariff;
   if (s.mode === 'countdown' && sec.remaining > 0) return s.duration / 3600 * tariff;
   return sec.elapsed / 3600 * tariff;
 }
@@ -355,13 +355,9 @@ function openStartSheet(t) {
           </div>` : ''}
 
         <div class="sheet-section">
-          <div class="rate-box">
-            <span class="material-symbols-outlined">payments</span>
-            <div>
-              <div class="rate-label">Narxi</div>
-              <div class="rate-value">${fmtMoney(t.tariff)}/soat</div>
-            </div>
-          </div>
+          <div class="sheet-section-title">Soatlik narx (so'm)</div>
+          <input id="start-rate" type="number" inputmode="numeric" min="0" step="500" value="${t.tariff}" class="rate-input" aria-label="Soatlik narx">
+          <span class="field-error" id="err-rate"></span>
         </div>
       </div>
       <div class="sheet-actions">
@@ -381,7 +377,17 @@ function openStartSheet(t) {
       render();
     }));
     $('#start-confirm').addEventListener('click', () => {
-      sessions[t.id] = { mode, tableId: t.id, start: Date.now(), duration: mode === 'countdown' ? duration : undefined, products: [] };
+      const rateInput = $('#start-rate');
+      const rate = parseFloat(rateInput.value);
+      const errEl = $('#err-rate');
+      if (!rateInput.value || isNaN(rate) || rate <= 0) {
+        rateInput.classList.add('input-error');
+        errEl.textContent = 'To\'g\'ri narx kiriting';
+        return;
+      }
+      rateInput.classList.remove('input-error');
+      errEl.textContent = '';
+      sessions[t.id] = { mode, tableId: t.id, rate, start: Date.now(), duration: mode === 'countdown' ? duration : undefined, products: [] };
       lastStatus[t.id] = statusOf(sessions[t.id]);
       closeSheet();
       renderHome(); renderZones();
@@ -419,10 +425,11 @@ function renderPanel() {
   const badgeCls = st === 'ending' ? 'badge--ending' : 'badge--busy';
 
   const timeSub = s.mode === 'countdown' ? `(${fmtDur(s.duration)})` : `(${fmtDur(sec.elapsed)})`;
+  const rate = s.rate ?? t.tariff;
   const timeRow = `
     <div class="order-row order-row--time">
       <div class="order-name">Sessiya vaqti ${timeSub}
-        <span class="sub">Tarif: ${fmtMoney(t.tariff)} / soat</span>
+        <span class="sub">Tarif: ${fmtMoney(rate)} / soat</span>
       </div>
       <div class="order-amount" data-price="${t.id}">${fmtMoney(timePrice)}</div>
     </div>`;
@@ -622,21 +629,29 @@ function zoneStatus(t) {
 
 function renderZones() {
   if (!state.zones.length) {
-    $('#zones-list').innerHTML = '<div class="empty-state"><p>Hali zona yo\'q — birinchi zonani qo\'shing</p></div>';
+    $('#zone-tabs').innerHTML = '';
+    $('#zones-table-list').innerHTML = '<div class="empty-state"><p>Hali zona yo\'q — birinchi zonani qo\'shing</p></div>';
     return;
   }
-  $('#zones-list').innerHTML = state.zones.map(z => `
-    <div class="zone-block ${openZoneId === z.id ? 'open' : ''}">
+  if (!state.zones.some(z => z.id === openZoneId)) openZoneId = state.zones[0].id;
+
+  $('#zone-tabs').innerHTML = state.zones.map(z =>
+    `<button class="seg-btn ${z.id === openZoneId ? 'active' : ''}" data-ztab="${z.id}">${z.name}</button>`).join('');
+  $$('#zone-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
+    openZoneId = b.dataset.ztab;
+    renderZones();
+  }));
+
+  const zone = state.zones.find(z => z.id === openZoneId);
+  $('#zones-table-list').innerHTML = `
+    <div class="zone-block" style="margin-top:14px">
       <div class="zone-head">
-        <button class="zone-toggle" data-zone-toggle="${z.id}">
-          <span class="chev material-symbols-outlined">chevron_right</span>
-          <span class="zone-name">${z.name}</span>
-          <span class="zone-count">${z.tables.length} stol</span>
-        </button>
-        <button class="icon-btn" data-edit-zone="${z.id}" title="Tahrirlash"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
+        <span class="zone-name">${zone.name}</span>
+        <span class="zone-count">${zone.tables.length} stol</span>
+        <button class="icon-btn" data-edit-zone="${zone.id}" title="Tahrirlash"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
       </div>
-      <div class="zone-body">
-        ${z.tables.map(t => {
+      <div class="zone-body" style="display:block;padding:0 18px 16px">
+        ${zone.tables.map(t => {
           const s = zoneStatus(t);
           return `
             <div class="table-row">
@@ -646,20 +661,16 @@ function renderZones() {
               <button class="icon-btn" data-edit-table="${t.id}" title="Tahrirlash" style="width:36px;height:36px"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
             </div>`;
         }).join('')}
-        <button class="link-add" data-add-table="${z.id}"><span class="material-symbols-outlined" style="font-size:18px">add</span> Yangi stol qo'shish</button>
+        <button class="link-add" data-add-table="${zone.id}"><span class="material-symbols-outlined" style="font-size:18px">add</span> Yangi stol qo'shish</button>
       </div>
-    </div>`).join('');
+    </div>`;
 }
 
-$('#zones-list').addEventListener('click', e => {
-  const toggle = e.target.closest('[data-zone-toggle]');
+$('#zones-table-list').addEventListener('click', e => {
   const ez = e.target.closest('[data-edit-zone]');
   const et = e.target.closest('[data-edit-table]');
   const at = e.target.closest('[data-add-table]');
-  if (toggle) {
-    openZoneId = openZoneId === toggle.dataset.zoneToggle ? null : toggle.dataset.zoneToggle;
-    renderZones();
-  } else if (ez) {
+  if (ez) {
     openZoneModal(state.zones.find(x => x.id === ez.dataset.editZone));
   } else if (et) {
     openTableModal(findTable(et.dataset.editTable));
@@ -714,7 +725,7 @@ function openZoneModal(z) {
     $('#cancel-del').addEventListener('click', closeAlert);
     $('#confirm-del').addEventListener('click', () => {
       state.zones = state.zones.filter(x => x.id !== z.id);
-      if (openZoneId === z.id) openZoneId = null;
+      if (openZoneId === z.id) openZoneId = state.zones[0] ? state.zones[0].id : null;
       closeAlert(); closeSheet();
       renderHome(); renderZones(); renderProducts();
       toast('O\'chirildi');

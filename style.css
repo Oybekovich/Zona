@@ -518,7 +518,10 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 /* ---------- Mahsulotlar ---------- */
 .product-row { display: flex; align-items: center; gap: 12px; }
 .product-name { flex: 1; font-weight: 600; font-size: 14.5px; }
-.product-price { color: var(--on-surface-variant); font-size: 14px; font-weight: 600; }
+.product-price {
+  margin-left: auto; text-align: right; min-width: 120px;
+  color: var(--on-surface-variant); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
 
 /* ---------- Pastki nav (Liquid Glass) ---------- */
 .bottom-nav {
@@ -591,13 +594,14 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .sheet-content--flush { padding: 20px 24px 0; }
 
 /* Sessiyani boshlash */
-.rate-box {
-  background: var(--surface-container); border-radius: var(--radius); padding: 14px 16px;
-  display: flex; align-items: center; gap: 12px;
+.rate-input {
+  width: 100%; padding: 14px 18px; border-radius: var(--radius);
+  border: 1px solid var(--hairline); background: #fff;
+  color: var(--on-surface); font-size: 20px; font-weight: 700; text-align: center;
+  font-variant-numeric: tabular-nums; outline: none; transition: .15s;
 }
-.rate-box .material-symbols-outlined { color: var(--primary); }
-.rate-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: var(--on-surface-variant); text-transform: uppercase; }
-.rate-value { font-size: 14px; font-weight: 600; margin-top: 2px; }
+.rate-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.rate-input.input-error { border-color: var(--error); }
 
 .duration-stepper {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
