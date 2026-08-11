@@ -223,6 +223,7 @@ function cardFor(t) {
   if (t.repair) {
     return `
       <div class="table-card card-repair">
+        <div class="card-cover"></div>
         <div class="card-top"><span class="table-name">${t.name}</span><span class="badge badge--repair">Ta'mirlashda</span></div>
         <div class="card-body"><span class="free-hint">Xizmatdan vaqtincha chiqarilgan</span></div>
       </div>`;
@@ -231,6 +232,7 @@ function cardFor(t) {
   if (!s) {
     return `
       <div class="table-card card-free" data-action="start" data-tid="${t.id}">
+        <div class="card-cover"></div>
         <div class="card-top"><span class="table-name">${t.name}</span><span class="badge badge--free">Bo'sh</span></div>
         <div class="card-body">
           <div>
@@ -252,6 +254,7 @@ function cardFor(t) {
   const timerText = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
   return `
     <div class="table-card ${cls}" data-action="panel" data-tid="${t.id}">
+      <div class="card-cover"></div>
       <div class="card-top"><span class="table-name">${t.name}</span>${badge}</div>
       <div class="card-body">
         <div class="timer-wrap">

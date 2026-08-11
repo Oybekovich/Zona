@@ -349,13 +349,23 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
   transition: transform .15s; cursor: pointer; position: relative; overflow: hidden;
 }
 .table-card:active { transform: scale(.98); }
-.card-free { border: 1px solid #bcc9c6; box-shadow: 0 4px 20px rgba(15,23,42,.05); }
-.card-busy { border: 2px solid #EF4444; box-shadow: 0 4px 20px rgba(15,23,42,.05); }
-.card-ending { border: 2px solid #F59E0B; box-shadow: 0 4px 20px rgba(15,23,42,.05); }
-.card-repair { border: 1px dashed #bcc9c6; background: #f0f5f2; cursor: default; }
+.card-free { border: 2px solid rgba(22,101,52,.55); box-shadow: 0 4px 20px rgba(15,23,42,.12); }
+.card-busy { border: 2px solid #EF4444; box-shadow: 0 4px 20px rgba(15,23,42,.12); }
+.card-ending { border: 2px solid #F59E0B; box-shadow: 0 4px 20px rgba(15,23,42,.12); }
+.card-repair { cursor: default; }
 
-.card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.table-name { font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+.card-cover {
+  position: absolute; inset: 0;
+  background: url('img/billiard.jpeg') center / cover no-repeat;
+}
+.card-cover::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.15) 45%, rgba(0,0,0,.66) 100%);
+}
+.card-repair .card-cover { filter: grayscale(1) brightness(.55); }
+
+.card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; position: relative; z-index: 1; }
+.table-name { font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
 .table-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: none; }
 
 .badge {
@@ -367,30 +377,31 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .badge--ending { background: #fef3c7; color: #b45309; }
 .badge--repair { background: #dee4e1; color: #3d4947; }
 
-.card-body { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; }
+.card-body { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 1; }
 
 .play-zone {
   width: 52px; height: 52px; border-radius: 16px; margin: 0 auto 8px;
-  background: #008378; color: #f4fffc;
+  background: rgba(0,131,120,.92); color: #f4fffc;
   display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,.35);
 }
 .play-zone .material-symbols-outlined { font-size: 30px; font-variation-settings: 'FILL' 1, 'wght' 500; }
-.free-hint { font-size: 12px; font-weight: 600; letter-spacing: .05em; color: #3d4947; text-transform: uppercase; }
+.free-hint { font-size: 12px; font-weight: 600; letter-spacing: .05em; color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
 
 .timer-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
 .timer-wrap .ring { width: 132px; height: 132px; left: 50%; top: 50%; right: auto; bottom: auto; margin: -66px 0 0 -66px; }
 .ring { position: absolute; inset: 0; margin: auto; transform: rotate(-90deg); }
-.ring .ring-circle { fill: none; transition: stroke-dashoffset 1s linear; }
+.ring .ring-circle { fill: none; stroke: rgba(255,255,255,.28); transition: stroke-dashoffset 1s linear; }
 .ring--red .ring-circle { stroke: #EF4444; }
 .ring--amber .ring-circle { stroke: #F59E0B; }
 
-.timer { font-size: 30px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.timer { font-size: 30px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.55); }
 .card-ending .timer { color: #F59E0B; }
-.timer-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #3d4947; text-transform: uppercase; }
+.timer-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
 
-.card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #dee4e1; padding-top: 10px; }
-.card-footer .label { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: #3d4947; text-transform: uppercase; }
-.card-footer .value { font-size: 18px; font-weight: 700; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.3); padding-top: 10px; position: relative; z-index: 1; }
+.card-footer .label { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+.card-footer .value { font-size: 18px; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.55); }
 
 /* ---------- Bo'sh holat ---------- */
 .empty-state {
