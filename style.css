@@ -360,12 +360,16 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 }
 .card-cover::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.15) 45%, rgba(0,0,0,.66) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.22) 42%, rgba(0,0,0,.34) 62%, rgba(0,0,0,.7) 100%);
 }
 .card-repair .card-cover { filter: grayscale(1) brightness(.55); }
 
-.card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; position: relative; z-index: 1; }
-.table-name { font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+.table-name {
+  font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: #fff;
+  background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  padding: 6px 12px; border-radius: 10px;
+}
 .table-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: none; }
 
 .badge {
@@ -377,15 +381,17 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .badge--ending { background: #fef3c7; color: #b45309; }
 .badge--repair { background: #dee4e1; color: #3d4947; }
 
-.card-body { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 1; }
-
-.play-zone {
-  width: 52px; height: 52px; border-radius: 16px; margin: 0 auto 8px;
-  background: rgba(0,131,120,.92); color: #f4fffc;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 14px rgba(0,0,0,.35);
+.table-card .card-body {
+  flex: 1; display: flex; flex-direction: row; align-items: center; justify-content: space-around;
+  gap: 12px; text-align: left; position: relative; z-index: 1;
 }
-.play-zone .material-symbols-outlined { font-size: 30px; font-variation-settings: 'FILL' 1, 'wght' 500; }
+.card-info { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
+.card-price { font-size: 22px; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.55); font-variant-numeric: tabular-nums; }
+
+.table-name--lg { font-size: 28px; padding: 10px 24px; }
+
+.play-zone { display: none; }
 .free-hint { font-size: 12px; font-weight: 600; letter-spacing: .05em; color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
 
 .timer-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
@@ -398,10 +404,6 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .timer { font-size: 30px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.55); }
 .card-ending .timer { color: #F59E0B; }
 .timer-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
-
-.card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.3); padding-top: 10px; position: relative; z-index: 1; }
-.card-footer .label { font-size: 11px; font-weight: 600; letter-spacing: .06em; color: #fff; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
-.card-footer .value { font-size: 18px; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.55); }
 
 /* ---------- Bo'sh holat ---------- */
 .empty-state {

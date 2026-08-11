@@ -224,8 +224,12 @@ function cardFor(t) {
     return `
       <div class="table-card card-repair">
         <div class="card-cover"></div>
-        <div class="card-top"><span class="table-name">${t.name}</span><span class="badge badge--repair">Ta'mirlashda</span></div>
-        <div class="card-body"><span class="free-hint">Xizmatdan vaqtincha chiqarilgan</span></div>
+        <div class="card-body">
+          <div class="card-info">
+            <span class="table-name">${t.name}</span>
+            <span class="free-hint">Xizmatdan vaqtincha chiqarilgan</span>
+          </div>
+        </div>
       </div>`;
   }
   const s = sessions[t.id];
@@ -233,40 +237,30 @@ function cardFor(t) {
     return `
       <div class="table-card card-free" data-action="start" data-tid="${t.id}">
         <div class="card-cover"></div>
-        <div class="card-top"><span class="table-name">${t.name}</span><span class="badge badge--free">Bo'sh</span></div>
         <div class="card-body">
-          <div>
-            <div class="play-zone"><span class="material-symbols-outlined">play_arrow</span></div>
-            <span class="free-hint">Boshlash uchun bosing</span>
-          </div>
+          <span class="table-name table-name--lg">${t.name}</span>
         </div>
       </div>`;
   }
   const st = statusOf(s);
   const sec = sessionSeconds(s);
   const cls = st === 'ending' ? 'card-ending' : 'card-busy';
-  const badge = st === 'expired'
-    ? '<span class="badge badge--busy">Vaqt tugadi</span>'
-    : st === 'ending'
-      ? `<span class="badge badge--ending">${Math.ceil(sec.remaining / 60)} daqiqa qoldi</span>`
-      : '<span class="badge badge--busy">Band</span>';
   const label = st === 'expired' ? 'Qo\'shimcha vaqt' : s.mode === 'countdown' ? 'Qolgan vaqt' : 'O\'tgan vaqt';
   const timerText = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
   return `
     <div class="table-card ${cls}" data-action="panel" data-tid="${t.id}">
       <div class="card-cover"></div>
-      <div class="card-top"><span class="table-name">${t.name}</span>${badge}</div>
       <div class="card-body">
+        <div class="card-info">
+          <span class="table-name">${t.name}</span>
+          <span class="card-price" data-price="${t.id}">${fmtMoney(sessionPrice(s))}</span>
+        </div>
         <div class="timer-wrap">
           ${s.mode === 'countdown' && st !== 'expired'
             ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${t.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="6" stroke="#dee4e1"/></svg>` : ''}
           <div class="timer" data-timer="${t.id}">${timerText}</div>
           <span class="timer-label">${label}</span>
         </div>
-      </div>
-      <div class="card-footer">
-        <span class="label">Joriy hisob:</span>
-        <span class="value" data-price="${t.id}">${fmtMoney(sessionPrice(s))}</span>
       </div>
     </div>`;
 }
