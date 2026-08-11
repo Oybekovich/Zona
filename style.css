@@ -756,6 +756,7 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 /* ---------- Responsive ---------- */
 @media (min-width: 700px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
+  .product-price { min-width: 120px; margin-right: 0; }
 }
 @media (min-width: 1000px) {
   .grid { grid-template-columns: repeat(3, 1fr); }
