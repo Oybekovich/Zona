@@ -4,6 +4,16 @@
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
+/* Ikonalar shrifti yuklanishini kutish — aks holda so'zlar ko'rinib qoladi (FOUT) */
+if (document.fonts && document.fonts.load) {
+  document.fonts.load('16px "Material Symbols Outlined"')
+    .then(() => document.body.classList.add('fonts-loaded'))
+    .catch(() => document.body.classList.add('fonts-loaded'));
+  setTimeout(() => document.body.classList.add('fonts-loaded'), 3000);
+} else {
+  document.body.classList.add('fonts-loaded');
+}
+
 /* ---------------- Ma'lumotlar ---------------- */
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 
@@ -43,6 +53,16 @@ sessions.t6 = { mode: 'countdown', tableId: 't6', start: NOW - (3600 + 452) * 10
 /* ---------------- Yordamchilar ---------------- */
 const fmtMoney = n => Math.round(n).toLocaleString('en-US') + ' so\'m';
 const pad = n => String(n).padStart(2, '0');
+
+/* Narx inputlar uchun: "1 000", "23 000", "4 500 000" */
+const fmtIn = n => Number(n).toLocaleString('en-US').replace(/,/g, ' ');
+const parseIn = v => parseFloat(String(v).replace(/[^\d]/g, '')) || NaN;
+function bindMoneyInput(input) {
+  input.addEventListener('input', () => {
+    const digits = input.value.replace(/[^\d]/g, '');
+    input.value = digits ? fmtIn(digits) : '';
+  });
+}
 
 function fmtTime(sec) {
   sec = Math.max(0, Math.floor(sec));
@@ -153,6 +173,8 @@ loginForm.addEventListener('submit', e => {
     if (u === 'admin' && p === '1234') {
       $('#view-login').hidden = true;
       $('#bottom-nav').hidden = false;
+      $('#profile-name').textContent = u === 'admin' ? 'Admin' : u;
+      $('#profile-login').textContent = u;
       loginForm.reset();
       showView('home');
     } else {
@@ -356,7 +378,7 @@ function openStartSheet(t) {
 
         <div class="sheet-section">
           <div class="sheet-section-title">Soatlik narx (so'm)</div>
-          <input id="start-rate" type="number" inputmode="numeric" min="0" step="500" value="${t.tariff}" class="rate-input" aria-label="Soatlik narx">
+          <input id="start-rate" type="text" inputmode="numeric" value="${fmtIn(t.tariff)}" class="rate-input" aria-label="Soatlik narx">
           <span class="field-error" id="err-rate"></span>
         </div>
       </div>
@@ -366,6 +388,8 @@ function openStartSheet(t) {
         </button>
       </div>
     `);
+
+    bindMoneyInput($('#start-rate'));
 
     $$('#mode-seg .seg-btn').forEach(b => b.addEventListener('click', () => { mode = b.dataset.mode; render(); }));
     $$('[data-step]').forEach(b => b.addEventListener('click', () => {
@@ -378,7 +402,7 @@ function openStartSheet(t) {
     }));
     $('#start-confirm').addEventListener('click', () => {
       const rateInput = $('#start-rate');
-      const rate = parseFloat(rateInput.value);
+      const rate = parseIn(rateInput.value);
       const errEl = $('#err-rate');
       if (!rateInput.value || isNaN(rate) || rate <= 0) {
         rateInput.classList.add('input-error');
@@ -618,13 +642,9 @@ function cancelConfirm() {
 let openZoneId = 'z1';
 
 function zoneStatus(t) {
-  if (t.repair) return { cls: 'repair', txt: 'Ta\'mirda' };
-  const s = sessions[t.id];
-  if (!s) return { cls: 'free', txt: 'Bo\'sh' };
-  const st = statusOf(s);
-  if (st === 'ending') return { cls: 'ending', txt: 'Taymer' };
-  if (st === 'expired') return { cls: 'busy', txt: 'Muddati o\'tdi' };
-  return { cls: 'busy', txt: 'Band' };
+  return sessions[t.id]
+    ? { cls: 'busy', txt: 'Band' }
+    : { cls: 'free', txt: 'Bo\'sh' };
 }
 
 function renderZones() {
@@ -751,7 +771,7 @@ function openTableModal(t, presetZoneId) {
       </div>
       <div class="field">
         <label>Soatlik tarif (so'm)</label>
-        <input id="table-tariff" type="number" inputmode="numeric" min="0" step="1000" value="${isEdit ? t.tariff : ''}" placeholder="Masalan: 25000">
+        <input id="table-tariff" type="text" inputmode="numeric" value="${isEdit ? fmtIn(t.tariff) : ''}" placeholder="Masalan: 25 000">
         <span class="field-error"></span>
       </div>
       <button class="btn btn--primary btn--block" id="save-table">Saqlash</button>
@@ -760,9 +780,10 @@ function openTableModal(t, presetZoneId) {
   `);
   const nameInput = $('#table-name');
   const tariffInput = $('#table-tariff');
+  bindMoneyInput(tariffInput);
   $('#save-table').addEventListener('click', () => {
     const name = nameInput.value.trim();
-    const tariff = parseFloat(tariffInput.value);
+    const tariff = parseIn(tariffInput.value);
     let ok = true;
     if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = 'Bu maydon to\'ldirilishi shart'; ok = false; }
     else nameInput.classList.remove('input-error');
@@ -851,7 +872,7 @@ function openProductModal(zone, p) {
       </div>
       <div class="field">
         <label>Narxi (so'm)</label>
-        <input id="prod-price" type="number" inputmode="numeric" min="0" step="500" value="${isEdit ? p.price : ''}" placeholder="Masalan: 7000">
+        <input id="prod-price" type="text" inputmode="numeric" value="${isEdit ? fmtIn(p.price) : ''}" placeholder="Masalan: 7 000">
         <span class="field-error"></span>
       </div>
       <button class="btn btn--primary btn--block" id="save-prod">Saqlash</button>
@@ -860,9 +881,10 @@ function openProductModal(zone, p) {
   `);
   const nameInput = $('#prod-name');
   const priceInput = $('#prod-price');
+  bindMoneyInput(priceInput);
   $('#save-prod').addEventListener('click', () => {
     const name = nameInput.value.trim();
-    const price = parseFloat(priceInput.value);
+    const price = parseIn(priceInput.value);
     let ok = true;
     if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = 'Bu maydon to\'ldirilishi shart'; ok = false; }
     else nameInput.classList.remove('input-error');
@@ -894,6 +916,45 @@ function openProductModal(zone, p) {
 }
 
 /* ---------------- CHIQISH ---------------- */
+function openProfileModal() {
+  openAlert(`
+    <div class="alert-title">Profilni tahrirlash</div>
+    <div class="alert-fields">
+      <div class="field">
+        <label>Ism</label>
+        <input id="profile-name-input" value="${$('#profile-name').textContent}">
+        <span class="field-error"></span>
+      </div>
+      <div class="field">
+        <label>Login</label>
+        <input id="profile-login-input" value="${$('#profile-login').textContent}">
+        <span class="field-error"></span>
+      </div>
+    </div>
+    <div class="alert-btns">
+      <button class="btn btn--ghost" id="cancel-profile">Bekor qilish</button>
+      <button class="btn btn--primary" id="save-profile">Saqlash</button>
+    </div>
+  `);
+  const nameInput = $('#profile-name-input');
+  const loginInput = $('#profile-login-input');
+  $('#cancel-profile').addEventListener('click', closeAlert);
+  $('#save-profile').addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    const login = loginInput.value.trim();
+    if (!name || !login) {
+      toast('Ism va loginni kiriting');
+      return;
+    }
+    $('#profile-name').textContent = name;
+    $('#profile-login').textContent = login;
+    closeAlert();
+    toast('Saqlandi');
+  });
+}
+
+$('#edit-profile-btn').addEventListener('click', openProfileModal);
+
 $('#logout-btn').addEventListener('click', () => {
   openAlert(`
     <div class="alert-title">Tizimdan chiqasizmi?</div>
