@@ -220,10 +220,12 @@ let searchQuery = '';
 const RING_C = r => 2 * Math.PI * r;
 
 function cardFor(t) {
+  const coverCls = t.id === 't4' || t.id === 't5' || t.id === 't6' ? 'card-cover card-cover--tt' : 'card-cover';
+  const cardCls = t.id === 't4' || t.id === 't5' || t.id === 't6' ? ' card--tt' : '';
   if (t.repair) {
     return `
-      <div class="table-card card-repair">
-        <div class="card-cover"></div>
+      <div class="table-card card-repair${cardCls}">
+        <div class="${coverCls}"></div>
         <div class="card-body">
           <div class="card-info">
             <span class="table-name">${t.name}</span>
@@ -235,8 +237,8 @@ function cardFor(t) {
   const s = sessions[t.id];
   if (!s) {
     return `
-      <div class="table-card card-free" data-action="start" data-tid="${t.id}">
-        <div class="card-cover"></div>
+      <div class="table-card card-free${cardCls}" data-action="start" data-tid="${t.id}">
+        <div class="${coverCls}"></div>
         <div class="card-body">
           <span class="table-name table-name--lg">${t.name}</span>
         </div>
@@ -248,8 +250,8 @@ function cardFor(t) {
   const label = st === 'expired' ? 'Qo\'shimcha vaqt' : s.mode === 'countdown' ? 'Qolgan vaqt' : 'O\'tgan vaqt';
   const timerText = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
   return `
-    <div class="table-card ${cls}" data-action="panel" data-tid="${t.id}">
-      <div class="card-cover"></div>
+    <div class="table-card ${cls}${cardCls}" data-action="panel" data-tid="${t.id}">
+      <div class="${coverCls}"></div>
       <div class="card-body">
         <div class="card-info">
           <span class="table-name">${t.name}</span>

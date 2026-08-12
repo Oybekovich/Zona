@@ -353,10 +353,16 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .card-busy { border: 2px solid #EF4444; box-shadow: 0 4px 20px rgba(15,23,42,.12); }
 .card-ending { border: 2px solid #F59E0B; box-shadow: 0 4px 20px rgba(15,23,42,.12); }
 .card-repair { cursor: default; }
+.card--tt { background: #030722; }
+.table-card.card--tt .card-cover--tt { background-color: #030722; }
 
 .card-cover {
   position: absolute; inset: 0;
   background: url('img/billiard.jpeg') center / cover no-repeat;
+}
+.card-cover--tt {
+  background-image: url('img/table-tennis.png');
+  background-size: 93% 80%;
 }
 .card-cover::after {
   content: ''; position: absolute; inset: 0;
