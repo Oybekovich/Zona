@@ -117,14 +117,15 @@ function toast(msg, cls) {
 /* ---------------- Sheet / Alert ---------------- */
 let currentPanel = null;
 let panelEdit = false;
-let panelShowAll = false;
+let panelSearch = '';
+let dialogQty = 1;
 
 function openSheet(html) {
   $('#sheet-body').innerHTML = html;
   $('#sheet').hidden = false;
   $$('.sheet-close').forEach(b => b.addEventListener('click', closeSheet));
 }
-function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelShowAll = false; }
+function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelSearch = ''; }
 function openAlert(html) { $('#alert-body').innerHTML = html; $('#alert').hidden = false; }
 function closeAlert() { $('#alert').hidden = true; }
 
@@ -424,7 +425,6 @@ function openStartSheet(t) {
 function openPanel(t) {
   currentPanel = t.id;
   panelEdit = false;
-  panelShowAll = false;
   renderPanel();
 }
 
@@ -439,7 +439,6 @@ function renderPanel() {
   const sec = sessionSeconds(s);
   const timePrice = sessionPrice(s);
   const total = timePrice + productSum(s);
-  const top = zone.products.slice().sort((a, b) => b.sold - a.sold).slice(0, 4);
 
   const label = st === 'expired' ? 'Qo\'shimcha vaqt' : s.mode === 'countdown' ? 'Qolgan vaqt' : 'O\'tgan vaqt';
   const orbTimer = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
@@ -507,27 +506,12 @@ function renderPanel() {
       </div>
 
       <div class="sheet-section">
-        <div class="sheet-section-title">
-          Tezkor qo'shish
-          <button class="link" id="toggle-all"><span class="material-symbols-outlined" style="font-size:16px">menu_book</span> Barcha mahsulotlar</button>
+        <div class="sheet-section-title">Mahsulot qo'shish</div>
+        <div class="search-box">
+          <span class="material-symbols-outlined">search</span>
+          <input id="prod-search" type="text" class="search-input" placeholder="Mahsulot qidirish..." autocomplete="off" value="${panelSearch}">
         </div>
-        <div class="quick-grid">
-          ${top.map(p => `
-            <button class="quick-item" data-quick="${p.id}">
-              <span class="quick-icon"><span class="material-symbols-outlined">${p.icon || 'local_bar'}</span></span>
-              <span><span class="quick-name">${p.name}</span><br><span class="quick-price">${fmtMoney(p.price)}</span></span>
-              <span class="add-ic material-symbols-outlined">add</span>
-            </button>`).join('')}
-        </div>
-        ${panelShowAll ? `
-          <div class="all-products">
-            ${zone.products.map(p => `
-              <div class="prod-row">
-                <span class="pr-name">${p.name}</span>
-                <span class="pr-price">${fmtMoney(p.price)}</span>
-                <button class="add-mini" data-quick="${p.id}"><span class="material-symbols-outlined">add</span></button>
-              </div>`).join('')}
-          </div>` : ''}
+        <div class="prod-pick-list" id="prod-search-results">${panelSearchHTML(zone)}</div>
       </div>
 
       <div class="sheet-section">
@@ -550,13 +534,12 @@ function renderPanel() {
     </div>
   `);
 
-  $$('[data-quick]').forEach(b => b.addEventListener('click', () => {
-    const p = productById(zone.id, b.dataset.quick);
-    addToSession(currentPanel, p.id);
-    toast(`${p.name} qo'shildi`);
-    renderPanel();
-  }));
-  $('#toggle-all')?.addEventListener('click', () => { panelShowAll = !panelShowAll; renderPanel(); });
+  $('#prod-search').addEventListener('input', e => {
+    panelSearch = e.target.value.trim().toLowerCase();
+    $('#prod-search-results').innerHTML = panelSearchHTML(zone);
+    bindProductPicks();
+  });
+  bindProductPicks();
   $('#toggle-edit')?.addEventListener('click', () => { panelEdit = true; renderPanel(); });
   $('#done-edit')?.addEventListener('click', () => { panelEdit = false; renderPanel(); });
   $$('[data-inc]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.inc, 1); renderPanel(); }));
@@ -584,6 +567,57 @@ function removeFromSession(tid, pid) {
   const s = sessions[tid];
   if (!s) return;
   s.products = s.products.filter(x => x.pid !== pid);
+}
+
+function panelSearchHTML(zone) {
+  const q = panelSearch;
+  const list = q
+    ? zone.products.filter(p => p.name.toLowerCase().includes(q)).sort((a, b) => a.name.localeCompare(b.name))
+    : zone.products.slice().sort((a, b) => b.sold - a.sold).slice(0, 4);
+  if (!list.length) return '<div class="prod-pick-empty">Mahsulot topilmadi</div>';
+  return list.map(p => `
+    <button class="prod-pick" data-pick="${p.id}">
+      <span class="quick-icon"><span class="material-symbols-outlined">${p.icon || 'local_bar'}</span></span>
+      <span class="pp-name">${p.name}</span>
+      <span class="pp-price">${fmtMoney(p.price)}</span>
+    </button>`).join('');
+}
+
+function bindProductPicks() {
+  $$('[data-pick]').forEach(b => b.addEventListener('click', () => {
+    const p = productById(findZone(currentPanel).id, b.dataset.pick);
+    if (p) openProductDialog(p);
+  }));
+}
+
+function openProductDialog(p) {
+  dialogQty = 1;
+  openAlert(`
+    <button class="alert-close" id="qty-close"><span class="material-symbols-outlined">close</span></button>
+    <div class="alert-title">${p.name}</div>
+    <div class="alert-sub">${fmtMoney(p.price)} / dona</div>
+    <div class="qty-stepper">
+      <button class="qty-btn" id="qty-dec">−</button>
+      <span class="qty-num" id="qty-num">1</span>
+      <button class="qty-btn" id="qty-inc">+</button>
+    </div>
+    <div class="alert-btns">
+      <button class="btn btn--primary" id="qty-add">Qo'shish</button>
+    </div>
+  `);
+  $('#qty-close').addEventListener('click', closeAlert);
+  $('#qty-dec').addEventListener('click', () => {
+    if (dialogQty > 1) { dialogQty--; $('#qty-num').textContent = dialogQty; }
+  });
+  $('#qty-inc').addEventListener('click', () => {
+    dialogQty++; $('#qty-num').textContent = dialogQty;
+  });
+  $('#qty-add').addEventListener('click', () => {
+    addToSession(currentPanel, p.id, dialogQty);
+    toast(`${p.name} qo'shildi`);
+    closeAlert();
+    renderPanel();
+  });
 }
 
 /* ---------------- YAKUNLASH / BEKOR QILISH ---------------- */
