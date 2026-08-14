@@ -705,7 +705,7 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .duration-val { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
 .duration-val span { font-size: 16px; font-weight: 400; color: var(--text-muted); }
 .quick-chips { display: flex; gap: 8px; margin-top: 12px; }
-.quick-chips .chip { flex: 1; text-align: center; background: #fff; border: 1px solid var(--hairline); color: var(--on-surface); }
+.quick-chips .chip { flex: 1; text-align: center; background: var(--surface-highest); border: 1px solid var(--hairline); color: var(--on-surface); }
 .quick-chips .chip:active { background: var(--surface-highest); }
 
 .sheet-section { margin-top: 22px; }
