@@ -7,11 +7,14 @@ const $$ = s => document.querySelectorAll(s);
 /* ---------------- TILLAR (i18n) ---------------- */
 const I18N = {
   uz: {
-    'login.subtitle': 'Zonangizni boshqaring', 'login.username': 'Login', 'login.usernamePh': 'Loginni kiriting',
-    'login.password': 'Parol', 'login.passwordPh': 'Parolni kiriting', 'login.forgot': 'Parolni unutdingizmi?',
-    'login.error': 'Login yoki parol noto\'g\'ri', 'login.btn': 'Kirish', 'login.btnBusy': 'Kirish...',
-    'login.or': 'yoki', 'login.demo': 'Demo kirish: admin / 1234', 'login.secure': 'Xavfsiz va himoyalangan tizim',
-    'login.demoToast': 'Bu demo versiya: parol — 1234',
+    'login.subtitle': 'Zonangizni boshqaring', 'login.username': 'Email', 'login.usernamePh': 'Emailingizni kiriting',
+    'login.password': 'Parol', 'login.passwordPh': 'Parolni kiriting',
+    'login.error': 'Email yoki parol noto\'g\'ri', 'login.btn': 'Kirish', 'login.btnBusy': 'Kirish...',
+    'login.or': 'yoki', 'login.signupBtn': 'Ro\'yxatdan o\'tish', 'login.signupBtnBusy': 'Ro\'yxatdan o\'tilmoqda...',
+    'login.confirmPassword': 'Parolni tasdiqlash', 'login.confirmPasswordPh': 'Parolni qayta kiriting',
+    'login.passMismatch': 'Parollar mos emas', 'login.passTooShort': 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak',
+    'login.userExists': 'Bunday email allaqachon ro\'yxatdan o\'tgan', 'login.checkEmail': 'Emailingizni tekshiring — tasdiqlash havolasi yuborildi',
+    'login.secure': 'Xavfsiz va himoyalangan tizim',
     'app.title': 'Asosiy Floor', 'search.tablePh': 'Stol nomi...',
     'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band', 'filter.repair': 'Ta\'mirlashda',
     'home.empty': 'Hali stol qo\'shilmagan', 'home.firstTable': 'Birinchi stolni qo\'shish',
@@ -53,11 +56,14 @@ const I18N = {
     'cur': 'so\'m', 'lang.label': 'Til',
   },
   en: {
-    'login.subtitle': 'Manage your zone', 'login.username': 'Login', 'login.usernamePh': 'Enter login',
-    'login.password': 'Password', 'login.passwordPh': 'Enter password', 'login.forgot': 'Forgot your password?',
-    'login.error': 'Invalid login or password', 'login.btn': 'Log in', 'login.btnBusy': 'Logging in...',
-    'login.or': 'or', 'login.demo': 'Demo login: admin / 1234', 'login.secure': 'Secure and protected system',
-    'login.demoToast': 'Demo version: password — 1234',
+    'login.subtitle': 'Manage your zone', 'login.username': 'Email', 'login.usernamePh': 'Enter your email',
+    'login.password': 'Password', 'login.passwordPh': 'Enter password',
+    'login.error': 'Invalid email or password', 'login.btn': 'Log in', 'login.btnBusy': 'Logging in...',
+    'login.or': 'or', 'login.signupBtn': 'Sign up', 'login.signupBtnBusy': 'Signing up...',
+    'login.confirmPassword': 'Confirm password', 'login.confirmPasswordPh': 'Re-enter password',
+    'login.passMismatch': 'Passwords do not match', 'login.passTooShort': 'Password must be at least 6 characters',
+    'login.userExists': 'This email is already registered', 'login.checkEmail': 'Check your email — a confirmation link has been sent',
+    'login.secure': 'Secure and protected system',
     'app.title': 'Main Floor', 'search.tablePh': 'Table name...',
     'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy', 'filter.repair': 'Repair',
     'home.empty': 'No tables yet', 'home.firstTable': 'Add the first table',
@@ -99,11 +105,14 @@ const I18N = {
     'cur': 'UZS', 'lang.label': 'Language',
   },
   ru: {
-    'login.subtitle': 'Управляйте своей зоной', 'login.username': 'Логин', 'login.usernamePh': 'Введите логин',
-    'login.password': 'Пароль', 'login.passwordPh': 'Введите пароль', 'login.forgot': 'Забыли пароль?',
-    'login.error': 'Неверный логин или пароль', 'login.btn': 'Войти', 'login.btnBusy': 'Вход...',
-    'login.or': 'или', 'login.demo': 'Демо-вход: admin / 1234', 'login.secure': 'Безопасная и защищённая система',
-    'login.demoToast': 'Демо-версия: пароль — 1234',
+    'login.subtitle': 'Управляйте своей зоной', 'login.username': 'Email', 'login.usernamePh': 'Введите email',
+    'login.password': 'Пароль', 'login.passwordPh': 'Введите пароль',
+    'login.error': 'Неверный email или пароль', 'login.btn': 'Войти', 'login.btnBusy': 'Вход...',
+    'login.or': 'или', 'login.signupBtn': 'Зарегистрироваться', 'login.signupBtnBusy': 'Регистрация...',
+    'login.confirmPassword': 'Подтверждение пароля', 'login.confirmPasswordPh': 'Повторите пароль',
+    'login.passMismatch': 'Пароли не совпадают', 'login.passTooShort': 'Пароль должен быть не короче 6 символов',
+    'login.userExists': 'Этот email уже зарегистрирован', 'login.checkEmail': 'Проверьте email — отправлена ссылка для подтверждения',
+    'login.secure': 'Безопасная и защищённая система',
     'app.title': 'Основной зал', 'search.tablePh': 'Название стола...',
     'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые', 'filter.repair': 'На ремонте',
     'home.empty': 'Столы ещё не добавлены', 'home.firstTable': 'Добавить первый стол',
@@ -195,39 +204,162 @@ if (document.fonts && document.fonts.load) {
   document.body.classList.add('fonts-loaded');
 }
 
+/* ---------------- Supabase ---------------- */
+const SUPABASE_URL = 'https://cscjdmvchnxpqhnlietl.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzY2pkbXZjaG54cHFobmxpZXRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2OTY5NTcsImV4cCI6MjEwMjI3Mjk1N30.r5zmmqDgMQsWHwqYiyzi1GpwnTEX8lG102UPXJ9v03c';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 /* ---------------- Ma'lumotlar ---------------- */
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const state = { zones: [] };
 
-const state = {
-  zones: [
-    {
-      id: 'z1', name: 'Asosiy floor',
-      tables: [
-        { id: 't1', name: 'Stol 01', tariff: 25000, type: 'billiard' },
-        { id: 't2', name: 'Stol 02', tariff: 25000, type: 'billiard' },
-        { id: 't3', name: 'Stol 03', tariff: 25000, type: 'billiard' },
-        { id: 't4', name: 'Stol 04', tariff: 30000, type: 'tennis' },
-        { id: 't5', name: 'Stol 05', tariff: 30000, type: 'tennis' },
-        { id: 't6', name: 'Stol 06', tariff: 20000, type: 'tennis' },
-      ],
-      products: [
-        { id: 'p1', name: 'Ko\'k choy', price: 3500, icon: 'emoji_food_beverage', sold: 210 },
-        { id: 'p2', name: 'Suv', price: 5000, icon: 'water_drop', sold: 180 },
-        { id: 'p3', name: 'Hunarmand pivosi', price: 20000, icon: 'sports_bar', sold: 145 },
-        { id: 'p4', name: 'Nachos Grande', price: 20000, icon: 'restaurant', sold: 89 },
-        { id: 'p5', name: 'Pepsi', price: 12000, icon: 'local_bar', sold: 96 },
-        { id: 'p6', name: 'Kofe', price: 10000, icon: 'coffee', sold: 77 },
-      ],
-    },
-  ],
-};
-
-/* Faol sessiyalar: tableId -> sessiya (demo holatlar oldindan to'ldirilgan) */
-const NOW = Date.now();
+/* Faol sessiyalar: tableId -> sessiya (bazadan yuklanadi) */
 const sessions = {};
-sessions.t2 = { mode: 'stopwatch', tableId: 't2', start: NOW - (42 * 60 + 15) * 1000, products: [{ pid: 'p1', qty: 2 }] };
-sessions.t3 = { mode: 'countdown', tableId: 't3', start: NOW - (3600 - 299) * 1000, duration: 3600, products: [] };
-sessions.t6 = { mode: 'countdown', tableId: 't6', start: NOW - (3600 + 452) * 1000, duration: 3600, products: [{ pid: 'p2', qty: 1 }] };
+
+/* ---------------- Bazaga yozish (API) ---------------- */
+async function apiAddZone(name) {
+  const { data, error } = await sb.from('zones').insert({ name, sort_order: state.zones.length }).select().single();
+  if (error) throw error;
+  state.zones.push({ id: String(data.id), name: data.name, tables: [], products: [] });
+}
+async function apiUpdateZone(z, name) {
+  const { error } = await sb.from('zones').update({ name }).eq('id', z.id);
+  if (error) throw error;
+  z.name = name;
+}
+async function apiDeleteZone(z) {
+  const { error } = await sb.from('zones').delete().eq('id', z.id);
+  if (error) throw error;
+  state.zones = state.zones.filter(x => x.id !== z.id);
+  Object.keys(sessions).forEach(tid => { if (!findTable(tid)) delete sessions[tid]; });
+}
+async function apiAddTable(zone, name, tariff, type) {
+  const { data, error } = await sb.from('tables').insert({ zone_id: zone.id, name, tariff, sport: type, sort_order: zone.tables.length }).select().single();
+  if (error) throw error;
+  zone.tables.push({ id: String(data.id), name: data.name, tariff: Number(data.tariff), type: data.sport, repair: !!data.repair });
+}
+async function apiUpdateTable(tab, name, tariff, type) {
+  const { error } = await sb.from('tables').update({ name, tariff, sport: type }).eq('id', tab.id);
+  if (error) throw error;
+  tab.name = name; tab.tariff = tariff; tab.type = type;
+}
+async function apiDeleteTable(tab, zone) {
+  const { error } = await sb.from('tables').delete().eq('id', tab.id);
+  if (error) throw error;
+  zone.tables = zone.tables.filter(x => x.id !== tab.id);
+  delete sessions[tab.id];
+  delete lastStatus[tab.id];
+}
+async function apiAddProduct(zone, name, price) {
+  const { data, error } = await sb.from('products').insert({ zone_id: zone.id, name, price, icon: 'local_bar', sold: 0, sort_order: zone.products.length }).select().single();
+  if (error) throw error;
+  zone.products.push({ id: String(data.id), name: data.name, price: Number(data.price), icon: data.icon, sold: data.sold });
+}
+async function apiUpdateProduct(p, name, price) {
+  const { error } = await sb.from('products').update({ name, price }).eq('id', p.id);
+  if (error) throw error;
+  p.name = name; p.price = price;
+}
+async function apiDeleteProduct(zone, p) {
+  const { error } = await sb.from('products').delete().eq('id', p.id);
+  if (error) throw error;
+  zone.products = zone.products.filter(x => x.id !== p.id);
+}
+async function apiStartSession(tab, mode, rate, duration) {
+  const { data, error } = await sb.from('sessions').insert({ table_id: tab.id, mode, rate, duration_sec: mode === 'countdown' ? duration : null }).select().single();
+  if (error) throw error;
+  sessions[tab.id] = { id: String(data.id), mode, tableId: tab.id, rate, start: Date.parse(data.start_time), duration: data.duration_sec || undefined, products: [] };
+}
+async function apiExtendSession(s, addSec) {
+  const duration = (s.duration || 0) + addSec;
+  const { error } = await sb.from('sessions').update({ duration_sec: duration }).eq('id', s.id);
+  if (error) throw error;
+  s.duration = duration;
+}
+async function apiDeleteSession(s) {
+  const { error } = await sb.from('sessions').delete().eq('id', s.id);
+  if (error) throw error;
+  delete sessions[s.tableId];
+  delete lastStatus[s.tableId];
+}
+async function apiSetSessionProduct(s, pid, qty) {
+  if (qty <= 0) {
+    const { error } = await sb.from('session_products').delete().eq('session_id', s.id).eq('product_id', pid);
+    if (error) throw error;
+    return;
+  }
+  const { data, error } = await sb.from('session_products').select('id').eq('session_id', s.id).eq('product_id', pid).maybeSingle();
+  if (error) throw error;
+  if (data) {
+    const { error: e2 } = await sb.from('session_products').update({ quantity: qty }).eq('id', data.id);
+    if (e2) throw e2;
+  } else {
+    const { error: e3 } = await sb.from('session_products').insert({ session_id: s.id, product_id: pid, quantity: qty });
+    if (e3) throw e3;
+  }
+}
+
+/* ---------------- Bazadan yuklash + Realtime ---------------- */
+async function loadData() {
+  try {
+    const [{ data: zrows }, { data: srows }, { data: sprows }] = await Promise.all([
+      sb.from('zones')
+        .select('id, name, sort_order, tables(id, name, sport, tariff, repair, sort_order), products(id, name, price, icon, sold, sort_order)')
+        .order('sort_order', { foreignTable: 'tables' })
+        .order('sort_order', { foreignTable: 'products' })
+        .order('sort_order'),
+      sb.from('sessions').select('*'),
+      sb.from('session_products').select('*'),
+    ]);
+    state.zones = (zrows || []).map(z => ({
+      id: String(z.id), name: z.name,
+      tables: (z.tables || []).map(t => ({ id: String(t.id), name: t.name, tariff: Number(t.tariff), type: t.sport, repair: !!t.repair })),
+      products: (z.products || []).map(p => ({ id: String(p.id), name: p.name, price: Number(p.price), icon: p.icon, sold: p.sold })),
+    }));
+    Object.keys(sessions).forEach(k => delete sessions[k]);
+    const spMap = new Map();
+    (sprows || []).forEach(r => {
+      const k = String(r.session_id);
+      if (!spMap.has(k)) spMap.set(k, []);
+      spMap.get(k).push({ pid: String(r.product_id), qty: r.quantity });
+    });
+    (srows || []).forEach(s => {
+      const obj = {
+        id: String(s.id), mode: s.mode, tableId: String(s.table_id),
+        rate: s.rate != null ? Number(s.rate) : undefined,
+        start: Date.parse(s.start_time), duration: s.duration_sec || undefined,
+        products: spMap.get(String(s.id)) || [],
+      };
+      sessions[obj.tableId] = obj;
+      lastStatus[obj.tableId] = statusOf(obj);
+    });
+
+    const focusInSheet = document.activeElement && document.activeElement.closest && document.activeElement.closest('#sheet');
+    renderHome(); renderZones(); renderProducts();
+    if (currentPanel) {
+      if (sessions[currentPanel]) { if (!focusInSheet) renderPanel(); }
+      else closeSheet();
+    }
+  } catch (err) {
+    toast('Supabase xatosi: ' + (err.message || err));
+  }
+}
+
+let reloadTimer = null;
+function onRemoteChange() {
+  clearTimeout(reloadTimer);
+  reloadTimer = setTimeout(loadData, 300);
+}
+let dbChannel = null;
+function setupRealtime() {
+  if (dbChannel) return;
+  dbChannel = sb.channel('zona-db')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'zones' }, onRemoteChange)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'tables' }, onRemoteChange)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, onRemoteChange)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, onRemoteChange)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'session_products' }, onRemoteChange)
+    .subscribe();
+}
 
 /* Statistika — olib tashlandi */
 
@@ -333,47 +465,124 @@ $('#eye-toggle').addEventListener('click', () => {
   p.type = p.type === 'password' ? 'text' : 'password';
 });
 
-loginForm.addEventListener('submit', e => {
+$('#eye-toggle-confirm').addEventListener('click', () => {
+  const p = $('#login-confirm');
+  p.type = p.type === 'password' ? 'text' : 'password';
+});
+
+let authMode = 'login';
+
+function setAuthMode(mode) {
+  authMode = mode;
+  $('#login-error').hidden = true;
+  $('#confirm-field').hidden = mode !== 'signup';
+  const label = $('#login-btn').querySelector('.btn-label');
+  const toggleLabel = $('#mode-toggle-label');
+  const toggleIc = $('#mode-toggle-ic');
+  if (mode === 'signup') {
+    label.textContent = t('login.signupBtn');
+    label.dataset.i18n = 'login.signupBtn';
+    $('#login-btn').setAttribute('aria-label', t('login.signupBtn'));
+    toggleLabel.textContent = t('login.btn');
+    toggleLabel.dataset.i18n = 'login.btn';
+    toggleIc.textContent = 'login';
+    $('#login-error').dataset.i18n = 'login.userExists';
+  } else {
+    label.textContent = t('login.btn');
+    label.dataset.i18n = 'login.btn';
+    $('#login-btn').setAttribute('aria-label', t('login.btn'));
+    toggleLabel.textContent = t('login.signupBtn');
+    toggleLabel.dataset.i18n = 'login.signupBtn';
+    toggleIc.textContent = 'person_add';
+    $('#login-error').dataset.i18n = 'login.error';
+  }
+}
+
+$('#mode-toggle').addEventListener('click', () => setAuthMode(authMode === 'login' ? 'signup' : 'login'));
+
+loginForm.addEventListener('submit', async e => {
   e.preventDefault();
   clearFieldErrors();
+  const signup = authMode === 'signup';
   const u = $('#login-username').value.trim();
   const p = $('#login-password').value;
   let ok = true;
   if (!u) { showFieldError('login-username', t('err.required')); ok = false; }
   if (!p) { showFieldError('login-password', t('err.required')); ok = false; }
+  if (signup) {
+    const c = $('#login-confirm').value;
+    if (!c) { showFieldError('login-confirm', t('err.required')); ok = false; }
+    else if (c !== p) { showFieldError('login-confirm', t('login.passMismatch')); ok = false; }
+  }
   if (!ok) return;
 
   const btn = $('#login-btn');
+  const label = btn.querySelector('.btn-label');
   btn.disabled = true;
-  btn.querySelector('.btn-label').textContent = t('login.btnBusy');
+  label.textContent = t(signup ? 'login.signupBtnBusy' : 'login.btnBusy');
   btn.querySelector('.spinner').hidden = false;
 
-  setTimeout(() => {
-    btn.disabled = false;
-    btn.querySelector('.btn-label').textContent = t('login.btn');
-    btn.querySelector('.spinner').hidden = true;
-    if (u === 'admin' && p === '1234') {
-      $('#view-login').hidden = true;
-      $('#bottom-nav').hidden = false;
-      $('#profile-name').textContent = u === 'admin' ? 'Admin' : u;
-      $('#profile-login').textContent = u;
-      loginForm.reset();
-      showView('home');
-    } else {
+  try {
+    const { error, data } = signup
+      ? await sb.auth.signUp({ email: u, password: p })
+      : await sb.auth.signInWithPassword({ email: u, password: p });
+    if (error) throw error;
+    if (signup && !data.session) {
+      btn.disabled = false;
+      label.textContent = t('login.signupBtn');
+      btn.querySelector('.spinner').hidden = true;
+      $('#login-error').dataset.i18n = 'login.checkEmail';
+      $('#login-error').textContent = t('login.checkEmail');
       $('#login-error').hidden = false;
     }
-  }, 700);
+  } catch (err) {
+    btn.disabled = false;
+    label.textContent = t(signup ? 'login.signupBtn' : 'login.btn');
+    btn.querySelector('.spinner').hidden = true;
+    $('#login-error').hidden = false;
+    const m = err && err.message ? err.message : t('login.error');
+    if (/already registered|already been registered|already exists/i.test(m)) {
+      $('#login-error').textContent = t('login.userExists');
+    } else if (/at least 6/i.test(m)) {
+      $('#login-error').textContent = t('login.passTooShort');
+    } else {
+      $('#login-error').textContent = signup ? m : t('login.error');
+    }
+  }
 });
 
-$('#forgot-link').addEventListener('click', () => {
-  toast(t('login.demoToast'));
-});
+/* ---------------- Auth ---------------- */
+let currentUser = null;
 
-$('#demo-btn').addEventListener('click', () => {
-  clearFieldErrors();
-  $('#login-username').value = 'admin';
-  $('#login-password').value = '1234';
-  loginForm.requestSubmit();
+function enterApp() {
+  $('#view-login').hidden = true;
+  $('#bottom-nav').hidden = false;
+  const email = (currentUser && currentUser.email) || '';
+  $('#profile-name').textContent = email ? email.split('@')[0] : 'Admin';
+  $('#profile-login').textContent = email || 'admin';
+  loginForm.reset();
+  loadData();
+  setupRealtime();
+  showView('home');
+}
+
+function exitToLogin() {
+  closeSheet(); closeAlert();
+  $('#bottom-nav').hidden = true;
+  VIEWS.forEach(x => { $(`#view-${x}`).hidden = true; });
+  $('#view-login').hidden = false;
+  $('#login-error').hidden = true;
+  setAuthMode('login');
+}
+
+sb.auth.onAuthStateChange((evt, session) => {
+  if (evt === 'SIGNED_IN') {
+    currentUser = session ? session.user : null;
+    enterApp();
+  } else if (evt === 'SIGNED_OUT') {
+    currentUser = null;
+    exitToLogin();
+  }
 });
 
 /* ---------------- Navigatsiya ---------------- */
@@ -569,7 +778,7 @@ function renderStartSheet() {
     startDuration = Math.min(172800, startDuration + +b.dataset.add);
     renderStartSheet();
   }));
-  $('#start-confirm').addEventListener('click', () => {
+  $('#start-confirm').addEventListener('click', async () => {
     const rateInput = $('#start-rate');
     const rate = parseIn(rateInput.value);
     const errEl = $('#err-rate');
@@ -580,12 +789,16 @@ function renderStartSheet() {
     }
     rateInput.classList.remove('input-error');
     errEl.textContent = '';
-    sessions[tab.id] = { mode: startMode, tableId: tab.id, rate, start: Date.now(), duration: startMode === 'countdown' ? startDuration : undefined, products: [] };
-    lastStatus[tab.id] = statusOf(sessions[tab.id]);
-    closeSheet();
-    startTable = null;
-    renderHome(); renderZones();
-    toast(t('toast.sessionStarted'));
+    try {
+      await apiStartSession(tab, startMode, rate, startMode === 'countdown' ? startDuration : undefined);
+      lastStatus[tab.id] = statusOf(sessions[tab.id]);
+      closeSheet();
+      startTable = null;
+      renderHome(); renderZones();
+      toast(t('toast.sessionStarted'));
+    } catch (err) {
+      toast('Supabase xatosi: ' + (err.message || err));
+    }
   });
 }
 
@@ -722,19 +935,28 @@ function renderPanel() {
   $('#cancel-btn').addEventListener('click', cancelConfirm);
 }
 
-function addToSession(tid, pid, delta = 1) {
+async function addToSession(tid, pid, delta = 1) {
   const s = sessions[tid];
   if (!s) return;
   const e = s.products.find(x => x.pid === pid);
+  let qty = 0;
   if (e) {
-    e.qty += delta;
-    if (e.qty <= 0) s.products = s.products.filter(x => x.pid !== pid);
-  } else if (delta > 0) s.products.push({ pid, qty: 1 });
+    qty = e.qty + delta;
+    if (qty <= 0) s.products = s.products.filter(x => x.pid !== pid);
+    else e.qty = qty;
+  } else if (delta > 0) {
+    s.products.push({ pid, qty: 1 });
+    qty = 1;
+  }
+  try { await apiSetSessionProduct(s, pid, qty); }
+  catch (err) { toast('Supabase xatosi: ' + (err.message || err)); loadData(); }
 }
-function removeFromSession(tid, pid) {
+async function removeFromSession(tid, pid) {
   const s = sessions[tid];
   if (!s) return;
   s.products = s.products.filter(x => x.pid !== pid);
+  try { await apiSetSessionProduct(s, pid, 0); }
+  catch (err) { toast('Supabase xatosi: ' + (err.message || err)); loadData(); }
 }
 
 function panelSearchHTML(zone) {
@@ -780,8 +1002,8 @@ function openProductDialog(p) {
   $('#qty-inc').addEventListener('click', () => {
     dialogQty++; $('#qty-num').textContent = dialogQty;
   });
-  $('#qty-add').addEventListener('click', () => {
-    addToSession(currentPanel, p.id, dialogQty);
+  $('#qty-add').addEventListener('click', async () => {
+    await addToSession(currentPanel, p.id, dialogQty);
     toast(`${p.name} ${t('dialog.added')}`);
     closeAlert();
     renderPanel();
@@ -807,10 +1029,10 @@ function finishConfirm() {
     </div>
   `);
   $('#abort-finish').addEventListener('click', closeAlert);
-  $('#ok-finish').addEventListener('click', () => {
+  $('#ok-finish').addEventListener('click', async () => {
     const sum = timePrice + prod;
-    delete sessions[currentPanel];
-    delete lastStatus[currentPanel];
+    try { await apiDeleteSession(sessions[currentPanel]); }
+    catch (err) { toast('Supabase xatosi: ' + (err.message || err)); return; }
     closeAlert(); closeSheet();
     renderHome(); renderZones();
     toast(`${t('toast.sessionEnded')} — ${fmtMoney(sum)}`);
@@ -829,9 +1051,9 @@ function cancelConfirm() {
     </div>
   `);
   $('#abort-cancel').addEventListener('click', closeAlert);
-  $('#ok-cancel').addEventListener('click', () => {
-    delete sessions[currentPanel];
-    delete lastStatus[currentPanel];
+  $('#ok-cancel').addEventListener('click', async () => {
+    try { await apiDeleteSession(sessions[currentPanel]); }
+    catch (err) { toast('Supabase xatosi: ' + (err.message || err)); return; }
     closeAlert(); closeSheet();
     renderHome(); renderZones();
     toast(t('toast.sessionCancelled'));
@@ -923,13 +1145,15 @@ function openZoneModal(z) {
     </div>
   `);
   const input = $('#zone-name');
-  $('#save-zone').addEventListener('click', () => {
+  $('#save-zone').addEventListener('click', async () => {
     const name = input.value.trim();
     if (!name) { input.classList.add('input-error'); input.nextElementSibling.textContent = t('err.required'); return; }
-    if (isEdit) z.name = name;
-    else state.zones.push({ id: uid(), name, tables: [], products: [] });
-    closeSheet(); renderHome(); renderZones(); renderProducts();
-    toast(t('common.saved'));
+    try {
+      if (isEdit) await apiUpdateZone(z, name);
+      else await apiAddZone(name);
+      closeSheet(); renderHome(); renderZones(); renderProducts();
+      toast(t('common.saved'));
+    } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
   });
   if (isEdit) $('#del-zone').addEventListener('click', () => {
     const active = zoneHasActiveSession(z);
@@ -943,12 +1167,14 @@ function openZoneModal(z) {
       </div>
     `);
     $('#cancel-del').addEventListener('click', closeAlert);
-    $('#confirm-del').addEventListener('click', () => {
-      state.zones = state.zones.filter(x => x.id !== z.id);
-      if (openZoneId === z.id) openZoneId = state.zones[0] ? state.zones[0].id : null;
-      closeAlert(); closeSheet();
-      renderHome(); renderZones(); renderProducts();
-      toast(t('common.deleted'));
+    $('#confirm-del').addEventListener('click', async () => {
+      try {
+        await apiDeleteZone(z);
+        if (openZoneId === z.id) openZoneId = state.zones[0] ? state.zones[0].id : null;
+        closeAlert(); closeSheet();
+        renderHome(); renderZones(); renderProducts();
+        toast(t('common.deleted'));
+      } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
     });
   });
 }
@@ -999,7 +1225,7 @@ function bindTableForm(tab, zone, isEdit, getType) {
   const nameInput = $('#table-name');
   const tariffInput = $('#table-tariff');
   bindMoneyInput(tariffInput);
-  $('#save-table').addEventListener('click', () => {
+  $('#save-table').addEventListener('click', async () => {
     const name = nameInput.value.trim();
     const tariff = parseIn(tariffInput.value);
     let ok = true;
@@ -1009,10 +1235,12 @@ function bindTableForm(tab, zone, isEdit, getType) {
       tariffInput.classList.add('input-error'); tariffInput.nextElementSibling.textContent = t('err.number'); ok = false;
     } else tariffInput.classList.remove('input-error');
     if (!ok) return;
-    if (isEdit) { tab.name = name; tab.tariff = tariff; tab.type = getType(); }
-    else zone.tables.push({ id: uid(), name, tariff, type: getType() });
-    closeSheet(); renderHome(); renderZones();
-    toast(t('common.saved'));
+    try {
+      if (isEdit) await apiUpdateTable(tab, name, tariff, getType());
+      else await apiAddTable(zone, name, tariff, getType());
+      closeSheet(); renderHome(); renderZones();
+      toast(t('common.saved'));
+    } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
   });
   if (isEdit) $('#del-table').addEventListener('click', () => {
     const active = !!sessions[tab.id];
@@ -1026,12 +1254,13 @@ function bindTableForm(tab, zone, isEdit, getType) {
       </div>
     `);
     $('#cancel-del').addEventListener('click', closeAlert);
-    $('#confirm-del').addEventListener('click', () => {
-      zone.tables = zone.tables.filter(x => x.id !== tab.id);
-      delete sessions[tab.id];
-      closeAlert(); closeSheet();
-      renderHome(); renderZones();
-      toast(t('common.deleted'));
+    $('#confirm-del').addEventListener('click', async () => {
+      try {
+        await apiDeleteTable(tab, zone);
+        closeAlert(); closeSheet();
+        renderHome(); renderZones();
+        toast(t('common.deleted'));
+      } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
     });
   });
 }
@@ -1100,7 +1329,7 @@ function openProductModal(zone, p) {
   const nameInput = $('#prod-name');
   const priceInput = $('#prod-price');
   bindMoneyInput(priceInput);
-  $('#save-prod').addEventListener('click', () => {
+  $('#save-prod').addEventListener('click', async () => {
     const name = nameInput.value.trim();
     const price = parseIn(priceInput.value);
     let ok = true;
@@ -1110,10 +1339,12 @@ function openProductModal(zone, p) {
       priceInput.classList.add('input-error'); priceInput.nextElementSibling.textContent = t('err.number'); ok = false;
     } else priceInput.classList.remove('input-error');
     if (!ok) return;
-    if (isEdit) { p.name = name; p.price = price; }
-    else zone.products.push({ id: uid(), name, price, icon: 'local_bar', sold: 0 });
-    closeSheet(); renderProducts();
-    toast(t('common.saved'));
+    try {
+      if (isEdit) await apiUpdateProduct(p, name, price);
+      else await apiAddProduct(zone, name, price);
+      closeSheet(); renderProducts();
+      toast(t('common.saved'));
+    } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
   });
   if (isEdit) $('#del-prod').addEventListener('click', () => {
     openAlert(`
@@ -1125,10 +1356,12 @@ function openProductModal(zone, p) {
       </div>
     `);
     $('#cancel-del').addEventListener('click', closeAlert);
-    $('#confirm-del').addEventListener('click', () => {
-      zone.products = zone.products.filter(x => x.id !== p.id);
-      closeAlert(); closeSheet(); renderProducts();
-      toast(t('common.deleted'));
+    $('#confirm-del').addEventListener('click', async () => {
+      try {
+        await apiDeleteProduct(zone, p);
+        closeAlert(); closeSheet(); renderProducts();
+        toast(t('common.deleted'));
+      } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
     });
   });
 }
@@ -1182,17 +1415,14 @@ $('#logout-btn').addEventListener('click', () => {
     </div>
   `);
   $('#abort-logout').addEventListener('click', closeAlert);
-  $('#ok-logout').addEventListener('click', () => {
+  $('#ok-logout').addEventListener('click', async () => {
     closeAlert(); closeSheet();
-    $('#bottom-nav').hidden = true;
-    VIEWS.forEach(x => { $(`#view-${x}`).hidden = true; });
-    $('#view-login').hidden = false;
+    await sb.auth.signOut();
   });
 });
 
 /* ---------------- TAYMER DVIGATELI ---------------- */
 let lastStatus = {};
-Object.keys(sessions).forEach(tid => { lastStatus[tid] = statusOf(sessions[tid]); });
 
 function updateRings(now) {
   $$('[data-ring]').forEach(el => {
@@ -1259,3 +1489,15 @@ const langSelect = $('#lang-select');
 if (langSelect) langSelect.value = currentLang;
 renderHome();
 tick();
+
+(async () => {
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      currentUser = session.user;
+      enterApp();
+    }
+  } catch (err) {
+    toast('Supabase xatosi: ' + (err.message || err));
+  }
+})();
