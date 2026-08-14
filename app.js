@@ -22,12 +22,12 @@ const state = {
     {
       id: 'z1', name: 'Asosiy floor',
       tables: [
-        { id: 't1', name: 'Stol 01', tariff: 25000 },
-        { id: 't2', name: 'Stol 02', tariff: 25000 },
-        { id: 't3', name: 'Stol 03', tariff: 25000 },
-        { id: 't4', name: 'Stol 04', tariff: 30000 },
-        { id: 't5', name: 'Stol 05', tariff: 30000 },
-        { id: 't6', name: 'Stol 06', tariff: 20000 },
+        { id: 't1', name: 'Stol 01', tariff: 25000, type: 'billiard' },
+        { id: 't2', name: 'Stol 02', tariff: 25000, type: 'billiard' },
+        { id: 't3', name: 'Stol 03', tariff: 25000, type: 'billiard' },
+        { id: 't4', name: 'Stol 04', tariff: 30000, type: 'tennis' },
+        { id: 't5', name: 'Stol 05', tariff: 30000, type: 'tennis' },
+        { id: 't6', name: 'Stol 06', tariff: 20000, type: 'tennis' },
       ],
       products: [
         { id: 'p1', name: 'Ko\'k choy', price: 3500, icon: 'emoji_food_beverage', sold: 210 },
@@ -221,8 +221,9 @@ let searchQuery = '';
 const RING_C = r => 2 * Math.PI * r;
 
 function cardFor(t) {
-  const coverCls = t.id === 't4' || t.id === 't5' || t.id === 't6' ? 'card-cover card-cover--tt' : 'card-cover';
-  const cardCls = t.id === 't4' || t.id === 't5' || t.id === 't6' ? ' card--tt' : '';
+  const isTt = t.type === 'tennis';
+  const coverCls = isTt ? 'card-cover card-cover--tt' : 'card-cover';
+  const cardCls = isTt ? ' card--tt' : '';
   if (t.repair) {
     return `
       <div class="table-card card-repair${cardCls}">
@@ -789,28 +790,46 @@ function openZoneModal(z) {
 function openTableModal(t, presetZoneId) {
   const isEdit = !!t;
   const zone = t ? findZone(t.id) : state.zones.find(x => x.id === presetZoneId) || state.zones[0];
-  openSheet(`
-    <div class="sheet-handle"></div>
-    <div class="sheet-head">
-      <div class="sheet-title">${isEdit ? 'Stolni tahrirlash' : 'Yangi stol'}</div>
-      <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-    </div>
-    <div class="sheet-content">
-      <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${zone.name}</div>
-      <div class="field">
-        <label>Stol nomi</label>
-        <input id="table-name" value="${isEdit ? t.name : ''}" placeholder="Masalan: Stol 07">
-        <span class="field-error"></span>
+  let tableType = isEdit ? (t.type || 'billiard') : 'billiard';
+
+  const render = () => {
+    openSheet(`
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <div class="sheet-title">${isEdit ? 'Stolni tahrirlash' : 'Yangi stol'}</div>
+        <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
       </div>
-      <div class="field">
-        <label>Soatlik tarif (so'm)</label>
-        <input id="table-tariff" type="text" inputmode="numeric" value="${isEdit ? fmtIn(t.tariff) : ''}" placeholder="Masalan: 25 000">
-        <span class="field-error"></span>
+      <div class="sheet-content">
+        <div class="segmented" id="type-seg">
+          <button class="seg-btn ${tableType === 'billiard' ? 'active' : ''}" data-type="billiard">Billiard</button>
+          <button class="seg-btn ${tableType === 'tennis' ? 'active' : ''}" data-type="tennis">Tennis</button>
+        </div>
+        <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${zone.name}</div>
+        <div class="field">
+          <label>Stol nomi</label>
+          <input id="table-name" value="${isEdit ? t.name : ''}" placeholder="Masalan: Stol 07">
+          <span class="field-error"></span>
+        </div>
+        <div class="field">
+          <label>Soatlik tarif (so'm)</label>
+          <input id="table-tariff" type="text" inputmode="numeric" value="${isEdit ? fmtIn(t.tariff) : ''}" placeholder="Masalan: 25 000">
+          <span class="field-error"></span>
+        </div>
+        <button class="btn btn--primary btn--block" id="save-table">Saqlash</button>
+        ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">Stolni o'chirish</button>` : ''}
       </div>
-      <button class="btn btn--primary btn--block" id="save-table">Saqlash</button>
-      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">Stolni o'chirish</button>` : ''}
-    </div>
-  `);
+    `);
+
+    $$('#type-seg .seg-btn').forEach(b => b.addEventListener('click', () => {
+      tableType = b.dataset.type;
+      render();
+    }));
+    bindTableForm(t, zone, isEdit, () => tableType);
+  };
+  render();
+}
+
+function bindTableForm(t, zone, isEdit, getType) {
   const nameInput = $('#table-name');
   const tariffInput = $('#table-tariff');
   bindMoneyInput(tariffInput);
@@ -824,8 +843,8 @@ function openTableModal(t, presetZoneId) {
       tariffInput.classList.add('input-error'); tariffInput.nextElementSibling.textContent = 'To\'g\'ri son kiriting'; ok = false;
     } else tariffInput.classList.remove('input-error');
     if (!ok) return;
-    if (isEdit) { t.name = name; t.tariff = tariff; }
-    else zone.tables.push({ id: uid(), name, tariff });
+    if (isEdit) { t.name = name; t.tariff = tariff; t.type = getType(); }
+    else zone.tables.push({ id: uid(), name, tariff, type: getType() });
     closeSheet(); renderHome(); renderZones();
     toast('Saqlandi');
   });
