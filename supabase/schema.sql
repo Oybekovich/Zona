@@ -4,6 +4,7 @@
 create table if not exists public.zones (
   id bigint generated always as identity primary key,
   name text not null,
+  owner_id uuid default auth.uid() references auth.users(id) on delete cascade,
   sort_order int not null default 0,
   created_at timestamptz not null default now()
 );
@@ -49,7 +50,7 @@ create table if not exists public.session_products (
   created_at timestamptz not null default now()
 );
 
--- RLS: faqat tizimga kirgan foydalanuvchilar
+-- RLS: har bir zona o'z egasiga tegishli — boshqa foydalanuvchi ko'ra/ozgarta olmaydi
 alter table public.zones enable row level security;
 alter table public.tables enable row level security;
 alter table public.products enable row level security;
@@ -57,15 +58,33 @@ alter table public.sessions enable row level security;
 alter table public.session_products enable row level security;
 
 drop policy if exists "auth_all_zones" on public.zones;
-create policy "auth_all_zones" on public.zones for all to authenticated using (true) with check (true);
+drop policy if exists "owner_zones" on public.zones;
+create policy "owner_zones" on public.zones for all to authenticated
+  using (owner_id = auth.uid()) with check (owner_id = auth.uid());
+
 drop policy if exists "auth_all_tables" on public.tables;
-create policy "auth_all_tables" on public.tables for all to authenticated using (true) with check (true);
+drop policy if exists "owner_tables" on public.tables;
+create policy "owner_tables" on public.tables for all to authenticated
+  using (exists (select 1 from public.zones z where z.id = tables.zone_id and z.owner_id = auth.uid()))
+  with check (exists (select 1 from public.zones z where z.id = tables.zone_id and z.owner_id = auth.uid()));
+
 drop policy if exists "auth_all_products" on public.products;
-create policy "auth_all_products" on public.products for all to authenticated using (true) with check (true);
+drop policy if exists "owner_products" on public.products;
+create policy "owner_products" on public.products for all to authenticated
+  using (exists (select 1 from public.zones z where z.id = products.zone_id and z.owner_id = auth.uid()))
+  with check (exists (select 1 from public.zones z where z.id = products.zone_id and z.owner_id = auth.uid()));
+
 drop policy if exists "auth_all_sessions" on public.sessions;
-create policy "auth_all_sessions" on public.sessions for all to authenticated using (true) with check (true);
+drop policy if exists "owner_sessions" on public.sessions;
+create policy "owner_sessions" on public.sessions for all to authenticated
+  using (exists (select 1 from public.tables t join public.zones z on z.id = t.zone_id where t.id = sessions.table_id and z.owner_id = auth.uid()))
+  with check (exists (select 1 from public.tables t join public.zones z on z.id = t.zone_id where t.id = sessions.table_id and z.owner_id = auth.uid()));
+
 drop policy if exists "auth_all_session_products" on public.session_products;
-create policy "auth_all_session_products" on public.session_products for all to authenticated using (true) with check (true);
+drop policy if exists "owner_session_products" on public.session_products;
+create policy "owner_session_products" on public.session_products for all to authenticated
+  using (exists (select 1 from public.sessions s join public.tables t on t.id = s.table_id join public.zones z on z.id = t.zone_id where s.id = session_products.session_id and z.owner_id = auth.uid()))
+  with check (exists (select 1 from public.sessions s join public.tables t on t.id = s.table_id join public.zones z on z.id = t.zone_id where s.id = session_products.session_id and z.owner_id = auth.uid()));
 
 -- Realtime
 alter publication supabase_realtime add table public.zones;
@@ -74,11 +93,11 @@ alter publication supabase_realtime add table public.products;
 alter publication supabase_realtime add table public.sessions;
 alter publication supabase_realtime add table public.session_products;
 
--- Seed: Asosiy floor, 2 billiard + 2 tennis stol, 6 mahsulot (faqat baza bo'sh bo'lsa)
+-- Seed: Asosiy floor (admin@zona.uz egasi), 2 billiard + 2 tennis stol, 6 mahsulot (faqat baza bo'sh bo'lsa)
 do $$
 begin
   if not exists (select 1 from public.zones) then
-    insert into public.zones (name, sort_order) values ('Asosiy floor', 0);
+    insert into public.zones (name, owner_id, sort_order) values ('Asosiy floor', (select id from auth.users where email = 'admin@zona.uz' limit 1), 0);
     insert into public.tables (zone_id, name, sport, tariff, sort_order) values
       ((select id from public.zones where name = 'Asosiy floor' limit 1), 'Stol 01', 'billiard', 25000, 0),
       ((select id from public.zones where name = 'Asosiy floor' limit 1), 'Stol 02', 'billiard', 25000, 1),
