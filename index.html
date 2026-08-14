@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=56">
+<link rel="stylesheet" href="style.css?v=57">
 </head>
 <body>
 
@@ -138,6 +138,14 @@
       </button>
     </div>
     <div class="list-group">
+      <div class="list-row list-row--theme">
+        <span class="list-row-left"><span class="material-symbols-outlined">dark_mode</span> <span data-i18n="theme.title">Ko'rinish</span></span>
+        <div class="segmented segmented--theme" id="theme-seg">
+          <button class="seg-btn" data-theme="light" title="Kun"><span class="material-symbols-outlined">light_mode</span><span data-i18n="theme.light">Kun</span></button>
+          <button class="seg-btn" data-theme="dark" title="Tun"><span class="material-symbols-outlined">dark_mode</span><span data-i18n="theme.dark">Tun</span></button>
+        </div>
+      </div>
+      <div class="list-divider"></div>
       <button class="list-row list-row--danger" id="logout-btn">
         <span class="list-row-left"><span class="material-symbols-outlined">logout</span> <span data-i18n="profile.logout">Chiqish</span></span>
         <span class="material-symbols-outlined">chevron_right</span>
@@ -190,6 +198,6 @@
 
 </div>
 
-<script src="app.js?v=32"></script>
+<script src="app.js?v=33"></script>
 </body>
 </html>

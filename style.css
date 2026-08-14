@@ -546,6 +546,18 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 .list-row--danger .material-symbols-outlined { color: var(--error); }
 .list-divider { height: 1px; background: var(--hairline); margin: 0 18px; }
 
+/* ---------- Tun/kun rejimi ---------- */
+.list-row--theme { cursor: default; }
+.list-row--theme .material-symbols-outlined { color: var(--on-surface-variant); }
+.segmented--theme { flex-shrink: 0; }
+.segmented--theme .seg-btn {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 13px; font-size: 12px; font-weight: 600;
+}
+.segmented--theme .seg-btn .material-symbols-outlined { font-size: 17px; }
+.segmented--theme .seg-btn.active { color: var(--primary); }
+.segmented--theme .seg-btn.active .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+
 /* ---------- Zonalar ---------- */
 .zone-block { background: var(--surface-lowest); border: 1px solid var(--hairline); border-radius: var(--radius-lg); margin-bottom: 14px; overflow: hidden; box-shadow: var(--shadow-1); }
 .zone-head { display: flex; align-items: center; gap: 8px; padding: 16px 18px; }
@@ -884,3 +896,152 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
   .bento { grid-template-columns: 2fr 1fr 1fr; }
   .bento-card--wide { grid-column: span 1; }
 }
+
+/* ============ TUN REJIMI (Dark Mode) ============ */
+html[data-theme="dark"] {
+  --bg-base: #0b0b0e;
+  --surface: #1c1c1f;
+  --surface-lowest: #161618;
+  --surface-low: #1a1a1d;
+  --surface-container: #232326;
+  --surface-high: #232326;
+  --surface-highest: #2c2c30;
+  --surface-variant: #2c2c30;
+  --on-surface: #f5f5f7;
+  --on-surface-variant: #d1d1d6;
+  --text-muted: #98989e;
+  --text-tertiary: #8e8e93;
+  --text-placeholder: #636366;
+  --text-faint: #48484a;
+  --hairline: rgba(255,255,255,.09);
+  --outline: #636366;
+  --outline-variant: rgba(255,255,255,.14);
+
+  --primary: #5ed4c5;
+  --primary-container: #00a08f;
+  --on-primary: #003731;
+  --on-primary-container: #e8fffb;
+  --primary-soft: rgba(94,212,197,.14);
+  --secondary: #5ed4c5;
+  --secondary-container: #316bf3;
+
+  --error: #ff453a;
+  --error-container: #3a1212;
+  --on-error-container: #ffb3ab;
+  --status-available: #32d74b;
+  --status-occupied: #ff453a;
+  --status-warning: #ff9f0a;
+  --green-soft: rgba(50,215,75,.14);
+  --green-dark: #30d158;
+  --amber-soft: rgba(255,159,10,.14);
+  --amber-dark: #ffb340;
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.4);
+  --shadow-2: 0 1px 3px rgba(0,0,0,.4), 0 14px 40px rgba(0,0,0,.45);
+  --shadow-lift: 0 12px 32px rgba(0,0,0,.5);
+  --shadow-cta: 0 20px 54px rgba(94,212,197,.22);
+  --shadow-overlay: 0 2px 8px rgba(0,0,0,.5), 0 30px 80px rgba(0,0,0,.6);
+}
+
+html[data-theme="dark"] body { background: var(--bg-base); }
+html[data-theme="dark"] .app-header { background: var(--bg-base); }
+
+/* Karta / orb fonlari */
+html[data-theme="dark"] .table-card { background: #0f1412; }
+html[data-theme="dark"] .card-free { border-color: rgba(50,215,75,.5); }
+html[data-theme="dark"] .card-busy { border-color: rgba(255,69,58,.75); }
+html[data-theme="dark"] .card-ending { border-color: rgba(255,159,10,.75); }
+html[data-theme="dark"] .table-name { background: rgba(0,0,0,.55); border-color: rgba(255,255,255,.2); }
+html[data-theme="dark"] .timer-orb-card { background: #0f1412; }
+html[data-theme="dark"] .orb-badge { background: rgba(255,69,58,.2); color: #ffb3ab; }
+
+/* Glass elementlar */
+html[data-theme="dark"] .bottom-nav {
+  background: rgba(20,20,23,.72);
+  border-color: rgba(255,255,255,.1);
+}
+html[data-theme="dark"] .nav-btn.active::before {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.1);
+  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12);
+}
+html[data-theme="dark"] .sheet {
+  background: rgba(24,24,27,.9);
+  border-color: rgba(255,255,255,.1);
+}
+html[data-theme="dark"] .sheet-head {
+  background: rgba(20,20,23,.72);
+  border-color: rgba(255,255,255,.1);
+}
+html[data-theme="dark"] .sheet-close { color: var(--on-surface-variant); }
+
+/* Chips / segmented */
+html[data-theme="dark"] .chip.active { background: var(--on-surface); color: #111114; }
+html[data-theme="dark"] .seg-btn.active {
+  background: rgba(255,255,255,.14);
+  box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.3);
+}
+
+/* Oq fonli elementlar */
+html[data-theme="dark"] .search-input,
+html[data-theme="dark"] .rate-input,
+html[data-theme="dark"] .prod-pick,
+html[data-theme="dark"] .quick-item,
+html[data-theme="dark"] .order-list,
+html[data-theme="dark"] .step-btn,
+html[data-theme="dark"] .stepper-sm button,
+html[data-theme="dark"] .qty-btn,
+html[data-theme="dark"] .checkbox-box,
+html[data-theme="dark"] .demo-btn,
+html[data-theme="dark"] .field input { background: var(--surface); }
+
+html[data-theme="dark"] .search-input,
+html[data-theme="dark"] .rate-input,
+html[data-theme="dark"] .prod-pick,
+html[data-theme="dark"] .quick-item,
+html[data-theme="dark"] .order-list,
+html[data-theme="dark"] .step-btn,
+html[data-theme="dark"] .stepper-sm button,
+html[data-theme="dark"] .qty-btn { border-color: var(--outline-variant); }
+
+html[data-theme="dark"] .alert-box {
+  background: var(--surface);
+  border-color: var(--outline-variant);
+}
+html[data-theme="dark"] .alert-close { background: var(--surface-highest); }
+html[data-theme="dark"] .toast { background: rgba(44,44,48,.95); }
+html[data-theme="dark"] .list-row:hover { background: rgba(255,255,255,.04); }
+
+/* Login sahifasi */
+html[data-theme="dark"] .login-card-body { background: var(--surface-lowest); }
+html[data-theme="dark"] .view--login .field input {
+  background: var(--surface);
+  border-color: var(--outline-variant);
+  color: var(--on-surface);
+}
+html[data-theme="dark"] .view--login .field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(94,212,197,.2), 0 10px 28px rgba(94,212,197,.12);
+}
+html[data-theme="dark"] .view--login .field input.input-error { border-color: var(--error); box-shadow: 0 0 0 4px rgba(255,69,58,.15); }
+html[data-theme="dark"] .demo-btn { background: transparent; }
+html[data-theme="dark"] .checkbox-box { border-color: var(--outline); }
+html[data-theme="dark"] .checkbox-box .material-symbols-outlined { color: #003731; }
+html[data-theme="dark"] .checkbox input:checked + .checkbox-box { border-color: var(--primary-container); }
+html[data-theme="dark"] .login-wave-svg path { fill: var(--surface-lowest); }
+html[data-theme="dark"] .input-wrap .input-icon,
+html[data-theme="dark"] .view--login .eye { color: var(--text-muted); }
+
+/* Bento / list / zone */
+html[data-theme="dark"] .bento-card { border-color: var(--outline-variant); }
+html[data-theme="dark"] .quick-icon { background: var(--surface-variant); }
+html[data-theme="dark"] .zone-block,
+html[data-theme="dark"] .list-group,
+html[data-theme="dark"] .profile-card { border-color: var(--outline-variant); }
+html[data-theme="dark"] .status-text.free { color: var(--status-available); }
+html[data-theme="dark"] .status-text.busy { color: var(--on-error-container); }
+
+/* Ring va orb */
+html[data-theme="dark"] .ring .ring-circle { stroke: rgba(255,255,255,.16); }
+html[data-theme="dark"] .ring--red .ring-circle { stroke: #ff453a; }
+html[data-theme="dark"] .ring--amber .ring-circle { stroke: #ff9f0a; }

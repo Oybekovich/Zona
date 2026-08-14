@@ -49,6 +49,7 @@ const I18N = {
     'common.cancel': 'Bekor qilish', 'common.delete': 'O\'chirish', 'common.deleted': 'O\'chirildi', 'common.saved': 'Saqlandi',
     'toast.sessionStarted': 'Sessiya boshlandi', 'toast.sessionEnded': 'Sessiya yakunlandi', 'toast.sessionCancelled': 'Sessiya bekor qilindi',
     'repair.hint': 'Xizmatdan vaqtincha chiqarilgan',
+    'theme.title': 'Ko\'rinish', 'theme.light': 'Kun', 'theme.dark': 'Tun',
     'cur': 'so\'m', 'lang.label': 'Til',
   },
   en: {
@@ -94,6 +95,7 @@ const I18N = {
     'common.cancel': 'Cancel', 'common.delete': 'Delete', 'common.deleted': 'Deleted', 'common.saved': 'Saved',
     'toast.sessionStarted': 'Session started', 'toast.sessionEnded': 'Session finished', 'toast.sessionCancelled': 'Session cancelled',
     'repair.hint': 'Temporarily out of service',
+    'theme.title': 'Appearance', 'theme.light': 'Day', 'theme.dark': 'Night',
     'cur': 'UZS', 'lang.label': 'Language',
   },
   ru: {
@@ -139,12 +141,32 @@ const I18N = {
     'common.cancel': 'Отмена', 'common.delete': 'Удалить', 'common.deleted': 'Удалено', 'common.saved': 'Сохранено',
     'toast.sessionStarted': 'Сессия началась', 'toast.sessionEnded': 'Сессия завершена', 'toast.sessionCancelled': 'Сессия отменена',
     'repair.hint': 'Временно выведен из эксплуатации',
+    'theme.title': 'Оформление', 'theme.light': 'День', 'theme.dark': 'Ночь',
     'cur': 'сум', 'lang.label': 'Язык',
   },
 };
 let currentLang = localStorage.getItem('zona-lang') || 'uz';
 const cur = () => I18N[currentLang]['cur'];
 const t = k => (I18N[currentLang] && I18N[currentLang][k]) || I18N.uz[k] || k;
+
+/* ---------------- Tun / Kun rejimi ---------------- */
+let themeMode = localStorage.getItem('zona-theme') || 'light';
+
+function applyTheme() {
+  document.documentElement.dataset.theme = themeMode;
+  $$('#theme-seg .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === themeMode));
+}
+
+function setTheme(m) {
+  themeMode = m;
+  localStorage.setItem('zona-theme', m);
+  applyTheme();
+}
+
+$('#theme-seg')?.addEventListener('click', e => {
+  const b = e.target.closest('[data-theme]');
+  if (b) setTheme(b.dataset.theme);
+});
 
 function applyStaticLang() {
   $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
@@ -1231,6 +1253,7 @@ function tick() {
 setInterval(tick, 1000);
 
 /* ---------------- Boshlang'ich holat ---------------- */
+applyTheme();
 applyStaticLang();
 const langSelect = $('#lang-select');
 if (langSelect) langSelect.value = currentLang;
