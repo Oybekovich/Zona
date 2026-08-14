@@ -4,6 +4,165 @@
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 
+/* ---------------- TILLAR (i18n) ---------------- */
+const I18N = {
+  uz: {
+    'login.subtitle': 'Zonangizni boshqaring', 'login.username': 'Login', 'login.usernamePh': 'Loginni kiriting',
+    'login.password': 'Parol', 'login.passwordPh': 'Parolni kiriting', 'login.forgot': 'Parolni unutdingizmi?',
+    'login.error': 'Login yoki parol noto\'g\'ri', 'login.btn': 'Kirish', 'login.btnBusy': 'Kirish...',
+    'login.or': 'yoki', 'login.demo': 'Demo kirish: admin / 1234', 'login.secure': 'Xavfsiz va himoyalangan tizim',
+    'login.demoToast': 'Bu demo versiya: parol — 1234',
+    'app.title': 'Asosiy Floor', 'search.tablePh': 'Stol nomi...',
+    'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band', 'filter.repair': 'Ta\'mirlashda',
+    'home.empty': 'Hali stol qo\'shilmagan', 'home.firstTable': 'Birinchi stolni qo\'shish',
+    'nav.home': 'Asosiy', 'nav.zones': 'Zonalar', 'nav.products': 'Mahsulotlar', 'nav.profile': 'Profil',
+    'zones.title': 'Zonalar', 'zones.add': '+ Yangi zona qo\'shish', 'zones.empty': 'Hali zona yo\'q — birinchi zonani qo\'shing',
+    'zones.tables': 'stol', 'zones.statusBusy': 'Band', 'zones.statusFree': 'Bo\'sh', 'zones.addTable': 'Yangi stol qo\'shish',
+    'products.title': 'Mahsulotlar', 'products.add': '+ Yangi mahsulot qo\'shish', 'products.empty': 'Avval zona qo\'shing',
+    'products.none': 'Hali mahsulot yo\'q',
+    'profile.title': 'Profil', 'profile.role': 'Egasi', 'profile.logout': 'Chiqish', 'profile.edit': 'Profilni tahrirlash',
+    'profile.name': 'Ism', 'profile.login': 'Login', 'profile.nameLoginReq': 'Ism va loginni kiriting',
+    'profile.logoutTitle': 'Tizimdan chiqasizmi?', 'profile.logoutBtn': 'Chiqish',
+    'modal.editZone': 'Zonani tahrirlash', 'modal.newZone': 'Yangi zona', 'modal.zoneName': 'Zona nomi', 'modal.zonePh': 'Masalan: Asosiy floor',
+    'modal.editTable': 'Stolni tahrirlash', 'modal.newTable': 'Yangi stol', 'modal.tableName': 'Stol nomi', 'modal.tablePh': 'Masalan: Stol 07',
+    'modal.tariff': 'Soatlik tarif', 'modal.tariffPh': 'Masalan: 25 000',
+    'modal.editProduct': 'Mahsulotni tahrirlash', 'modal.newProduct': 'Yangi mahsulot', 'modal.prodName': 'Nomi', 'modal.prodNamePh': 'Masalan: Ko\'k choy',
+    'modal.prodPrice': 'Narxi', 'modal.prodPricePh': 'Masalan: 7 000',
+    'modal.save': 'Saqlash', 'modal.delete': 'O\'chirish', 'modal.deleteZone': 'Zonani o\'chirish', 'modal.deleteTable': 'Stolni o\'chirish', 'modal.deleteProduct': 'Mahsulotni o\'chirish',
+    'err.required': 'Bu maydon to\'ldirilishi shart', 'err.number': 'To\'g\'ri son kiriting', 'err.rate': 'To\'g\'ri narx kiriting',
+    'start.title': 'Sessiyani boshlash', 'start.stopwatch': 'Sekundomer', 'start.timer': 'Taymer',
+    'start.duration': 'Davomiylikni belgilash', 'start.minutes': 'daqiqa', 'start.hourly': 'Soatlik narx', 'start.btn': 'Sessiyani boshlash',
+    'time.hour': 'soat', 'time.min': 'daqiqa',
+    'panel.addProduct': 'Mahsulot qo\'shish', 'panel.searchPh': 'Mahsulot qidirish...', 'panel.noProduct': 'Mahsulot topilmadi',
+    'panel.order': 'Joriy buyurtma', 'panel.done': 'Bajarildi', 'panel.edit': 'Tahrirlash',
+    'panel.sessionTime': 'Sessiya vaqti', 'panel.tariff': 'Tarif', 'panel.perHour': '/ soat', 'panel.total': 'Jami',
+    'panel.finish': 'Sessiyani yakunlash va to\'lash', 'panel.cancelSession': 'Sessiyani bekor qilish',
+    'panel.overtime': 'Qo\'shimcha vaqt', 'panel.timeLeft': 'Qolgan vaqt', 'panel.timePassed': 'O\'tgan vaqt',
+    'panel.active': 'Faol', 'panel.ending': 'Yaqin tugaydi', 'panel.timeOver': 'Vaqt tugadi', 'panel.dona': '/ dona',
+    'dialog.add': 'Qo\'shish', 'dialog.added': 'qo\'shildi',
+    'finish.title': 'Sessiyani yakunlaysizmi?', 'finish.tableTime': 'Stol vaqti', 'finish.products': 'Mahsulotlar', 'finish.total': 'Jami', 'finish.confirm': 'Tasdiqlash',
+    'cancel.title': 'Sessiyani bekor qilasizmi?', 'cancel.warn': 'Bu amal qaytarilmaydi. Sessiya o\'chiriladi va hisoblanmaydi.',
+    'cancel.no': 'Yo\'q, qaytish', 'cancel.yes': 'Ha, bekor qilish',
+    'confirm.deleteTitle': 'ni o\'chirasizmi?', 'confirm.irreversible': 'Bu amalni ortga qaytarib bo\'lmaydi.',
+    'confirm.zoneActive': 'Diqqat: bu zonada faol sessiya bor. Avval sessiyalarni yakunlang.',
+    'confirm.tableActive': 'Diqqat: bu stolda faol sessiya bor. Avval sessiyani yakunlang.',
+    'common.cancel': 'Bekor qilish', 'common.delete': 'O\'chirish', 'common.deleted': 'O\'chirildi', 'common.saved': 'Saqlandi',
+    'toast.sessionStarted': 'Sessiya boshlandi', 'toast.sessionEnded': 'Sessiya yakunlandi', 'toast.sessionCancelled': 'Sessiya bekor qilindi',
+    'repair.hint': 'Xizmatdan vaqtincha chiqarilgan',
+    'cur': 'so\'m', 'lang.label': 'Til',
+  },
+  en: {
+    'login.subtitle': 'Manage your zone', 'login.username': 'Login', 'login.usernamePh': 'Enter login',
+    'login.password': 'Password', 'login.passwordPh': 'Enter password', 'login.forgot': 'Forgot your password?',
+    'login.error': 'Invalid login or password', 'login.btn': 'Log in', 'login.btnBusy': 'Logging in...',
+    'login.or': 'or', 'login.demo': 'Demo login: admin / 1234', 'login.secure': 'Secure and protected system',
+    'login.demoToast': 'Demo version: password — 1234',
+    'app.title': 'Main Floor', 'search.tablePh': 'Table name...',
+    'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy', 'filter.repair': 'Repair',
+    'home.empty': 'No tables yet', 'home.firstTable': 'Add the first table',
+    'nav.home': 'Home', 'nav.zones': 'Zones', 'nav.products': 'Products', 'nav.profile': 'Profile',
+    'zones.title': 'Zones', 'zones.add': '+ Add new zone', 'zones.empty': 'No zones yet — add the first one',
+    'zones.tables': 'tables', 'zones.statusBusy': 'Busy', 'zones.statusFree': 'Free', 'zones.addTable': 'Add new table',
+    'products.title': 'Products', 'products.add': '+ Add new product', 'products.empty': 'Add a zone first',
+    'products.none': 'No products yet',
+    'profile.title': 'Profile', 'profile.role': 'Owner', 'profile.logout': 'Log out', 'profile.edit': 'Edit profile',
+    'profile.name': 'Name', 'profile.login': 'Login', 'profile.nameLoginReq': 'Enter name and login',
+    'profile.logoutTitle': 'Log out?', 'profile.logoutBtn': 'Log out',
+    'modal.editZone': 'Edit zone', 'modal.newZone': 'New zone', 'modal.zoneName': 'Zone name', 'modal.zonePh': 'e.g.: Main floor',
+    'modal.editTable': 'Edit table', 'modal.newTable': 'New table', 'modal.tableName': 'Table name', 'modal.tablePh': 'e.g.: Table 07',
+    'modal.tariff': 'Hourly rate', 'modal.tariffPh': 'e.g.: 25 000',
+    'modal.editProduct': 'Edit product', 'modal.newProduct': 'New product', 'modal.prodName': 'Name', 'modal.prodNamePh': 'e.g.: Green tea',
+    'modal.prodPrice': 'Price', 'modal.prodPricePh': 'e.g.: 7 000',
+    'modal.save': 'Save', 'modal.delete': 'Delete', 'modal.deleteZone': 'Delete zone', 'modal.deleteTable': 'Delete table', 'modal.deleteProduct': 'Delete product',
+    'err.required': 'This field is required', 'err.number': 'Enter a valid number', 'err.rate': 'Enter a valid rate',
+    'start.title': 'Start session', 'start.stopwatch': 'Stopwatch', 'start.timer': 'Timer',
+    'start.duration': 'Set duration', 'start.minutes': 'min', 'start.hourly': 'Hourly rate', 'start.btn': 'Start session',
+    'time.hour': 'h', 'time.min': 'min',
+    'panel.addProduct': 'Add product', 'panel.searchPh': 'Search products...', 'panel.noProduct': 'No products found',
+    'panel.order': 'Current order', 'panel.done': 'Done', 'panel.edit': 'Edit',
+    'panel.sessionTime': 'Session time', 'panel.tariff': 'Rate', 'panel.perHour': '/ hour', 'panel.total': 'Total',
+    'panel.finish': 'Finish and pay', 'panel.cancelSession': 'Cancel session',
+    'panel.overtime': 'Overtime', 'panel.timeLeft': 'Time left', 'panel.timePassed': 'Elapsed',
+    'panel.active': 'Active', 'panel.ending': 'Ending soon', 'panel.timeOver': 'Time is up', 'panel.dona': 'per item',
+    'dialog.add': 'Add', 'dialog.added': 'added',
+    'finish.title': 'Finish the session?', 'finish.tableTime': 'Table time', 'finish.products': 'Products', 'finish.total': 'Total', 'finish.confirm': 'Confirm',
+    'cancel.title': 'Cancel the session?', 'cancel.warn': 'This action cannot be undone. The session will be deleted.',
+    'cancel.no': 'No, go back', 'cancel.yes': 'Yes, cancel',
+    'confirm.deleteTitle': 'delete?', 'confirm.irreversible': 'This action cannot be undone.',
+    'confirm.zoneActive': 'Attention: this zone has active sessions. Finish them first.',
+    'confirm.tableActive': 'Attention: this table has an active session. Finish it first.',
+    'common.cancel': 'Cancel', 'common.delete': 'Delete', 'common.deleted': 'Deleted', 'common.saved': 'Saved',
+    'toast.sessionStarted': 'Session started', 'toast.sessionEnded': 'Session finished', 'toast.sessionCancelled': 'Session cancelled',
+    'repair.hint': 'Temporarily out of service',
+    'cur': 'UZS', 'lang.label': 'Language',
+  },
+  ru: {
+    'login.subtitle': 'Управляйте своей зоной', 'login.username': 'Логин', 'login.usernamePh': 'Введите логин',
+    'login.password': 'Пароль', 'login.passwordPh': 'Введите пароль', 'login.forgot': 'Забыли пароль?',
+    'login.error': 'Неверный логин или пароль', 'login.btn': 'Войти', 'login.btnBusy': 'Вход...',
+    'login.or': 'или', 'login.demo': 'Демо-вход: admin / 1234', 'login.secure': 'Безопасная и защищённая система',
+    'login.demoToast': 'Демо-версия: пароль — 1234',
+    'app.title': 'Основной зал', 'search.tablePh': 'Название стола...',
+    'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые', 'filter.repair': 'На ремонте',
+    'home.empty': 'Столы ещё не добавлены', 'home.firstTable': 'Добавить первый стол',
+    'nav.home': 'Главная', 'nav.zones': 'Зоны', 'nav.products': 'Товары', 'nav.profile': 'Профиль',
+    'zones.title': 'Зоны', 'zones.add': '+ Добавить новую зону', 'zones.empty': 'Зон ещё нет — добавьте первую',
+    'zones.tables': 'стол.', 'zones.statusBusy': 'Занят', 'zones.statusFree': 'Свободен', 'zones.addTable': 'Добавить новый стол',
+    'products.title': 'Товары', 'products.add': '+ Добавить новый товар', 'products.empty': 'Сначала добавьте зону',
+    'products.none': 'Товаров ещё нет',
+    'profile.title': 'Профиль', 'profile.role': 'Владелец', 'profile.logout': 'Выйти', 'profile.edit': 'Редактирование профиля',
+    'profile.name': 'Имя', 'profile.login': 'Логин', 'profile.nameLoginReq': 'Введите имя и логин',
+    'profile.logoutTitle': 'Выйти из системы?', 'profile.logoutBtn': 'Выйти',
+    'modal.editZone': 'Редактирование зоны', 'modal.newZone': 'Новая зона', 'modal.zoneName': 'Название зоны', 'modal.zonePh': 'Напр.: Основной зал',
+    'modal.editTable': 'Редактирование стола', 'modal.newTable': 'Новый стол', 'modal.tableName': 'Название стола', 'modal.tablePh': 'Напр.: Стол 07',
+    'modal.tariff': 'Тариф за час', 'modal.tariffPh': 'Напр.: 25 000',
+    'modal.editProduct': 'Редактирование товара', 'modal.newProduct': 'Новый товар', 'modal.prodName': 'Название', 'modal.prodNamePh': 'Напр.: Зелёный чай',
+    'modal.prodPrice': 'Цена', 'modal.prodPricePh': 'Напр.: 7 000',
+    'modal.save': 'Сохранить', 'modal.delete': 'Удалить', 'modal.deleteZone': 'Удалить зону', 'modal.deleteTable': 'Удалить стол', 'modal.deleteProduct': 'Удалить товар',
+    'err.required': 'Это поле обязательно', 'err.number': 'Введите корректное число', 'err.rate': 'Введите корректную цену',
+    'start.title': 'Начать сессию', 'start.stopwatch': 'Секундомер', 'start.timer': 'Таймер',
+    'start.duration': 'Установить длительность', 'start.minutes': 'мин', 'start.hourly': 'Тариф за час', 'start.btn': 'Начать сессию',
+    'time.hour': 'ч', 'time.min': 'мин',
+    'panel.addProduct': 'Добавить товар', 'panel.searchPh': 'Поиск товаров...', 'panel.noProduct': 'Товары не найдены',
+    'panel.order': 'Текущий заказ', 'panel.done': 'Готово', 'panel.edit': 'Изменить',
+    'panel.sessionTime': 'Время сессии', 'panel.tariff': 'Тариф', 'panel.perHour': '/ час', 'panel.total': 'Итого',
+    'panel.finish': 'Завершить и оплатить', 'panel.cancelSession': 'Отменить сессию',
+    'panel.overtime': 'Дополнительное время', 'panel.timeLeft': 'Осталось времени', 'panel.timePassed': 'Прошло времени',
+    'panel.active': 'Активна', 'panel.ending': 'Скоро закончится', 'panel.timeOver': 'Время вышло', 'panel.dona': '/ шт',
+    'dialog.add': 'Добавить', 'dialog.added': 'добавлен',
+    'finish.title': 'Завершить сессию?', 'finish.tableTime': 'Время стола', 'finish.products': 'Товары', 'finish.total': 'Итого', 'finish.confirm': 'Подтвердить',
+    'cancel.title': 'Отменить сессию?', 'cancel.warn': 'Это действие необратимо. Сессия будет удалена.',
+    'cancel.no': 'Нет, назад', 'cancel.yes': 'Да, отменить',
+    'confirm.deleteTitle': ' удалить?', 'confirm.irreversible': 'Это действие нельзя отменить.',
+    'confirm.zoneActive': 'Внимание: в этой зоне есть активные сессии. Сначала завершите их.',
+    'confirm.tableActive': 'Внимание: на этом столе есть активная сессия. Сначала завершите её.',
+    'common.cancel': 'Отмена', 'common.delete': 'Удалить', 'common.deleted': 'Удалено', 'common.saved': 'Сохранено',
+    'toast.sessionStarted': 'Сессия началась', 'toast.sessionEnded': 'Сессия завершена', 'toast.sessionCancelled': 'Сессия отменена',
+    'repair.hint': 'Временно выведен из эксплуатации',
+    'cur': 'сум', 'lang.label': 'Язык',
+  },
+};
+let currentLang = localStorage.getItem('zona-lang') || 'uz';
+const cur = () => I18N[currentLang]['cur'];
+const t = k => (I18N[currentLang] && I18N[currentLang][k]) || I18N.uz[k] || k;
+
+function applyStaticLang() {
+  $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  $$('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+}
+
+function setLang(l) {
+  currentLang = l;
+  localStorage.setItem('zona-lang', l);
+  document.documentElement.lang = l;
+  applyStaticLang();
+  const sel = $('#lang-select');
+  if (sel) sel.value = l;
+  renderHome(); renderZones(); renderProducts();
+  if (currentPanel && sessions[currentPanel]) renderPanel();
+  if (startTable) renderStartSheet();
+}
+
 /* Ikonalar shrifti yuklanishini kutish — aks holda so'zlar ko'rinib qoladi (FOUT) */
 if (document.fonts && document.fonts.load) {
   document.fonts.load('16px "Material Symbols Outlined"')
@@ -51,7 +210,7 @@ sessions.t6 = { mode: 'countdown', tableId: 't6', start: NOW - (3600 + 452) * 10
 /* Statistika — olib tashlandi */
 
 /* ---------------- Yordamchilar ---------------- */
-const fmtMoney = n => Math.round(n).toLocaleString('en-US') + ' so\'m';
+const fmtMoney = n => Math.round(n).toLocaleString('en-US') + ' ' + cur();
 const pad = n => String(n).padStart(2, '0');
 
 /* Narx inputlar uchun: "1 000", "23 000", "4 500 000" */
@@ -71,9 +230,9 @@ function fmtTime(sec) {
 }
 function fmtDur(sec) {
   const m = Math.round(sec / 60);
-  if (m < 60) return `${m} daqiqa`;
+  if (m < 60) return `${m} ${t('time.min')}`;
   const h = Math.floor(m / 60), r = m % 60;
-  return r ? `${h} soat ${r} daqiqa` : `${h} soat`;
+  return r ? `${h} ${t('time.hour')} ${r} ${t('time.min')}` : `${h} ${t('time.hour')}`;
 }
 const findZone = tid => state.zones.find(z => z.tables.some(t => t.id === tid));
 const findTable = tid => state.zones.flatMap(z => z.tables).find(t => t.id === tid);
@@ -125,7 +284,7 @@ function openSheet(html) {
   $('#sheet').hidden = false;
   $$('.sheet-close').forEach(b => b.addEventListener('click', closeSheet));
 }
-function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelSearch = ''; }
+function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelSearch = ''; startTable = null; }
 function openAlert(html) { $('#alert-body').innerHTML = html; $('#alert').hidden = false; }
 function closeAlert() { $('#alert').hidden = true; }
 
@@ -158,18 +317,18 @@ loginForm.addEventListener('submit', e => {
   const u = $('#login-username').value.trim();
   const p = $('#login-password').value;
   let ok = true;
-  if (!u) { showFieldError('login-username', 'Bu maydon to\'ldirilishi shart'); ok = false; }
-  if (!p) { showFieldError('login-password', 'Bu maydon to\'ldirilishi shart'); ok = false; }
+  if (!u) { showFieldError('login-username', t('err.required')); ok = false; }
+  if (!p) { showFieldError('login-password', t('err.required')); ok = false; }
   if (!ok) return;
 
   const btn = $('#login-btn');
   btn.disabled = true;
-  btn.querySelector('.btn-label').textContent = 'Kirish...';
+  btn.querySelector('.btn-label').textContent = t('login.btnBusy');
   btn.querySelector('.spinner').hidden = false;
 
   setTimeout(() => {
     btn.disabled = false;
-    btn.querySelector('.btn-label').textContent = 'Kirish';
+    btn.querySelector('.btn-label').textContent = t('login.btn');
     btn.querySelector('.spinner').hidden = true;
     if (u === 'admin' && p === '1234') {
       $('#view-login').hidden = true;
@@ -185,7 +344,7 @@ loginForm.addEventListener('submit', e => {
 });
 
 $('#forgot-link').addEventListener('click', () => {
-  toast('Bu demo versiya: parol — 1234');
+  toast(t('login.demoToast'));
 });
 
 $('#demo-btn').addEventListener('click', () => {
@@ -220,49 +379,49 @@ let searchQuery = '';
 
 const RING_C = r => 2 * Math.PI * r;
 
-function cardFor(t) {
-  const isTt = t.type === 'tennis';
+function cardFor(tab) {
+  const isTt = tab.type === 'tennis';
   const coverCls = isTt ? 'card-cover card-cover--tt' : 'card-cover';
   const cardCls = isTt ? ' card--tt' : '';
-  if (t.repair) {
+  if (tab.repair) {
     return `
       <div class="table-card card-repair${cardCls}">
         <div class="${coverCls}"></div>
         <div class="card-body">
           <div class="card-info">
-            <span class="table-name">${t.name}</span>
-            <span class="free-hint">Xizmatdan vaqtincha chiqarilgan</span>
+            <span class="table-name">${tab.name}</span>
+            <span class="free-hint">${t('repair.hint')}</span>
           </div>
         </div>
       </div>`;
   }
-  const s = sessions[t.id];
+  const s = sessions[tab.id];
   if (!s) {
     return `
-      <div class="table-card card-free${cardCls}" data-action="start" data-tid="${t.id}">
+      <div class="table-card card-free${cardCls}" data-action="start" data-tid="${tab.id}">
         <div class="${coverCls}"></div>
         <div class="card-body">
-          <span class="table-name table-name--lg">${t.name}</span>
+          <span class="table-name table-name--lg">${tab.name}</span>
         </div>
       </div>`;
   }
   const st = statusOf(s);
   const sec = sessionSeconds(s);
   const cls = st === 'ending' ? 'card-ending' : 'card-busy';
-  const label = st === 'expired' ? 'Qo\'shimcha vaqt' : s.mode === 'countdown' ? 'Qolgan vaqt' : 'O\'tgan vaqt';
+  const label = st === 'expired' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
   const timerText = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
   return `
-    <div class="table-card ${cls}${cardCls}" data-action="panel" data-tid="${t.id}">
+    <div class="table-card ${cls}${cardCls}" data-action="panel" data-tid="${tab.id}">
       <div class="${coverCls}"></div>
       <div class="card-body">
         <div class="card-info">
-          <span class="table-name">${t.name}</span>
-          <span class="card-price" data-price="${t.id}">${fmtMoney(sessionPrice(s))}</span>
+          <span class="table-name">${tab.name}</span>
+          <span class="card-price" data-price="${tab.id}">${fmtMoney(sessionPrice(s))}</span>
         </div>
         <div class="timer-wrap">
           ${s.mode === 'countdown' && st !== 'expired'
-            ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${t.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="6" stroke="#dee4e1"/></svg>` : ''}
-          <div class="timer" data-timer="${t.id}">${timerText}</div>
+            ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${tab.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="6" stroke="#dee4e1"/></svg>` : ''}
+          <div class="timer" data-timer="${tab.id}">${timerText}</div>
           <span class="timer-label">${label}</span>
         </div>
       </div>
@@ -313,118 +472,104 @@ $('#table-grid').addEventListener('click', e => {
   else openPanel(t);
 });
 
-$('#more-btn').addEventListener('click', () => {
-  const activeCount = Object.keys(sessions).length;
-  const total = state.zones.reduce((n, z) => n + z.tables.length, 0);
+$('#lang-select').addEventListener('change', e => setLang(e.target.value));
+
+/* ---------------- SESSIYANI BOSHLASH OYNASI ---------------- */
+let startTable = null;
+let startMode = 'stopwatch';
+let startDuration = 2700;
+
+function openStartSheet(t) {
+  startTable = t;
+  startMode = 'stopwatch';
+  startDuration = 2700;
+  renderStartSheet();
+}
+
+function renderStartSheet() {
+  const tab = startTable;
+  if (!tab) return;
+  const zone = findZone(tab.id);
+  const mode = startMode;
+  const duration = startDuration;
+
   openSheet(`
     <div class="sheet-handle"></div>
     <div class="sheet-head">
       <div>
-        <div class="sheet-title">Asosiy Floor</div>
-        <div class="sheet-sub">Filial ma'lumotlari</div>
+        <div class="sheet-title">${t('start.title')}</div>
+        <div class="sheet-sub">${tab.name} · ${zone.name}</div>
       </div>
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="sheet-content">
-      <div class="bento">
-        <div class="bento-card"><p class="bento-label">Stollar</p><p class="bento-value">${total} ta</p></div>
-        <div class="bento-card"><p class="bento-label">Faol sessiyalar</p><p class="bento-value">${activeCount} ta</p></div>
+      <div class="segmented" id="mode-seg">
+        <button class="seg-btn ${mode === 'stopwatch' ? 'active' : ''}" data-mode="stopwatch">${t('start.stopwatch')}</button>
+        <button class="seg-btn ${mode === 'countdown' ? 'active' : ''}" data-mode="countdown">${t('start.timer')}</button>
       </div>
-      <div class="sheet-actions" style="border-top:none;padding:16px 0 0">
-        <button class="btn btn--primary btn--block" id="menu-zones"><span class="material-symbols-outlined">grid_view</span> Zonalar</button>
-        <button class="btn btn--ghost btn--block" id="menu-products"><span class="material-symbols-outlined">local_bar</span> Mahsulotlar</button>
+
+      ${mode === 'countdown' ? `
+        <div class="sheet-section">
+          <div class="sheet-section-title">${t('start.duration')}</div>
+          <div class="duration-stepper">
+            <button class="step-btn" data-step="-900"><span class="material-symbols-outlined">remove</span></button>
+            <div class="duration-val">${Math.round(duration / 60)} <span>${t('start.minutes')}</span></div>
+            <button class="step-btn" data-step="900"><span class="material-symbols-outlined">add</span></button>
+          </div>
+          <div class="quick-chips">
+            <button class="chip" data-add="900">+15 ${t('start.minutes')}</button>
+            <button class="chip" data-add="1800">+30 ${t('start.minutes')}</button>
+            <button class="chip" data-add="3600">+1 ${t('time.hour')}</button>
+          </div>
+        </div>` : ''}
+
+      <div class="sheet-section">
+        <div class="sheet-section-title">${t('start.hourly')} (${cur()})</div>
+        <input id="start-rate" type="text" inputmode="numeric" value="${fmtIn(tab.tariff)}" class="rate-input" aria-label="${t('start.hourly')}">
+        <span class="field-error" id="err-rate"></span>
       </div>
     </div>
+    <div class="sheet-actions">
+      <button class="btn btn--primary btn--block btn--lg" id="start-confirm">
+        <span class="material-symbols-outlined">play_arrow</span> ${t('start.btn')}
+      </button>
+    </div>
   `);
-  $('#menu-zones').addEventListener('click', () => { closeSheet(); showView('zones'); });
-  $('#menu-products').addEventListener('click', () => { closeSheet(); showView('products'); });
-});
 
-/* ---------------- SESSIYANI BOSHLASH OYNASI ---------------- */
-function openStartSheet(t) {
-  const zone = findZone(t.id);
-  let mode = 'stopwatch';
-  let duration = 2700;
+  bindMoneyInput($('#start-rate'));
 
-  const render = () => {
-    openSheet(`
-      <div class="sheet-handle"></div>
-      <div class="sheet-head">
-        <div>
-          <div class="sheet-title">Sessiyani boshlash</div>
-          <div class="sheet-sub">${t.name} · ${zone.name}</div>
-        </div>
-        <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-      </div>
-      <div class="sheet-content">
-        <div class="segmented" id="mode-seg">
-          <button class="seg-btn ${mode === 'stopwatch' ? 'active' : ''}" data-mode="stopwatch">Sekundomer</button>
-          <button class="seg-btn ${mode === 'countdown' ? 'active' : ''}" data-mode="countdown">Taymer</button>
-        </div>
-
-        ${mode === 'countdown' ? `
-          <div class="sheet-section">
-            <div class="sheet-section-title">Davomiylikni belgilash</div>
-            <div class="duration-stepper">
-              <button class="step-btn" data-step="-900"><span class="material-symbols-outlined">remove</span></button>
-              <div class="duration-val">${Math.round(duration / 60)} <span>daqiqa</span></div>
-              <button class="step-btn" data-step="900"><span class="material-symbols-outlined">add</span></button>
-            </div>
-            <div class="quick-chips">
-              <button class="chip" data-add="900">+15d</button>
-              <button class="chip" data-add="1800">+30d</button>
-              <button class="chip" data-add="3600">+1soat</button>
-            </div>
-          </div>` : ''}
-
-        <div class="sheet-section">
-          <div class="sheet-section-title">Soatlik narx (so'm)</div>
-          <input id="start-rate" type="text" inputmode="numeric" value="${fmtIn(t.tariff)}" class="rate-input" aria-label="Soatlik narx">
-          <span class="field-error" id="err-rate"></span>
-        </div>
-      </div>
-      <div class="sheet-actions">
-        <button class="btn btn--primary btn--block btn--lg" id="start-confirm">
-          <span class="material-symbols-outlined">play_arrow</span> Sessiyani boshlash
-        </button>
-      </div>
-    `);
-
-    bindMoneyInput($('#start-rate'));
-
-    $$('#mode-seg .seg-btn').forEach(b => b.addEventListener('click', () => { mode = b.dataset.mode; render(); }));
-    $$('[data-step]').forEach(b => b.addEventListener('click', () => {
-      duration = Math.min(172800, Math.max(900, duration + +b.dataset.step));
-      render();
-    }));
-    $$('[data-add]').forEach(b => b.addEventListener('click', () => {
-      duration = Math.min(172800, duration + +b.dataset.add);
-      render();
-    }));
-    $('#start-confirm').addEventListener('click', () => {
-      const rateInput = $('#start-rate');
-      const rate = parseIn(rateInput.value);
-      const errEl = $('#err-rate');
-      if (!rateInput.value || isNaN(rate) || rate <= 0) {
-        rateInput.classList.add('input-error');
-        errEl.textContent = 'To\'g\'ri narx kiriting';
-        return;
-      }
-      rateInput.classList.remove('input-error');
-      errEl.textContent = '';
-      sessions[t.id] = { mode, tableId: t.id, rate, start: Date.now(), duration: mode === 'countdown' ? duration : undefined, products: [] };
-      lastStatus[t.id] = statusOf(sessions[t.id]);
-      closeSheet();
-      renderHome(); renderZones();
-      toast('Sessiya boshlandi');
-    });
-  };
-  render();
+  $$('#mode-seg .seg-btn').forEach(b => b.addEventListener('click', () => { startMode = b.dataset.mode; renderStartSheet(); }));
+  $$('[data-step]').forEach(b => b.addEventListener('click', () => {
+    startDuration = Math.min(172800, Math.max(900, startDuration + +b.dataset.step));
+    renderStartSheet();
+  }));
+  $$('[data-add]').forEach(b => b.addEventListener('click', () => {
+    startDuration = Math.min(172800, startDuration + +b.dataset.add);
+    renderStartSheet();
+  }));
+  $('#start-confirm').addEventListener('click', () => {
+    const rateInput = $('#start-rate');
+    const rate = parseIn(rateInput.value);
+    const errEl = $('#err-rate');
+    if (!rateInput.value || isNaN(rate) || rate <= 0) {
+      rateInput.classList.add('input-error');
+      errEl.textContent = t('err.rate');
+      return;
+    }
+    rateInput.classList.remove('input-error');
+    errEl.textContent = '';
+    sessions[tab.id] = { mode: startMode, tableId: tab.id, rate, start: Date.now(), duration: startMode === 'countdown' ? startDuration : undefined, products: [] };
+    lastStatus[tab.id] = statusOf(sessions[tab.id]);
+    closeSheet();
+    startTable = null;
+    renderHome(); renderZones();
+    toast(t('toast.sessionStarted'));
+  });
 }
 
 /* ---------------- FAOL SESSIYA PANELI ---------------- */
-function openPanel(t) {
-  currentPanel = t.id;
+function openPanel(tab) {
+  currentPanel = tab.id;
   panelEdit = false;
   renderPanel();
 }
@@ -434,27 +579,27 @@ const PRODUCT_ICONS = {};
 function renderPanel() {
   const s = sessions[currentPanel];
   if (!s) { closeSheet(); return; }
-  const t = findTable(currentPanel);
+  const tab = findTable(currentPanel);
   const zone = findZone(currentPanel);
   const st = statusOf(s);
   const sec = sessionSeconds(s);
   const timePrice = sessionPrice(s);
   const total = timePrice + productSum(s);
 
-  const label = st === 'expired' ? 'Qo\'shimcha vaqt' : s.mode === 'countdown' ? 'Qolgan vaqt' : 'O\'tgan vaqt';
+  const label = st === 'expired' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
   const orbTimer = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
   const orbCls = st === 'ending' ? 'card-ending' : '';
-  const badge = st === 'expired' ? 'Vaqt tugadi' : st === 'ending' ? 'Yaqin tugaydi' : 'Faol';
+  const badge = st === 'expired' ? t('panel.timeOver') : st === 'ending' ? t('panel.ending') : t('panel.active');
   const badgeCls = st === 'ending' ? 'badge--ending' : 'badge--busy';
 
   const timeSub = s.mode === 'countdown' ? `(${fmtDur(s.duration)})` : `(${fmtDur(sec.elapsed)})`;
-  const rate = s.rate ?? t.tariff;
+  const rate = s.rate ?? tab.tariff;
   const timeRow = `
     <div class="order-row order-row--time">
-      <div class="order-name">Sessiya vaqti ${timeSub}
-        <span class="sub">Tarif: ${fmtMoney(rate)} / soat</span>
+      <div class="order-name">${t('panel.sessionTime')} ${timeSub}
+        <span class="sub">${t('panel.tariff')}: ${fmtMoney(rate)} ${t('panel.perHour')}</span>
       </div>
-      <div class="order-amount" data-price="${t.id}">${fmtMoney(timePrice)}</div>
+      <div class="order-amount" data-price="${tab.id}">${fmtMoney(timePrice)}</div>
     </div>`;
 
   const prodRows = s.products.map(e => {
@@ -473,7 +618,7 @@ function renderPanel() {
               <span class="qty">${e.qty}</span>
               <button data-inc="${p.id}">+</button>
             </div>
-            <button class="add-mini" data-remove="${p.id}" title="O'chirish" style="background:var(--error-container);color:var(--on-error-container)"><span class="material-symbols-outlined">delete</span></button>
+            <button class="add-mini" data-remove="${p.id}" title="${t('common.delete')}" style="background:var(--error-container);color:var(--on-error-container)"><span class="material-symbols-outlined">delete</span></button>
           </div>` : `<span class="order-qty">×${e.qty}</span>`}
       </div>`;
   }).join('');
@@ -482,8 +627,8 @@ function renderPanel() {
     <div class="sheet-handle"></div>
     <div class="sheet-head">
       <div>
-        <div class="sheet-title">${t.name}</div>
-        <div class="sheet-sub">${zone.name} · ${fmtMoney(t.tariff)}/soat</div>
+        <div class="sheet-title">${tab.name}</div>
+        <div class="sheet-sub">${zone.name} · ${fmtMoney(tab.tariff)} ${t('panel.perHour')}</div>
       </div>
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
@@ -493,45 +638,45 @@ function renderPanel() {
         <span class="orb-badge ${badgeCls}">${badge}</span>
         <div class="timer-orb">
           ${s.mode === 'countdown' && st !== 'expired'
-            ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${t.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="4" stroke="#dee4e1"/></svg>` : ''}
+            ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${tab.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="4" stroke="#dee4e1"/></svg>` : ''}
           <div class="orb-inner">
-            <div class="orb-timer" data-timer="${t.id}">${orbTimer}</div>
-            <div class="orb-label" data-orb-label="${t.id}">${label}</div>
+            <div class="orb-timer" data-timer="${tab.id}">${orbTimer}</div>
+            <div class="orb-label" data-orb-label="${tab.id}">${label}</div>
           </div>
         </div>
         ${s.mode === 'countdown' ? `
           <div class="orb-btns">
-            <button class="btn btn--ghost btn--sm" data-extend="900">+15 daq</button>
-            <button class="btn btn--ghost btn--sm" data-extend="1800">+30 daq</button>
+            <button class="btn btn--ghost btn--sm" data-extend="900">+15 ${t('start.minutes')}</button>
+            <button class="btn btn--ghost btn--sm" data-extend="1800">+30 ${t('start.minutes')}</button>
           </div>` : ''}
       </div>
 
       <div class="sheet-section">
-        <div class="sheet-section-title">Mahsulot qo'shish</div>
+        <div class="sheet-section-title">${t('panel.addProduct')}</div>
         <div class="search-box">
           <span class="material-symbols-outlined">search</span>
-          <input id="prod-search" type="text" class="search-input" placeholder="Mahsulot qidirish..." autocomplete="off" value="${panelSearch}">
+          <input id="prod-search" type="text" class="search-input" placeholder="${t('panel.searchPh')}" autocomplete="off" value="${panelSearch}">
         </div>
         <div class="prod-pick-list" id="prod-search-results">${panelSearchHTML(zone)}</div>
       </div>
 
       <div class="sheet-section">
         <div class="sheet-section-title">
-          Joriy buyurtma
+          ${t('panel.order')}
           ${panelEdit
-            ? '<button class="link" id="done-edit">Bajarildi</button>'
-            : '<button class="link" id="toggle-edit"><span class="material-symbols-outlined" style="font-size:16px">edit</span> Tahrirlash</button>'}
+            ? `<button class="link" id="done-edit">${t('panel.done')}</button>`
+            : `<button class="link" id="toggle-edit"><span class="material-symbols-outlined" style="font-size:16px">edit</span> ${t('panel.edit')}</button>`}
         </div>
         <div class="order-list">${timeRow}${prodRows}</div>
         <div class="order-total">
-          <span>Jami:</span><b data-total-price="${t.id}">${fmtMoney(total)}</b>
+          <span>${t('panel.total')}:</span><b data-total-price="${tab.id}">${fmtMoney(total)}</b>
         </div>
       </div>
     </div>
 
     <div class="sheet-actions">
-      <button class="btn btn--danger btn--block btn--lg" id="finish-btn">Sessiyani yakunlash va to'lash</button>
-      <button class="btn btn--ghost btn--block" id="cancel-btn">Sessiyani bekor qilish</button>
+      <button class="btn btn--danger btn--block btn--lg" id="finish-btn">${t('panel.finish')}</button>
+      <button class="btn btn--ghost btn--block" id="cancel-btn">${t('panel.cancelSession')}</button>
     </div>
   `);
 
@@ -575,7 +720,7 @@ function panelSearchHTML(zone) {
   const list = q
     ? zone.products.filter(p => p.name.toLowerCase().includes(q)).sort((a, b) => a.name.localeCompare(b.name))
     : zone.products.slice().sort((a, b) => b.sold - a.sold).slice(0, 4);
-  if (!list.length) return '<div class="prod-pick-empty">Mahsulot topilmadi</div>';
+  if (!list.length) return '<div class="prod-pick-empty">' + t('panel.noProduct') + '</div>';
   return list.map(p => `
     <button class="prod-pick" data-pick="${p.id}">
       <span class="quick-icon"><span class="material-symbols-outlined">${p.icon || 'local_bar'}</span></span>
@@ -596,14 +741,14 @@ function openProductDialog(p) {
   openAlert(`
     <button class="alert-close" id="qty-close"><span class="material-symbols-outlined">close</span></button>
     <div class="alert-title">${p.name}</div>
-    <div class="alert-sub">${fmtMoney(p.price)} / dona</div>
+    <div class="alert-sub">${fmtMoney(p.price)} ${t('panel.dona')}</div>
     <div class="qty-stepper">
       <button class="qty-btn" id="qty-dec">−</button>
       <span class="qty-num" id="qty-num">1</span>
       <button class="qty-btn" id="qty-inc">+</button>
     </div>
     <div class="alert-btns">
-      <button class="btn btn--primary" id="qty-add">Qo'shish</button>
+      <button class="btn btn--primary" id="qty-add">${t('dialog.add')}</button>
     </div>
   `);
   $('#qty-close').addEventListener('click', closeAlert);
@@ -615,7 +760,7 @@ function openProductDialog(p) {
   });
   $('#qty-add').addEventListener('click', () => {
     addToSession(currentPanel, p.id, dialogQty);
-    toast(`${p.name} qo'shildi`);
+    toast(`${p.name} ${t('dialog.added')}`);
     closeAlert();
     renderPanel();
   });
@@ -625,19 +770,18 @@ function openProductDialog(p) {
 function finishConfirm() {
   const s = sessions[currentPanel];
   if (!s) return;
-  const t = findTable(currentPanel);
   const timePrice = sessionPrice(s);
   const prod = productSum(s);
   openAlert(`
-    <div class="alert-title">Sessiyani yakunlaysizmi?</div>
+    <div class="alert-title">${t('finish.title')}</div>
     <div class="alert-breakdown">
-      <div class="ab-row"><span>Stol vaqti</span><b>${fmtMoney(timePrice)}</b></div>
-      <div class="ab-row"><span>Mahsulotlar</span><b>${fmtMoney(prod)}</b></div>
-      <div class="ab-total"><span>Jami</span><span>${fmtMoney(timePrice + prod)}</span></div>
+      <div class="ab-row"><span>${t('finish.tableTime')}</span><b>${fmtMoney(timePrice)}</b></div>
+      <div class="ab-row"><span>${t('finish.products')}</span><b>${fmtMoney(prod)}</b></div>
+      <div class="ab-total"><span>${t('finish.total')}</span><span>${fmtMoney(timePrice + prod)}</span></div>
     </div>
     <div class="alert-btns">
-      <button class="btn btn--ghost" id="abort-finish">Bekor qilish</button>
-      <button class="btn btn--primary" id="ok-finish">Tasdiqlash</button>
+      <button class="btn btn--ghost" id="abort-finish">${t('common.cancel')}</button>
+      <button class="btn btn--primary" id="ok-finish">${t('finish.confirm')}</button>
     </div>
   `);
   $('#abort-finish').addEventListener('click', closeAlert);
@@ -647,7 +791,7 @@ function finishConfirm() {
     delete lastStatus[currentPanel];
     closeAlert(); closeSheet();
     renderHome(); renderZones();
-    toast(`Sessiya yakunlandi — ${fmtMoney(sum)}`);
+    toast(`${t('toast.sessionEnded')} — ${fmtMoney(sum)}`);
   });
 }
 
@@ -655,11 +799,11 @@ function cancelConfirm() {
   const s = sessions[currentPanel];
   if (!s) return;
   openAlert(`
-    <div class="alert-title">Sessiyani bekor qilasizmi?</div>
-    <p class="alert-text alert-text--warn">Bu amal qaytarilmaydi. Sessiya o'chiriladi va hisoblanmaydi.</p>
+    <div class="alert-title">${t('cancel.title')}</div>
+    <p class="alert-text alert-text--warn">${t('cancel.warn')}</p>
     <div class="alert-btns">
-      <button class="btn btn--ghost" id="abort-cancel">Yo'q, qaytish</button>
-      <button class="btn btn--danger" id="ok-cancel">Ha, bekor qilish</button>
+      <button class="btn btn--ghost" id="abort-cancel">${t('cancel.no')}</button>
+      <button class="btn btn--danger" id="ok-cancel">${t('cancel.yes')}</button>
     </div>
   `);
   $('#abort-cancel').addEventListener('click', closeAlert);
@@ -668,23 +812,23 @@ function cancelConfirm() {
     delete lastStatus[currentPanel];
     closeAlert(); closeSheet();
     renderHome(); renderZones();
-    toast('Sessiya bekor qilindi');
+    toast(t('toast.sessionCancelled'));
   });
 }
 
 /* ---------------- ZONALAR ---------------- */
 let openZoneId = 'z1';
 
-function zoneStatus(t) {
-  return sessions[t.id]
-    ? { cls: 'busy', txt: 'Band' }
-    : { cls: 'free', txt: 'Bo\'sh' };
+function zoneStatus(tab) {
+  return sessions[tab.id]
+    ? { cls: 'busy', txt: t('zones.statusBusy') }
+    : { cls: 'free', txt: t('zones.statusFree') };
 }
 
 function renderZones() {
   if (!state.zones.length) {
     $('#zone-tabs').innerHTML = '';
-    $('#zones-table-list').innerHTML = '<div class="empty-state"><p>Hali zona yo\'q — birinchi zonani qo\'shing</p></div>';
+    $('#zones-table-list').innerHTML = '<div class="empty-state"><p>' + t('zones.empty') + '</p></div>';
     return;
   }
   if (!state.zones.some(z => z.id === openZoneId)) openZoneId = state.zones[0].id;
@@ -701,21 +845,21 @@ function renderZones() {
     <div class="zone-block" style="margin-top:14px">
       <div class="zone-head">
         <span class="zone-name">${zone.name}</span>
-        <span class="zone-count">${zone.tables.length} stol</span>
-        <button class="icon-btn" data-edit-zone="${zone.id}" title="Tahrirlash"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
+        <span class="zone-count">${zone.tables.length} ${t('zones.tables')}</span>
+        <button class="icon-btn" data-edit-zone="${zone.id}" title="${t('panel.edit')}"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
       </div>
       <div class="zone-body" style="display:block;padding:0 18px 16px">
-        ${zone.tables.map(t => {
-          const s = zoneStatus(t);
+        ${zone.tables.map(tab => {
+          const s = zoneStatus(tab);
           return `
             <div class="table-row">
               <span class="status-dot ${s.cls}"></span>
-              <span class="table-row-name">${t.name}</span>
+              <span class="table-row-name">${tab.name}</span>
               <span class="status-text ${s.cls}">${s.txt}</span>
-              <button class="icon-btn" data-edit-table="${t.id}" title="Tahrirlash" style="width:36px;height:36px"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
+              <button class="icon-btn" data-edit-table="${tab.id}" title="${t('panel.edit')}" style="width:36px;height:36px"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
             </div>`;
         }).join('')}
-        <button class="link-add" data-add-table="${zone.id}"><span class="material-symbols-outlined" style="font-size:18px">add</span> Yangi stol qo'shish</button>
+        <button class="link-add" data-add-table="${zone.id}"><span class="material-symbols-outlined" style="font-size:18px">add</span> ${t('zones.addTable')}</button>
       </div>
     </div>`;
 }
@@ -743,37 +887,37 @@ function openZoneModal(z) {
   openSheet(`
     <div class="sheet-handle"></div>
     <div class="sheet-head">
-      <div class="sheet-title">${isEdit ? 'Zonani tahrirlash' : 'Yangi zona'}</div>
+      <div class="sheet-title">${isEdit ? t('modal.editZone') : t('modal.newZone')}</div>
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="sheet-content">
       <div class="field">
-        <label>Zona nomi</label>
-        <input id="zone-name" value="${isEdit ? z.name : ''}" placeholder="Masalan: Asosiy floor">
+        <label>${t('modal.zoneName')}</label>
+        <input id="zone-name" value="${isEdit ? z.name : ''}" placeholder="${t('modal.zonePh')}">
         <span class="field-error"></span>
       </div>
-      <button class="btn btn--primary btn--block" id="save-zone">Saqlash</button>
-      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-zone" style="margin-top:10px">Zonani o'chirish</button>` : ''}
+      <button class="btn btn--primary btn--block" id="save-zone">${t('modal.save')}</button>
+      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-zone" style="margin-top:10px">${t('modal.deleteZone')}</button>` : ''}
     </div>
   `);
   const input = $('#zone-name');
   $('#save-zone').addEventListener('click', () => {
     const name = input.value.trim();
-    if (!name) { input.classList.add('input-error'); input.nextElementSibling.textContent = 'Bu maydon to\'ldirilishi shart'; return; }
+    if (!name) { input.classList.add('input-error'); input.nextElementSibling.textContent = t('err.required'); return; }
     if (isEdit) z.name = name;
     else state.zones.push({ id: uid(), name, tables: [], products: [] });
     closeSheet(); renderHome(); renderZones(); renderProducts();
-    toast('Saqlandi');
+    toast(t('common.saved'));
   });
   if (isEdit) $('#del-zone').addEventListener('click', () => {
     const active = zoneHasActiveSession(z);
     openAlert(`
-      <div class="alert-title">${z.name}ni o'chirasizmi?</div>
-      <p class="alert-text">Bu amalni ortga qaytarib bo'lmaydi.</p>
-      ${active ? '<div class="alert-warn-box alert-warn-box--danger">Diqqat: bu zonada faol sessiya bor. Avval sessiyalarni yakunlang.</div>' : ''}
+      <div class="alert-title">'${z.name}'${t('confirm.deleteTitle')}</div>
+      <p class="alert-text">${t('confirm.irreversible')}</p>
+      ${active ? `<div class="alert-warn-box alert-warn-box--danger">${t('confirm.zoneActive')}</div>` : ''}
       <div class="alert-btns">
-        <button class="btn btn--ghost" id="cancel-del">Bekor qilish</button>
-        <button class="btn btn--danger" id="confirm-del" ${active ? 'disabled' : ''}>O'chirish</button>
+        <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
+        <button class="btn btn--danger" id="confirm-del" ${active ? 'disabled' : ''}>${t('common.delete')}</button>
       </div>
     `);
     $('#cancel-del').addEventListener('click', closeAlert);
@@ -782,21 +926,21 @@ function openZoneModal(z) {
       if (openZoneId === z.id) openZoneId = state.zones[0] ? state.zones[0].id : null;
       closeAlert(); closeSheet();
       renderHome(); renderZones(); renderProducts();
-      toast('O\'chirildi');
+      toast(t('common.deleted'));
     });
   });
 }
 
-function openTableModal(t, presetZoneId) {
-  const isEdit = !!t;
-  const zone = t ? findZone(t.id) : state.zones.find(x => x.id === presetZoneId) || state.zones[0];
-  let tableType = isEdit ? (t.type || 'billiard') : 'billiard';
+function openTableModal(tab, presetZoneId) {
+  const isEdit = !!tab;
+  const zone = tab ? findZone(tab.id) : state.zones.find(x => x.id === presetZoneId) || state.zones[0];
+  let tableType = isEdit ? (tab.type || 'billiard') : 'billiard';
 
   const render = () => {
     openSheet(`
       <div class="sheet-handle"></div>
       <div class="sheet-head">
-        <div class="sheet-title">${isEdit ? 'Stolni tahrirlash' : 'Yangi stol'}</div>
+        <div class="sheet-title">${isEdit ? t('modal.editTable') : t('modal.newTable')}</div>
         <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
       </div>
       <div class="sheet-content">
@@ -806,17 +950,17 @@ function openTableModal(t, presetZoneId) {
         </div>
         <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${zone.name}</div>
         <div class="field">
-          <label>Stol nomi</label>
-          <input id="table-name" value="${isEdit ? t.name : ''}" placeholder="Masalan: Stol 07">
+          <label>${t('modal.tableName')}</label>
+          <input id="table-name" value="${isEdit ? tab.name : ''}" placeholder="${t('modal.tablePh')}">
           <span class="field-error"></span>
         </div>
         <div class="field">
-          <label>Soatlik tarif (so'm)</label>
-          <input id="table-tariff" type="text" inputmode="numeric" value="${isEdit ? fmtIn(t.tariff) : ''}" placeholder="Masalan: 25 000">
+          <label>${t('modal.tariff')} (${cur()})</label>
+          <input id="table-tariff" type="text" inputmode="numeric" value="${isEdit ? fmtIn(tab.tariff) : ''}" placeholder="${t('modal.tariffPh')}">
           <span class="field-error"></span>
         </div>
-        <button class="btn btn--primary btn--block" id="save-table">Saqlash</button>
-        ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">Stolni o'chirish</button>` : ''}
+        <button class="btn btn--primary btn--block" id="save-table">${t('modal.save')}</button>
+        ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">${t('modal.deleteTable')}</button>` : ''}
       </div>
     `);
 
@@ -824,12 +968,12 @@ function openTableModal(t, presetZoneId) {
       tableType = b.dataset.type;
       render();
     }));
-    bindTableForm(t, zone, isEdit, () => tableType);
+    bindTableForm(tab, zone, isEdit, () => tableType);
   };
   render();
 }
 
-function bindTableForm(t, zone, isEdit, getType) {
+function bindTableForm(tab, zone, isEdit, getType) {
   const nameInput = $('#table-name');
   const tariffInput = $('#table-tariff');
   bindMoneyInput(tariffInput);
@@ -837,35 +981,35 @@ function bindTableForm(t, zone, isEdit, getType) {
     const name = nameInput.value.trim();
     const tariff = parseIn(tariffInput.value);
     let ok = true;
-    if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = 'Bu maydon to\'ldirilishi shart'; ok = false; }
+    if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = t('err.required'); ok = false; }
     else nameInput.classList.remove('input-error');
     if (!tariffInput.value || isNaN(tariff) || tariff < 0) {
-      tariffInput.classList.add('input-error'); tariffInput.nextElementSibling.textContent = 'To\'g\'ri son kiriting'; ok = false;
+      tariffInput.classList.add('input-error'); tariffInput.nextElementSibling.textContent = t('err.number'); ok = false;
     } else tariffInput.classList.remove('input-error');
     if (!ok) return;
-    if (isEdit) { t.name = name; t.tariff = tariff; t.type = getType(); }
+    if (isEdit) { tab.name = name; tab.tariff = tariff; tab.type = getType(); }
     else zone.tables.push({ id: uid(), name, tariff, type: getType() });
     closeSheet(); renderHome(); renderZones();
-    toast('Saqlandi');
+    toast(t('common.saved'));
   });
   if (isEdit) $('#del-table').addEventListener('click', () => {
-    const active = !!sessions[t.id];
+    const active = !!sessions[tab.id];
     openAlert(`
-      <div class="alert-title">${t.name}ni o'chirasizmi?</div>
-      <p class="alert-text">Bu amalni ortga qaytarib bo'lmaydi.</p>
-      ${active ? '<div class="alert-warn-box alert-warn-box--danger">Diqqat: bu stolda faol sessiya bor. Avval sessiyani yakunlang.</div>' : ''}
+      <div class="alert-title">'${tab.name}'${t('confirm.deleteTitle')}</div>
+      <p class="alert-text">${t('confirm.irreversible')}</p>
+      ${active ? `<div class="alert-warn-box alert-warn-box--danger">${t('confirm.tableActive')}</div>` : ''}
       <div class="alert-btns">
-        <button class="btn btn--ghost" id="cancel-del">Bekor qilish</button>
-        <button class="btn btn--danger" id="confirm-del" ${active ? 'disabled' : ''}>O'chirish</button>
+        <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
+        <button class="btn btn--danger" id="confirm-del" ${active ? 'disabled' : ''}>${t('common.delete')}</button>
       </div>
     `);
     $('#cancel-del').addEventListener('click', closeAlert);
     $('#confirm-del').addEventListener('click', () => {
-      zone.tables = zone.tables.filter(x => x.id !== t.id);
-      delete sessions[t.id];
+      zone.tables = zone.tables.filter(x => x.id !== tab.id);
+      delete sessions[tab.id];
       closeAlert(); closeSheet();
       renderHome(); renderZones();
-      toast('O\'chirildi');
+      toast(t('common.deleted'));
     });
   });
 }
@@ -876,7 +1020,7 @@ let productZoneId = state.zones[0] ? state.zones[0].id : null;
 function renderProducts() {
   if (!state.zones.length) {
     $('#prod-tabs').innerHTML = '';
-    $('#products-list').innerHTML = '<div class="empty-state"><p>Avval zona qo\'shing</p></div>';
+    $('#products-list').innerHTML = '<div class="empty-state"><p>' + t('products.empty') + '</p></div>';
     return;
   }
   if (!state.zones.some(z => z.id === productZoneId)) productZoneId = state.zones[0].id;
@@ -892,8 +1036,8 @@ function renderProducts() {
     <li class="list-row product-row">
       <span class="list-row-left"><span class="material-symbols-outlined">${p.icon || 'local_bar'}</span> <span class="product-name">${p.name}</span></span>
       <span class="product-price">${fmtMoney(p.price)}</span>
-      <button class="icon-btn" data-edit-product="${p.id}" title="Tahrirlash"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
-    </li>`).join('') || '<li class="empty-state" style="padding:30px"><p>Hali mahsulot yo\'q</p></li>';
+      <button class="icon-btn" data-edit-product="${p.id}" title="${t('panel.edit')}"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
+    </li>`).join('') || '<li class="empty-state" style="padding:30px"><p>' + t('products.none') + '</p></li>';
 }
 
 $('#products-list').addEventListener('click', e => {
@@ -912,23 +1056,23 @@ function openProductModal(zone, p) {
   openSheet(`
     <div class="sheet-handle"></div>
     <div class="sheet-head">
-      <div class="sheet-title">${isEdit ? 'Mahsulotni tahrirlash' : 'Yangi mahsulot'}</div>
+      <div class="sheet-title">${isEdit ? t('modal.editProduct') : t('modal.newProduct')}</div>
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="sheet-content">
       <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${zone.name}</div>
       <div class="field">
-        <label>Nomi</label>
-        <input id="prod-name" value="${isEdit ? p.name : ''}" placeholder="Masalan: Ko'k choy">
+        <label>${t('modal.prodName')}</label>
+        <input id="prod-name" value="${isEdit ? p.name : ''}" placeholder="${t('modal.prodNamePh')}">
         <span class="field-error"></span>
       </div>
       <div class="field">
-        <label>Narxi (so'm)</label>
-        <input id="prod-price" type="text" inputmode="numeric" value="${isEdit ? fmtIn(p.price) : ''}" placeholder="Masalan: 7 000">
+        <label>${t('modal.prodPrice')} (${cur()})</label>
+        <input id="prod-price" type="text" inputmode="numeric" value="${isEdit ? fmtIn(p.price) : ''}" placeholder="${t('modal.prodPricePh')}">
         <span class="field-error"></span>
       </div>
-      <button class="btn btn--primary btn--block" id="save-prod">Saqlash</button>
-      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-prod" style="margin-top:10px">Mahsulotni o'chirish</button>` : ''}
+      <button class="btn btn--primary btn--block" id="save-prod">${t('modal.save')}</button>
+      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-prod" style="margin-top:10px">${t('modal.deleteProduct')}</button>` : ''}
     </div>
   `);
   const nameInput = $('#prod-name');
@@ -938,31 +1082,31 @@ function openProductModal(zone, p) {
     const name = nameInput.value.trim();
     const price = parseIn(priceInput.value);
     let ok = true;
-    if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = 'Bu maydon to\'ldirilishi shart'; ok = false; }
+    if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = t('err.required'); ok = false; }
     else nameInput.classList.remove('input-error');
     if (!priceInput.value || isNaN(price) || price < 0) {
-      priceInput.classList.add('input-error'); priceInput.nextElementSibling.textContent = 'To\'g\'ri son kiriting'; ok = false;
+      priceInput.classList.add('input-error'); priceInput.nextElementSibling.textContent = t('err.number'); ok = false;
     } else priceInput.classList.remove('input-error');
     if (!ok) return;
     if (isEdit) { p.name = name; p.price = price; }
     else zone.products.push({ id: uid(), name, price, icon: 'local_bar', sold: 0 });
     closeSheet(); renderProducts();
-    toast('Saqlandi');
+    toast(t('common.saved'));
   });
   if (isEdit) $('#del-prod').addEventListener('click', () => {
     openAlert(`
-      <div class="alert-title">${p.name}ni o'chirasizmi?</div>
-      <p class="alert-text">Bu amalni ortga qaytarib bo'lmaydi.</p>
+      <div class="alert-title">'${p.name}'${t('confirm.deleteTitle')}</div>
+      <p class="alert-text">${t('confirm.irreversible')}</p>
       <div class="alert-btns">
-        <button class="btn btn--ghost" id="cancel-del">Bekor qilish</button>
-        <button class="btn btn--danger" id="confirm-del">O'chirish</button>
+        <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
+        <button class="btn btn--danger" id="confirm-del">${t('common.delete')}</button>
       </div>
     `);
     $('#cancel-del').addEventListener('click', closeAlert);
     $('#confirm-del').addEventListener('click', () => {
       zone.products = zone.products.filter(x => x.id !== p.id);
       closeAlert(); closeSheet(); renderProducts();
-      toast('O\'chirildi');
+      toast(t('common.deleted'));
     });
   });
 }
@@ -970,22 +1114,22 @@ function openProductModal(zone, p) {
 /* ---------------- CHIQISH ---------------- */
 function openProfileModal() {
   openAlert(`
-    <div class="alert-title">Profilni tahrirlash</div>
+    <div class="alert-title">${t('profile.edit')}</div>
     <div class="alert-fields">
       <div class="field">
-        <label>Ism</label>
+        <label>${t('profile.name')}</label>
         <input id="profile-name-input" value="${$('#profile-name').textContent}">
         <span class="field-error"></span>
       </div>
       <div class="field">
-        <label>Login</label>
+        <label>${t('profile.login')}</label>
         <input id="profile-login-input" value="${$('#profile-login').textContent}">
         <span class="field-error"></span>
       </div>
     </div>
     <div class="alert-btns">
-      <button class="btn btn--ghost" id="cancel-profile">Bekor qilish</button>
-      <button class="btn btn--primary" id="save-profile">Saqlash</button>
+      <button class="btn btn--ghost" id="cancel-profile">${t('common.cancel')}</button>
+      <button class="btn btn--primary" id="save-profile">${t('modal.save')}</button>
     </div>
   `);
   const nameInput = $('#profile-name-input');
@@ -995,13 +1139,13 @@ function openProfileModal() {
     const name = nameInput.value.trim();
     const login = loginInput.value.trim();
     if (!name || !login) {
-      toast('Ism va loginni kiriting');
+      toast(t('profile.nameLoginReq'));
       return;
     }
     $('#profile-name').textContent = name;
     $('#profile-login').textContent = login;
     closeAlert();
-    toast('Saqlandi');
+    toast(t('common.saved'));
   });
 }
 
@@ -1009,10 +1153,10 @@ $('#edit-profile-btn').addEventListener('click', openProfileModal);
 
 $('#logout-btn').addEventListener('click', () => {
   openAlert(`
-    <div class="alert-title">Tizimdan chiqasizmi?</div>
+    <div class="alert-title">${t('profile.logoutTitle')}</div>
     <div class="alert-btns">
-      <button class="btn btn--ghost" id="abort-logout">Bekor qilish</button>
-      <button class="btn btn--danger" id="ok-logout">Chiqish</button>
+      <button class="btn btn--ghost" id="abort-logout">${t('common.cancel')}</button>
+      <button class="btn btn--danger" id="ok-logout">${t('profile.logoutBtn')}</button>
     </div>
   `);
   $('#abort-logout').addEventListener('click', closeAlert);
@@ -1079,7 +1223,7 @@ function tick() {
     const s = sessions[el.dataset.orbLabel];
     if (!s) return;
     const st = statusOf(s, now);
-    el.textContent = st === 'expired' ? 'Qo\'shimcha vaqt' : s.mode === 'countdown' ? 'Qolgan vaqt' : 'O\'tgan vaqt';
+    el.textContent = st === 'expired' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
   });
   updateRings(now);
 }
@@ -1087,5 +1231,8 @@ function tick() {
 setInterval(tick, 1000);
 
 /* ---------------- Boshlang'ich holat ---------------- */
+applyStaticLang();
+const langSelect = $('#lang-select');
+if (langSelect) langSelect.value = currentLang;
 renderHome();
 tick();

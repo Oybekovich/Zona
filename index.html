@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=54">
+<link rel="stylesheet" href="style.css?v=56">
 </head>
 <body>
 
@@ -15,39 +15,34 @@
 
   <!-- ================= LOGIN (Premium SaaS) ================= -->
   <section id="view-login" class="view view--login">
-    <!-- LoginPage > LoginCard -->
     <div class="login-card">
-      <!-- LoginCard > LoginHeader -->
       <div class="login-card-header">
         <div class="login-badge">
           <span class="material-symbols-outlined">sports_esports</span>
         </div>
         <h1 class="login-title">Zone Manager</h1>
-        <p class="login-subtitle">Zonangizni boshqaring</p>
+        <p class="login-subtitle" data-i18n="login.subtitle">Zonangizni boshqaring</p>
         <svg class="login-wave-svg" viewBox="0 0 750 56" preserveAspectRatio="none" aria-hidden="true">
           <path d="M0,40 C220,64 500,16 750,40 L750,58 L0,58 Z" fill="#ffffff"/>
         </svg>
       </div>
 
-      <!-- LoginCard > LoginForm -->
       <div class="login-card-body">
         <form id="login-form" class="login-form" novalidate>
-          <!-- Input: Login -->
           <div class="field">
-            <label for="login-username">Login</label>
+            <label for="login-username" data-i18n="login.username">Login</label>
             <div class="input-wrap">
               <span class="input-icon material-symbols-outlined">person</span>
-              <input id="login-username" type="text" placeholder="Loginni kiriting" autocomplete="username" aria-label="Login">
+              <input id="login-username" type="text" placeholder="Loginni kiriting" data-i18n-ph="login.usernamePh" autocomplete="username" aria-label="Login">
             </div>
             <span class="field-error" id="err-username"></span>
           </div>
 
-          <!-- Input: Parol -->
           <div class="field">
-            <label for="login-password">Parol</label>
+            <label for="login-password" data-i18n="login.password">Parol</label>
             <div class="input-wrap">
               <span class="input-icon material-symbols-outlined">lock</span>
-              <input id="login-password" type="password" placeholder="Parolni kiriting" autocomplete="current-password" aria-label="Parol">
+              <input id="login-password" type="password" placeholder="Parolni kiriting" data-i18n-ph="login.passwordPh" autocomplete="current-password" aria-label="Parol">
               <button type="button" class="eye" id="eye-toggle" aria-label="Parolni ko'rsatish">
                 <span class="material-symbols-outlined">visibility</span>
               </button>
@@ -55,34 +50,29 @@
             <span class="field-error" id="err-password"></span>
           </div>
 
-          <!-- FormOptions -->
           <div class="form-options">
-            <button type="button" class="forgot-link" id="forgot-link">Parolni unutdingizmi?</button>
+            <button type="button" class="forgot-link" id="forgot-link" data-i18n="login.forgot">Parolni unutdingizmi?</button>
           </div>
 
-          <div class="login-error" id="login-error" hidden>Login yoki parol noto'g'ri</div>
+          <div class="login-error" id="login-error" data-i18n="login.error" hidden>Login yoki parol noto'g'ri</div>
 
-          <!-- LoginButton -->
           <button type="submit" class="btn btn--login" id="login-btn" aria-label="Kirish">
-            <span class="btn-label">Kirish</span>
+            <span class="btn-label" data-i18n="login.btn">Kirish</span>
             <span class="arrow-ic material-symbols-outlined">arrow_forward</span>
             <span class="spinner" hidden></span>
           </button>
 
-          <!-- Divider -->
-          <div class="divider"><span>yoki</span></div>
+          <div class="divider"><span data-i18n="login.or">yoki</span></div>
 
-          <!-- DemoLogin -->
           <button type="button" class="demo-btn" id="demo-btn">
             <span class="material-symbols-outlined">verified_user</span>
-            Demo kirish: admin / 1234
+            <span data-i18n="login.demo">Demo kirish: admin / 1234</span>
           </button>
         </form>
 
-        <!-- SecurityFooter -->
         <div class="security-footer">
           <span class="material-symbols-outlined">shield</span>
-          Xavfsiz va himoyalangan tizim
+          <span data-i18n="login.secure">Xavfsiz va himoyalangan tizim</span>
         </div>
       </div>
     </div>
@@ -91,29 +81,31 @@
   <!-- ================= ASOSIY (Home) ================= -->
   <section id="view-home" class="view" hidden>
     <header class="app-header">
-      <h1>Asosiy Floor</h1>
+      <h1 data-i18n="app.title">Asosiy Floor</h1>
       <div class="search-box">
-        <input id="search-input" class="search-input" placeholder="Stol nomi..." hidden>
+        <input id="search-input" class="search-input" placeholder="Stol nomi..." data-i18n-ph="search.tablePh" hidden>
         <button class="icon-btn" id="search-toggle" aria-label="Qidirish">
           <span class="material-symbols-outlined">search</span>
         </button>
-        <button class="icon-btn" id="more-btn" aria-label="Ko'proq">
-          <span class="material-symbols-outlined">more_vert</span>
-        </button>
+        <select id="lang-select" class="lang-select" aria-label="Til">
+          <option value="uz">O'zbekcha</option>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+        </select>
       </div>
     </header>
 
     <div class="chips" id="filter-chips">
-      <button class="chip active" data-filter="all">Barchasi</button>
-      <button class="chip" data-filter="free">Bo'sh</button>
-      <button class="chip" data-filter="busy">Band</button>
-      <button class="chip" data-filter="repair">Ta'mirlashda</button>
+      <button class="chip active" data-filter="all" data-i18n="filter.all">Barchasi</button>
+      <button class="chip" data-filter="free" data-i18n="filter.free">Bo'sh</button>
+      <button class="chip" data-filter="busy" data-i18n="filter.busy">Band</button>
+      <button class="chip" data-filter="repair" data-i18n="filter.repair">Ta'mirlashda</button>
     </div>
 
     <div id="home-empty" class="empty-state" hidden>
       <span class="material-symbols-outlined empty-icon">table_restaurant</span>
-      <p>Hali stol qo'shilmagan</p>
-      <button class="btn btn--primary" id="first-table-btn">Birinchi stolni qo'shish</button>
+      <p data-i18n="home.empty">Hali stol qo'shilmagan</p>
+      <button class="btn btn--primary" id="first-table-btn" data-i18n="home.firstTable">Birinchi stolni qo'shish</button>
     </div>
 
     <main class="grid" id="table-grid"></main>
@@ -122,17 +114,17 @@
   <!-- ================= ZONALAR ================= -->
   <section id="view-zones" class="view" hidden>
     <header class="app-header app-header--title">
-      <h1>Zonalar</h1>
+      <h1 data-i18n="zones.title">Zonalar</h1>
     </header>
     <div class="segmented segmented--scroll" id="zone-tabs"></div>
     <div id="zones-table-list"></div>
-    <button class="btn btn--outline btn--block" id="add-zone-btn">+ Yangi zona qo'shish</button>
+    <button class="btn btn--outline btn--block" id="add-zone-btn" data-i18n="zones.add">+ Yangi zona qo'shish</button>
   </section>
 
   <!-- ================= PROFIL ================= -->
   <section id="view-profile" class="view" hidden>
     <header class="app-header app-header--title">
-      <h1>Profil</h1>
+      <h1 data-i18n="profile.title">Profil</h1>
     </header>
     <div class="profile-card">
       <div class="profile-avatar"><span class="material-symbols-outlined">person</span></div>
@@ -140,14 +132,14 @@
         <p class="profile-name" id="profile-name">Admin</p>
         <p class="profile-login" id="profile-login">admin</p>
       </div>
-      <span class="badge badge--role">Egasi</span>
+      <span class="badge badge--role" data-i18n="profile.role">Egasi</span>
       <button class="icon-btn" id="edit-profile-btn" title="Tahrirlash">
         <span class="material-symbols-outlined">edit</span>
       </button>
     </div>
     <div class="list-group">
       <button class="list-row list-row--danger" id="logout-btn">
-        <span class="list-row-left"><span class="material-symbols-outlined">logout</span> Chiqish</span>
+        <span class="list-row-left"><span class="material-symbols-outlined">logout</span> <span data-i18n="profile.logout">Chiqish</span></span>
         <span class="material-symbols-outlined">chevron_right</span>
       </button>
     </div>
@@ -156,30 +148,30 @@
   <!-- ================= MAHSULOTLAR ================= -->
   <section id="view-products" class="view" hidden>
     <header class="app-header app-header--title">
-      <h1>Mahsulotlar</h1>
+      <h1 data-i18n="products.title">Mahsulotlar</h1>
     </header>
     <div class="segmented segmented--scroll" id="prod-tabs"></div>
     <ul class="list-group" id="products-list"></ul>
-    <button class="btn btn--outline btn--block" id="add-product-btn">+ Yangi mahsulot qo'shish</button>
+    <button class="btn btn--outline btn--block" id="add-product-btn" data-i18n="products.add">+ Yangi mahsulot qo'shish</button>
   </section>
 
   <!-- ================= PASTKI NAVIGATSIYA ================= -->
   <nav class="bottom-nav" id="bottom-nav" hidden>
     <button class="nav-btn active" data-tab="home">
       <span class="material-symbols-outlined">home</span>
-      <span>Asosiy</span>
+      <span data-i18n="nav.home">Asosiy</span>
     </button>
     <button class="nav-btn" data-tab="zones">
       <span class="material-symbols-outlined">grid_view</span>
-      <span>Zonalar</span>
+      <span data-i18n="nav.zones">Zonalar</span>
     </button>
     <button class="nav-btn" data-tab="products">
       <span class="material-symbols-outlined">local_bar</span>
-      <span>Mahsulotlar</span>
+      <span data-i18n="nav.products">Mahsulotlar</span>
     </button>
     <button class="nav-btn" data-tab="profile">
       <span class="material-symbols-outlined">person</span>
-      <span>Profil</span>
+      <span data-i18n="nav.profile">Profil</span>
     </button>
   </nav>
 
@@ -198,6 +190,6 @@
 
 </div>
 
-<script src="app.js?v=30"></script>
+<script src="app.js?v=32"></script>
 </body>
 </html>
