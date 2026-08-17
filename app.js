@@ -607,6 +607,7 @@ $('#first-table-btn').addEventListener('click', () => showView('zones'));
 /* ---------------- ASOSIY EKRAN ---------------- */
 let activeFilter = 'all';
 let searchQuery = '';
+let homeZoneId = null;
 
 const RING_C = r => 2 * Math.PI * r;
 
@@ -661,7 +662,10 @@ function cardFor(tab) {
 
 function visibleTables() {
   let list = [];
-  state.zones.forEach(z => z.tables.forEach(t => list.push({ ...t, zone: z })));
+  state.zones.forEach(z => {
+    if (homeZoneId && z.id !== homeZoneId) return;
+    z.tables.forEach(t => list.push({ ...t, zone: z }));
+  });
   list = list.filter(t => {
     const has = !!sessions[t.id];
     if (t.repair) return activeFilter === 'all' || activeFilter === 'repair';
@@ -675,6 +679,20 @@ function visibleTables() {
 }
 
 function renderHome() {
+  const tabs = $('#home-zone-tabs');
+  if (state.zones.length > 1) {
+    if (!state.zones.some(z => z.id === homeZoneId)) homeZoneId = state.zones[0].id;
+    tabs.hidden = false;
+    tabs.innerHTML = state.zones.map(z =>
+      `<button class="seg-btn ${z.id === homeZoneId ? 'active' : ''}" data-htab="${z.id}">${z.name}</button>`).join('');
+    $$('#home-zone-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
+      homeZoneId = b.dataset.htab;
+      renderHome();
+    }));
+  } else {
+    tabs.hidden = true;
+    homeZoneId = null;
+  }
   const total = state.zones.reduce((n, z) => n + z.tables.length, 0);
   $('#home-empty').hidden = total !== 0;
   $('#table-grid').innerHTML = visibleTables().map(t => cardFor(t)).join('');

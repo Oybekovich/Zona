@@ -434,6 +434,7 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
   display: flex; gap: 4px; background: var(--surface-highest); border-radius: 999px; padding: 4px;
 }
 .segmented--scroll { overflow-x: auto; scrollbar-width: none; }
+#home-zone-tabs { margin-bottom: 10px; }
 .segmented--scroll::-webkit-scrollbar { display: none; }
 .seg-btn {
   flex: 1; padding: 10px 18px; border-radius: 999px;
