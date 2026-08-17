@@ -159,7 +159,7 @@ const cur = () => I18N[currentLang]['cur'];
 const t = k => (I18N[currentLang] && I18N[currentLang][k]) || I18N.uz[k] || k;
 
 /* ---------------- Tun / Kun rejimi ---------------- */
-let themeMode = localStorage.getItem('zona-theme') || 'light';
+let themeMode = localStorage.getItem('zona-theme') || 'dark';
 
 function applyTheme() {
   document.documentElement.dataset.theme = themeMode;
