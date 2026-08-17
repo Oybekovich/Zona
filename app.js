@@ -472,6 +472,13 @@ $('#eye-toggle-confirm').addEventListener('click', () => {
 
 let authMode = 'login';
 
+function resetLoginBtn() {
+  const btn = $('#login-btn');
+  btn.disabled = false;
+  btn.querySelector('.spinner').hidden = true;
+  btn.querySelector('.btn-label').textContent = t('login.btn');
+}
+
 function setAuthMode(mode) {
   authMode = mode;
   $('#login-error').hidden = true;
@@ -561,6 +568,7 @@ function enterApp() {
   $('#profile-name').textContent = email ? email.split('@')[0] : 'Admin';
   $('#profile-login').textContent = email || 'admin';
   loginForm.reset();
+  resetLoginBtn();
   loadData();
   setupRealtime();
   showView('home');
@@ -573,6 +581,7 @@ function exitToLogin() {
   $('#view-login').hidden = false;
   $('#login-error').hidden = true;
   setAuthMode('login');
+  resetLoginBtn();
 }
 
 sb.auth.onAuthStateChange((evt, session) => {
