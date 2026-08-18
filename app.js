@@ -990,8 +990,8 @@ async function addToSession(tid, pid, delta = 1) {
     if (qty <= 0) s.products = s.products.filter(x => x.pid !== pid);
     else e.qty = qty;
   } else if (delta > 0) {
-    s.products.push({ pid, qty: 1 });
-    qty = 1;
+    s.products.push({ pid, qty: delta });
+    qty = delta;
   }
   try { await apiSetSessionProduct(s, pid, qty); }
   catch (err) { toast('Supabase xatosi: ' + (err.message || err)); loadData(); }
