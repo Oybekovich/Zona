@@ -43,7 +43,7 @@ const I18N = {
     'panel.overtime': 'Qo\'shimcha vaqt', 'panel.timeLeft': 'Qolgan vaqt', 'panel.timePassed': 'O\'tgan vaqt',
     'panel.active': 'Faol', 'panel.ending': 'Yaqin tugaydi', 'panel.timeOver': 'Vaqt tugadi', 'panel.dona': '/ dona',
     'dialog.add': 'Qo\'shish', 'dialog.added': 'qo\'shildi',
-    'finish.title': 'Sessiyani yakunlaysizmi?', 'finish.tableTime': 'Stol vaqti', 'finish.products': 'Mahsulotlar', 'finish.total': 'Jami', 'finish.confirm': 'Tasdiqlash',
+    'finish.title': 'Sessiyani yakunlaysizmi?', 'finish.time': 'Vaqt', 'finish.tableTime': 'Stol vaqti', 'finish.products': 'Mahsulotlar', 'finish.total': 'Jami', 'finish.confirm': 'Tasdiqlash',
     'cancel.title': 'Sessiyani bekor qilasizmi?', 'cancel.warn': 'Bu amal qaytarilmaydi. Sessiya o\'chiriladi va hisoblanmaydi.',
     'cancel.no': 'Yo\'q, qaytish', 'cancel.yes': 'Ha, bekor qilish',
     'confirm.deleteTitle': 'ni o\'chirasizmi?', 'confirm.irreversible': 'Bu amalni ortga qaytarib bo\'lmaydi.',
@@ -92,7 +92,7 @@ const I18N = {
     'panel.overtime': 'Overtime', 'panel.timeLeft': 'Time left', 'panel.timePassed': 'Elapsed',
     'panel.active': 'Active', 'panel.ending': 'Ending soon', 'panel.timeOver': 'Time is up', 'panel.dona': 'per item',
     'dialog.add': 'Add', 'dialog.added': 'added',
-    'finish.title': 'Finish the session?', 'finish.tableTime': 'Table time', 'finish.products': 'Products', 'finish.total': 'Total', 'finish.confirm': 'Confirm',
+    'finish.title': 'Finish the session?', 'finish.time': 'Time', 'finish.tableTime': 'Table time', 'finish.products': 'Products', 'finish.total': 'Total', 'finish.confirm': 'Confirm',
     'cancel.title': 'Cancel the session?', 'cancel.warn': 'This action cannot be undone. The session will be deleted.',
     'cancel.no': 'No, go back', 'cancel.yes': 'Yes, cancel',
     'confirm.deleteTitle': 'delete?', 'confirm.irreversible': 'This action cannot be undone.',
@@ -141,7 +141,7 @@ const I18N = {
     'panel.overtime': 'Дополнительное время', 'panel.timeLeft': 'Осталось времени', 'panel.timePassed': 'Прошло времени',
     'panel.active': 'Активна', 'panel.ending': 'Скоро закончится', 'panel.timeOver': 'Время вышло', 'panel.dona': '/ шт',
     'dialog.add': 'Добавить', 'dialog.added': 'добавлен',
-    'finish.title': 'Завершить сессию?', 'finish.tableTime': 'Время стола', 'finish.products': 'Товары', 'finish.total': 'Итого', 'finish.confirm': 'Подтвердить',
+    'finish.title': 'Завершить сессию?', 'finish.time': 'Время', 'finish.tableTime': 'Время стола', 'finish.products': 'Товары', 'finish.total': 'Итого', 'finish.confirm': 'Подтвердить',
     'cancel.title': 'Отменить сессию?', 'cancel.warn': 'Это действие необратимо. Сессия будет удалена.',
     'cancel.no': 'Нет, назад', 'cancel.yes': 'Да, отменить',
     'confirm.deleteTitle': ' удалить?', 'confirm.irreversible': 'Это действие нельзя отменить.',
@@ -1043,9 +1043,11 @@ function finishConfirm() {
   if (!s) return;
   const timePrice = sessionPrice(s);
   const prod = productSum(s);
+  const sec = sessionSeconds(s);
   openAlert(`
     <div class="alert-title">${t('finish.title')}</div>
     <div class="alert-breakdown">
+      <div class="ab-row"><span>${t('finish.time')}</span><b>${fmtTime(sec.elapsed)}</b></div>
       <div class="ab-row"><span>${t('finish.tableTime')}</span><b>${fmtMoney(timePrice)}</b></div>
       <div class="ab-row"><span>${t('finish.products')}</span><b>${fmtMoney(prod)}</b></div>
       <div class="ab-total"><span>${t('finish.total')}</span><span>${fmtMoney(timePrice + prod)}</span></div>
