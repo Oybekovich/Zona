@@ -18,7 +18,10 @@ const I18N = {
     'app.title': 'Asosiy oyna', 'search.tablePh': 'Stol nomi...',
     'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band', 'filter.repair': 'Ta\'mirlashda',
     'home.empty': 'Hali stol qo\'shilmagan', 'home.firstTable': 'Birinchi stolni qo\'shish',
-    'nav.home': 'Asosiy', 'nav.zones': 'Zonalar', 'nav.products': 'Mahsulotlar', 'nav.profile': 'Profil',
+    'nav.home': 'Asosiy', 'nav.zones': 'Zonalar', 'nav.history': 'Tarix', 'nav.products': 'Mahsulotlar', 'nav.profile': 'Profil',
+    'history.title': 'Tarix', 'history.today': 'Bugun', 'history.empty': 'Hali yakunlangan sessiya yo\'q',
+    'history.time': 'Vaqt', 'history.tableTime': 'Stol', 'history.products': 'Mahsulot', 'history.total': 'Jami',
+    'history.tablesTotal': 'Stollardan', 'history.productsTotal': 'Mahsulotlardan', 'history.dayTotal': 'Kun jami',
     'zones.title': 'Zonalar', 'zones.add': '+ Yangi zona qo\'shish', 'zones.empty': 'Hali zona yo\'q — birinchi zonani qo\'shing',
     'zones.tables': 'stol', 'zones.statusBusy': 'Band', 'zones.statusFree': 'Bo\'sh', 'zones.addTable': 'Yangi stol qo\'shish',
     'products.title': 'Mahsulotlar', 'products.add': '+ Yangi mahsulot qo\'shish', 'products.empty': 'Avval zona qo\'shing',
@@ -67,7 +70,10 @@ const I18N = {
     'app.title': 'Main Floor', 'search.tablePh': 'Table name...',
     'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy', 'filter.repair': 'Repair',
     'home.empty': 'No tables yet', 'home.firstTable': 'Add the first table',
-    'nav.home': 'Home', 'nav.zones': 'Zones', 'nav.products': 'Products', 'nav.profile': 'Profile',
+    'nav.home': 'Home', 'nav.zones': 'Zones', 'nav.history': 'History', 'nav.products': 'Products', 'nav.profile': 'Profile',
+    'history.title': 'History', 'history.today': 'Today', 'history.empty': 'No finished sessions yet',
+    'history.time': 'Time', 'history.tableTime': 'Table', 'history.products': 'Products', 'history.total': 'Total',
+    'history.tablesTotal': 'Tables', 'history.productsTotal': 'Products', 'history.dayTotal': 'Day total',
     'zones.title': 'Zones', 'zones.add': '+ Add new zone', 'zones.empty': 'No zones yet — add the first one',
     'zones.tables': 'tables', 'zones.statusBusy': 'Busy', 'zones.statusFree': 'Free', 'zones.addTable': 'Add new table',
     'products.title': 'Products', 'products.add': '+ Add new product', 'products.empty': 'Add a zone first',
@@ -116,7 +122,10 @@ const I18N = {
     'app.title': 'Основной зал', 'search.tablePh': 'Название стола...',
     'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые', 'filter.repair': 'На ремонте',
     'home.empty': 'Столы ещё не добавлены', 'home.firstTable': 'Добавить первый стол',
-    'nav.home': 'Главная', 'nav.zones': 'Зоны', 'nav.products': 'Товары', 'nav.profile': 'Профиль',
+    'nav.home': 'Главная', 'nav.zones': 'Зоны', 'nav.history': 'История', 'nav.products': 'Товары', 'nav.profile': 'Профиль',
+    'history.title': 'История', 'history.today': 'Сегодня', 'history.empty': 'Завершённых сессий пока нет',
+    'history.time': 'Время', 'history.tableTime': 'Стол', 'history.products': 'Товары', 'history.total': 'Итого',
+    'history.tablesTotal': 'Столы', 'history.productsTotal': 'Товары', 'history.dayTotal': 'Итог дня',
     'zones.title': 'Зоны', 'zones.add': '+ Добавить новую зону', 'zones.empty': 'Зон ещё нет — добавьте первую',
     'zones.tables': 'стол.', 'zones.statusBusy': 'Занят', 'zones.statusFree': 'Свободен', 'zones.addTable': 'Добавить новый стол',
     'products.title': 'Товары', 'products.add': '+ Добавить новый товар', 'products.empty': 'Сначала добавьте зону',
@@ -281,6 +290,12 @@ async function apiDeleteSession(s) {
   delete sessions[s.tableId];
   delete lastStatus[s.tableId];
 }
+async function apiFinishSession(s) {
+  const { error } = await sb.from('sessions').update({ end_time: new Date().toISOString() }).eq('id', s.id);
+  if (error) throw error;
+  delete sessions[s.tableId];
+  delete lastStatus[s.tableId];
+}
 async function apiSetSessionProduct(s, pid, qty) {
   if (qty <= 0) {
     const { error } = await sb.from('session_products').delete().eq('session_id', s.id).eq('product_id', pid);
@@ -293,7 +308,9 @@ async function apiSetSessionProduct(s, pid, qty) {
     const { error: e2 } = await sb.from('session_products').update({ quantity: qty }).eq('id', data.id);
     if (e2) throw e2;
   } else {
-    const { error: e3 } = await sb.from('session_products').insert({ session_id: s.id, product_id: pid, quantity: qty });
+    const zone = findZone(s.tableId);
+    const price = zone ? productById(zone.id, pid).price : 0;
+    const { error: e3 } = await sb.from('session_products').insert({ session_id: s.id, product_id: pid, quantity: qty, price });
     if (e3) throw e3;
   }
 }
@@ -307,7 +324,7 @@ async function loadData() {
         .order('sort_order', { foreignTable: 'tables' })
         .order('sort_order', { foreignTable: 'products' })
         .order('sort_order'),
-      sb.from('sessions').select('*'),
+      sb.from('sessions').select('*').is('end_time', null),
       sb.from('session_products').select('*'),
     ]);
     state.zones = (zrows || []).map(z => ({
@@ -595,13 +612,14 @@ sb.auth.onAuthStateChange((evt, session) => {
 });
 
 /* ---------------- Navigatsiya ---------------- */
-const VIEWS = ['home', 'zones', 'profile', 'products'];
+const VIEWS = ['home', 'zones', 'history', 'products', 'profile'];
 
 function showView(v) {
   VIEWS.forEach(x => { $(`#view-${x}`).hidden = x !== v; });
   $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === v));
   if (v === 'home') renderHome();
   if (v === 'zones') renderZones();
+  if (v === 'history') loadHistory();
   if (v === 'products') renderProducts();
 }
 
@@ -1060,10 +1078,10 @@ function finishConfirm() {
   $('#abort-finish').addEventListener('click', closeAlert);
   $('#ok-finish').addEventListener('click', async () => {
     const sum = timePrice + prod;
-    try { await apiDeleteSession(sessions[currentPanel]); }
+    try { await apiFinishSession(sessions[currentPanel]); }
     catch (err) { toast('Supabase xatosi: ' + (err.message || err)); return; }
     closeAlert(); closeSheet();
-    renderHome(); renderZones();
+    renderHome(); renderZones(); loadHistory();
     toast(`${t('toast.sessionEnded')} — ${fmtMoney(sum)}`);
   });
 }
@@ -1449,6 +1467,160 @@ $('#logout-btn').addEventListener('click', () => {
     await sb.auth.signOut();
   });
 });
+
+/* ---------------- TARIX ---------------- */
+const escH = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const MONTH_NAMES = {
+  uz: ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'],
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+};
+let histSessions = [];
+let histDay = '';
+
+const dayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+const hm = d => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+const dayLabel = d => `${d.getDate()} ${MONTH_NAMES[currentLang][d.getMonth()]} ${d.getFullYear()}`;
+
+function finSummary(s) {
+  const start = new Date(s.start_time);
+  const end = new Date(s.end_time);
+  const elapsed = Math.max(0, (end - start) / 1000);
+  const rate = Number(s.rate ?? s.tables?.tariff ?? 0);
+  const dur = Number(s.duration_sec) || 0;
+  const billSec = (s.mode === 'countdown' && elapsed <= dur) ? dur : elapsed;
+  const timePrice = rate * billSec / 3600;
+  const prod = (s.session_products || []).reduce((sum, sp) => {
+    const price = sp.price != null ? Number(sp.price) : Number(sp.products?.price ?? 0);
+    return sum + (sp.quantity || 0) * price;
+  }, 0);
+  return { timePrice, prod, total: timePrice + prod };
+}
+
+async function loadHistory() {
+  if (!currentUser) return;
+  const { data, error } = await sb.from('sessions')
+    .select('id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff), session_products(quantity, price, products(price))')
+    .not('end_time', 'is', null)
+    .order('end_time', { ascending: false });
+  if (error) { toast('Supabase xatosi: ' + (error.message || error)); return; }
+  histSessions = data || [];
+  histDay = dayKey(new Date());
+  renderHistory();
+}
+
+function groupByDay(list) {
+  const map = new Map();
+  for (const s of list) {
+    const k = dayKey(new Date(s.end_time));
+    if (!map.has(k)) map.set(k, { key: k, date: new Date(s.end_time), time: 0, prod: 0, sessions: [] });
+    const g = map.get(k);
+    const sum = finSummary(s);
+    g.time += sum.timePrice;
+    g.prod += sum.prod;
+    g.sessions.push({ s, sum });
+  }
+  return [...map.values()].map(g => ({ ...g, total: g.time + g.prod }));
+}
+
+function renderHistory() {
+  const body = $('#history-body');
+  if (!histSessions.length) {
+    body.innerHTML = '<div class="empty-state"><p>' + t('history.empty') + '</p></div>';
+    return;
+  }
+  const now = new Date();
+  const today = dayKey(now);
+  const todaySessions = histSessions.filter(s => dayKey(new Date(s.end_time)) === today);
+  const past = histSessions.filter(s => dayKey(new Date(s.end_time)) !== today);
+
+  let html = '';
+  html += `<div class="hist-section-title">${t('history.today')} — ${dayLabel(now)}</div>`;
+  if (todaySessions.length) html += renderToday(todaySessions);
+  else html += '<div class="empty-state" style="padding:20px"><p>' + t('history.empty') + '</p></div>';
+
+  if (past.length) {
+    const byMonth = new Map();
+    for (const s of past) {
+      const mk = monthKey(new Date(s.end_time));
+      if (!byMonth.has(mk)) byMonth.set(mk, []);
+      byMonth.get(mk).push(s);
+    }
+    const curMk = monthKey(now);
+    [...byMonth.keys()].sort().reverse().forEach(mk => {
+      const [y, m] = mk.split('-').map(Number);
+      const open = mk === curMk;
+      html += `<button class="hist-month ${open ? 'open' : ''}" data-mk="${mk}">${MONTH_NAMES[currentLang][m - 1]} ${y}</button>`;
+      html += `<div class="hist-month-body" ${open ? '' : 'hidden'}>`;
+      groupByDay(byMonth.get(mk)).forEach(d => {
+        html += `<button class="hist-day" data-dk="${d.key}"><span>${dayLabel(d.date)}</span><b>${fmtMoney(d.total)}</b></button>`;
+        html += `<div class="hist-day-body" hidden>
+          <div class="hist-day-sum">
+            <div class="hist-sum-row"><span>${t('history.tablesTotal')}</span><b>${fmtMoney(d.time)}</b></div>
+            <div class="hist-sum-row"><span>${t('history.productsTotal')}</span><b>${fmtMoney(d.prod)}</b></div>
+            <div class="hist-sum-total"><span>${t('history.total')}</span><span>${fmtMoney(d.total)}</span></div>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+    });
+  }
+  body.innerHTML = html;
+}
+
+function renderToday(list) {
+  const byTable = new Map();
+  for (const s of list) {
+    const tid = String(s.table_id);
+    if (!byTable.has(tid)) byTable.set(tid, { name: s.tables?.name || '—', sessions: [] });
+    byTable.get(tid).sessions.push(s);
+  }
+  let html = '';
+  for (const tb of byTable.values()) {
+    let rows = '';
+    for (const s of tb.sessions) {
+      const sum = finSummary(s);
+      rows += `<div class="hist-sess">
+        <span class="hist-sess-time">${hm(new Date(s.start_time))} → ${hm(new Date(s.end_time))}</span>
+        <span class="hist-sess-money">
+          <i>${t('history.tableTime')}: ${fmtMoney(sum.timePrice)}</i>
+          <i>${t('history.products')}: ${fmtMoney(sum.prod)}</i>
+          <b>${t('history.total')}: ${fmtMoney(sum.total)}</b>
+        </span>
+      </div>`;
+    }
+    html += `<div class="hist-table">
+      <div class="hist-table-head"><b>${escH(tb.name)}</b><span>${fmtMoney(tb.sessions.reduce((x, s) => x + finSummary(s).total, 0))}</span></div>
+      ${rows}
+    </div>`;
+  }
+  html += `<div class="hist-total-row"><span>${t('history.dayTotal')}</span><b>${fmtMoney(list.reduce((x, s) => x + finSummary(s).total, 0))}</b></div>`;
+  return html;
+}
+
+$('#history-body').addEventListener('click', e => {
+  const mb = e.target.closest('.hist-month');
+  if (mb) {
+    const bodyEl = mb.nextElementSibling;
+    mb.classList.toggle('open');
+    bodyEl.hidden = !bodyEl.hidden;
+    return;
+  }
+  const db = e.target.closest('.hist-day');
+  if (db) {
+    const bodyEl = db.nextElementSibling;
+    bodyEl.hidden = !bodyEl.hidden;
+    db.classList.toggle('open', !bodyEl.hidden);
+  }
+});
+
+setInterval(() => {
+  if (!currentUser) return;
+  const k = dayKey(new Date());
+  if (k !== histDay) { histDay = k; loadHistory(); return; }
+  if (!$('#view-history').hidden) loadHistory();
+}, 30000);
 
 /* ---------------- TAYMER DVIGATELI ---------------- */
 let lastStatus = {};

@@ -1046,3 +1046,30 @@ html[data-theme="dark"] .status-text.busy { color: var(--on-error-container); }
 html[data-theme="dark"] .ring .ring-circle { stroke: rgba(255,255,255,.16); }
 html[data-theme="dark"] .ring--red .ring-circle { stroke: #ff453a; }
 html[data-theme="dark"] .ring--amber .ring-circle { stroke: #ff9f0a; }
+
+/* ================= TARIX ================= */
+.hist-section-title { font-size: 16px; font-weight: 800; letter-spacing: -.01em; margin: 20px 4px 12px; }
+.hist-table { background: var(--surface-lowest); border: 1px solid var(--hairline); border-radius: var(--radius-lg); margin-bottom: 12px; overflow: hidden; }
+.hist-table-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 13px 16px; border-bottom: 1px solid var(--hairline); }
+.hist-table-head b { font-size: 15px; }
+.hist-table-head span { font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+.hist-sess { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--hairline); font-size: 13px; }
+.hist-sess:last-of-type { border-bottom: none; }
+.hist-sess-time { white-space: nowrap; color: var(--text-muted); font-variant-numeric: tabular-nums; font-weight: 600; }
+.hist-sess-money { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.hist-sess-money i { font-style: normal; color: var(--text-muted); }
+.hist-sess-money b { color: var(--on-surface); font-variant-numeric: tabular-nums; }
+.hist-total-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; background: var(--surface-low); border: 1px solid var(--hairline); border-radius: var(--radius-lg); font-weight: 800; font-size: 15px; }
+.hist-total-row b { font-variant-numeric: tabular-nums; }
+.hist-month { display: block; width: 100%; text-align: left; background: none; border: none; padding: 14px 4px 10px; font-size: 16px; font-weight: 800; letter-spacing: .01em; color: var(--text-muted); cursor: pointer; }
+.hist-month-body { margin-bottom: 8px; }
+.hist-day { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 13px 16px; background: var(--surface-lowest); border: 1px solid var(--hairline); border-radius: var(--radius-lg); margin-bottom: 8px; font-size: 14px; color: var(--on-surface); cursor: pointer; }
+.hist-day b { color: var(--text-muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+.hist-day.open b { color: var(--primary); }
+.hist-day-body { padding: 0 16px 12px; }
+.hist-day-sum { background: var(--surface-low); border: 1px solid var(--hairline); border-radius: 16px; padding: 12px 14px; }
+.hist-sum-row { display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; color: var(--text-muted); }
+.hist-sum-row b { color: var(--on-surface); font-variant-numeric: tabular-nums; }
+.hist-sum-total { display: flex; justify-content: space-between; font-size: 15px; padding-top: 10px; margin-top: 8px; border-top: 1px solid var(--hairline); font-weight: 800; font-variant-numeric: tabular-nums; }
+html[data-theme="dark"] .hist-table,
+html[data-theme="dark"] .hist-day { border-color: var(--outline-variant); }
