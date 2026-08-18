@@ -372,11 +372,11 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 
 .card-cover {
   position: absolute; inset: 0;
-  background: url('img/billiard.jpeg') center / cover no-repeat;
+  background: url('img/billiard.jpeg') center / 100% 95% no-repeat;
 }
 .card-cover--tt {
   background-image: url('img/table-tennis.png');
-  background-size: 93% 80%;
+  background-size: 94% 82%;
 }
 .card-cover::after {
   content: ''; position: absolute; inset: 0;
@@ -644,6 +644,23 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 @media (max-width: 480px) {
   .nav-btn { padding: 8px 8px; }
   .nav-btn.active::before { width: 84px; }
+}
+
+/* ---------- Desktop: oddiy sahifa ko'rinishi ---------- */
+@media (min-width: 700px) {
+  #app {
+    height: auto; min-height: auto;
+    padding: 0 12px calc(120px + env(safe-area-inset-bottom));
+  }
+  .view {
+    flex: none; min-height: auto;
+    overflow: visible; overscroll-behavior: auto;
+    width: auto; max-width: none; margin: 0;
+  }
+  .bottom-nav {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 40;
+    width: auto; margin: 0 auto;
+  }
 }
 
 /* ---------- Overlay / Sheet ---------- */
