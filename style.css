@@ -620,11 +620,11 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 }
 .nav-btn .material-symbols-outlined { font-size: 24px; }
 .nav-btn .nav-label {
-  display: block; opacity: 0; transform: translateY(5px);
-  transition: opacity .35s var(--ease-out-quart), transform .35s var(--ease-out-quart);
+  display: block; height: 0; overflow: hidden; opacity: 0;
+  transition: height .3s var(--ease-out-quart), opacity .35s var(--ease-out-quart), transform .35s var(--ease-out-quart);
   pointer-events: none;
 }
-.nav-btn.active .nav-label { opacity: 1; transform: none; }
+.nav-btn.active .nav-label { height: 16px; opacity: 1; transform: none; }
 .nav-btn.active { color: var(--primary); font-weight: 700; }
 .nav-btn.active::before {
   content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
