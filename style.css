@@ -613,18 +613,18 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 }
 .nav-btn {
   position: relative;
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  display: flex; flex-direction: column; align-items: center;
   font-size: 10px; font-weight: 600; letter-spacing: .03em;
   color: var(--on-surface-variant); padding: 8px 14px; border-radius: 14px;
   transition: color .35s var(--ease-out-quart), background-color .25s ease, font-weight .35s ease;
 }
 .nav-btn .material-symbols-outlined { font-size: 24px; }
 .nav-btn .nav-label {
-  display: block; height: 0; overflow: hidden; opacity: 0;
-  transition: height .3s var(--ease-out-quart), opacity .35s var(--ease-out-quart), transform .35s var(--ease-out-quart);
+  display: block; height: 0; max-height: 0; line-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height .3s var(--ease-out-quart), opacity .35s var(--ease-out-quart);
   pointer-events: none;
 }
-.nav-btn.active .nav-label { height: 16px; opacity: 1; transform: none; }
+.nav-btn.active .nav-label { max-height: 20px; height: auto; line-height: 1; opacity: 1; }
 .nav-btn.active { color: var(--primary); font-weight: 700; }
 .nav-btn.active::before {
   content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
