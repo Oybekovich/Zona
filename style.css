@@ -351,6 +351,13 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
   .login-subtitle { font-size: 14px; margin-bottom: 22px; }
   .login-card-body { padding: 26px 18px 24px; }
   .btn--login { height: 60px; }
+
+  /* Mahsulotlar bo'limi responsive */
+  #view-products .app-header { margin-bottom: 8px; }
+  #view-products .segmented { margin: 0 12px 10px; }
+  #view-products .list-group { margin: 0 12px 80px; }
+  #view-products .btn--block { position: sticky; bottom: 12px; margin: 0 12px; z-index: 10; }
+  .empty-state { padding: 40px 16px; }
 }
 
 /* ---------- Stol kartalari ---------- */
@@ -685,6 +692,7 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 @media (min-width: 700px) {
   .sheet { border-radius: var(--radius-xl); margin-bottom: 24px; border: 1px solid rgba(0,0,0,.07); animation: popIn .35s var(--ease-spring); }
   @keyframes popIn { from { transform: scale(.96) translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes popOut { from { transform: none; opacity: 1; } to { transform: scale(.96) translateY(12px); opacity: 0; } }
 }
 
 .sheet-handle { width: 100%; display: flex; justify-content: center; padding: 12px 0 6px; }
@@ -870,6 +878,9 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
   box-shadow: var(--shadow-overlay); border: 1px solid var(--hairline);
   animation: popIn .3s var(--ease-spring);
   position: relative;
+}
+.alert-box.pop-out {
+  animation: popOut .2s var(--ease-spring) forwards;
 }
 .alert-close {
   position: absolute; top: 12px; right: 12px;

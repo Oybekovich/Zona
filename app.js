@@ -466,7 +466,14 @@ function openSheet(html) {
 }
 function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelSearch = ''; startTable = null; }
 function openAlert(html) { $('#alert-body').innerHTML = html; $('#alert').hidden = false; }
-function closeAlert() { $('#alert').hidden = true; }
+function closeAlert() {
+  const box = $('#alert-body');
+  box.classList.add('pop-out');
+  box.addEventListener('animationend', () => {
+    box.classList.remove('pop-out');
+    $('#alert').hidden = true;
+  }, { once: true });
+}
 
 $('#sheet').addEventListener('click', e => { if (e.target === $('#sheet')) closeSheet(); });
 $('#alert').addEventListener('click', e => { if (e.target === $('#alert')) closeAlert(); });
