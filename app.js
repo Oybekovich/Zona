@@ -57,7 +57,7 @@ const I18N = {
     'toast.sessionStarted': 'Sessiya boshlandi', 'toast.sessionEnded': 'Sessiya yakunlandi', 'toast.sessionCancelled': 'Sessiya bekor qilindi',
     'repair.hint': 'Xizmatdan vaqtincha chiqarilgan',
     'block.title': 'Hisob bloklangan', 'block.text': 'Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo\'qoladi.', 'block.retry': 'Qayta tekshirish',
-    'net.title': 'Internet bilan muammo', 'net.text': 'Internet aloqasi yo\'q. Aloqa tiklanganda avtomatik davom etadi.',
+    'net.title': 'Internet bilan muammo', 'net.text': 'Internet aloqasi yo\'q. Aloqa tiklanganda avtomatik davom etadi.', 'net.retry': 'Qayta urinish',
     'theme.title': 'Ko\'rinish', 'theme.light': 'Kun', 'theme.dark': 'Tun',
     'cur': 'so\'m', 'lang.label': 'Til',
   },
@@ -112,7 +112,7 @@ const I18N = {
     'toast.sessionStarted': 'Session started', 'toast.sessionEnded': 'Session finished', 'toast.sessionCancelled': 'Session cancelled',
     'repair.hint': 'Temporarily out of service',
     'block.title': 'Account blocked', 'block.text': 'Your account has been blocked by the administrator. This window will disappear automatically once the block is lifted.', 'block.retry': 'Check again',
-    'net.title': 'Connection problem', 'net.text': 'No internet connection. It will continue automatically once the connection is restored.',
+    'net.title': 'Connection problem', 'net.text': 'No internet connection. It will continue automatically once the connection is restored.', 'net.retry': 'Try again',
     'theme.title': 'Appearance', 'theme.light': 'Day', 'theme.dark': 'Night',
     'cur': 'UZS', 'lang.label': 'Language',
   },
@@ -167,7 +167,7 @@ const I18N = {
     'toast.sessionStarted': 'Сессия началась', 'toast.sessionEnded': 'Сессия завершена', 'toast.sessionCancelled': 'Сессия отменена',
     'repair.hint': 'Временно выведен из эксплуатации',
     'block.title': 'Аккаунт заблокирован', 'block.text': 'Ваш аккаунт заблокирован администратором. Это окно исчезнет автоматически после снятия блокировки.', 'block.retry': 'Проверить снова',
-    'net.title': 'Проблема с интернетом', 'net.text': 'Нет подключения к интернету. Работа продолжится автоматически после восстановления связи.',
+    'net.title': 'Проблема с интернетом', 'net.text': 'Нет подключения к интернету. Работа продолжится автоматически после восстановления связи.', 'net.retry': 'Повторить',
     'theme.title': 'Оформление', 'theme.light': 'День', 'theme.dark': 'Ночь',
     'cur': 'сум', 'lang.label': 'Язык',
   },
@@ -1698,7 +1698,6 @@ setInterval(tick, 1000);
 /* ---------------- Blok va internet holati ---------------- */
 const blockedOverlay = $('#blocked-overlay');
 const netOverlay = $('#net-overlay');
-let netProbeTimer = null;
 
 function showBlocked(v) { blockedOverlay.hidden = !v; }
 function showNet(v) { netOverlay.hidden = !v; }
@@ -1717,29 +1716,33 @@ async function checkBlockStatus() {
   } catch { /* tarmoq xatosi — blok emas */ }
 }
 
-/* Internet aloqasi nazorati */
-async function probeNet() {
-  try {
-    const res = await fetch(SUPABASE_URL + '/auth/v1/health', { cache: 'no-store' });
-    if (res.ok) {
-      if (!netOverlay.hidden) { showNet(false); if (currentUser) loadData(); }
-      stopNetProbe();
-    } else {
-      startNetProbe();
-    }
-  } catch {
-    showNet(true);
-    startNetProbe();
-  }
-}
-function startNetProbe() { if (!netProbeTimer) netProbeTimer = setInterval(probeNet, 5000); }
-function stopNetProbe() { clearInterval(netProbeTimer); netProbeTimer = null; }
+/* Internet aloqasi nazorati: istalgan javob keldi = internet bor,
+   faqat tarmoq xatosi (reject) = yo'q. no-cors — CORS/status kodlari muhim emas */
+let lastOnline = null;
 
-window.addEventListener('offline', () => showNet(true));
+async function probeNet() {
+  let online;
+  try {
+    await fetch(SUPABASE_URL + '/auth/v1/health', { method: 'GET', cache: 'no-store', mode: 'no-cors' });
+    online = true;
+  } catch {
+    online = false;
+  }
+  if (online === lastOnline) return;
+  lastOnline = online;
+  showNet(!online);
+  if (online && currentUser) loadData();
+}
+
+window.addEventListener('offline', () => { lastOnline = false; showNet(true); });
 window.addEventListener('online', () => probeNet());
 $('#blocked-retry').addEventListener('click', checkBlockStatus);
+$('#net-retry').addEventListener('click', probeNet);
 setInterval(checkBlockStatus, 30000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) checkBlockStatus(); });
+setInterval(probeNet, 8000);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) { checkBlockStatus(); probeNet(); }
+});
 
 /* ---------------- Boshlang'ich holat ---------------- */
 applyTheme();

@@ -238,6 +238,10 @@
       <div class="sys-alert-ic sys-alert-ic--warn"><span class="material-symbols-outlined">wifi_off</span></div>
       <h2 class="alert-title" data-i18n="net.title">Internet bilan muammo</h2>
       <p class="alert-text" data-i18n="net.text">Internet aloqasi yo'q. Aloqa tiklanganda avtomatik davom etadi.</p>
+      <button class="btn btn--primary sys-alert-btn" id="net-retry">
+        <span class="material-symbols-outlined">refresh</span>
+        <span data-i18n="net.retry">Qayta urinish</span>
+      </button>
     </div>
   </div>
 
@@ -247,7 +251,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js?v=37"></script>
+<script src="app.js?v=38"></script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
