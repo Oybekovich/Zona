@@ -1060,10 +1060,10 @@ function openProductDialog(p) {
     dialogQty++; $('#qty-num').textContent = dialogQty;
   });
   $('#qty-add').addEventListener('click', async () => {
-    await addToSession(currentPanel, p.id, dialogQty);
-    toast(`${p.name} ${t('dialog.added')}`);
     closeAlert();
     renderPanel();
+    await addToSession(currentPanel, p.id, dialogQty);
+    toast(`${p.name} ${t('dialog.added')}`);
   });
 }
 
