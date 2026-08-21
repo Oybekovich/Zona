@@ -14,6 +14,7 @@ const I18N = {
     'login.confirmPassword': 'Parolni tasdiqlash', 'login.confirmPasswordPh': 'Parolni qayta kiriting',
     'login.passMismatch': 'Parollar mos emas', 'login.passTooShort': 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak',
     'login.userExists': 'Bunday email allaqachon ro\'yxatdan o\'tgan', 'login.checkEmail': 'Emailingizni tekshiring — tasdiqlash havolasi yuborildi',
+    'login.banned': 'Bu hisob bloklangan',
     'login.secure': 'Xavfsiz va himoyalangan tizim',
     'app.title': 'Asosiy oyna', 'search.tablePh': 'Stol nomi...',
     'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band', 'filter.repair': 'Ta\'mirlashda',
@@ -55,6 +56,8 @@ const I18N = {
     'common.cancel': 'Bekor qilish', 'common.delete': 'O\'chirish', 'common.deleted': 'O\'chirildi', 'common.saved': 'Saqlandi',
     'toast.sessionStarted': 'Sessiya boshlandi', 'toast.sessionEnded': 'Sessiya yakunlandi', 'toast.sessionCancelled': 'Sessiya bekor qilindi',
     'repair.hint': 'Xizmatdan vaqtincha chiqarilgan',
+    'block.title': 'Hisob bloklangan', 'block.text': 'Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo\'qoladi.', 'block.retry': 'Qayta tekshirish',
+    'net.title': 'Internet bilan muammo', 'net.text': 'Internet aloqasi yo\'q. Aloqa tiklanganda avtomatik davom etadi.',
     'theme.title': 'Ko\'rinish', 'theme.light': 'Kun', 'theme.dark': 'Tun',
     'cur': 'so\'m', 'lang.label': 'Til',
   },
@@ -66,6 +69,7 @@ const I18N = {
     'login.confirmPassword': 'Confirm password', 'login.confirmPasswordPh': 'Re-enter password',
     'login.passMismatch': 'Passwords do not match', 'login.passTooShort': 'Password must be at least 6 characters',
     'login.userExists': 'This email is already registered', 'login.checkEmail': 'Check your email — a confirmation link has been sent',
+    'login.banned': 'This account is blocked',
     'login.secure': 'Secure and protected system',
     'app.title': 'Main Floor', 'search.tablePh': 'Table name...',
     'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy', 'filter.repair': 'Repair',
@@ -107,6 +111,8 @@ const I18N = {
     'common.cancel': 'Cancel', 'common.delete': 'Delete', 'common.deleted': 'Deleted', 'common.saved': 'Saved',
     'toast.sessionStarted': 'Session started', 'toast.sessionEnded': 'Session finished', 'toast.sessionCancelled': 'Session cancelled',
     'repair.hint': 'Temporarily out of service',
+    'block.title': 'Account blocked', 'block.text': 'Your account has been blocked by the administrator. This window will disappear automatically once the block is lifted.', 'block.retry': 'Check again',
+    'net.title': 'Connection problem', 'net.text': 'No internet connection. It will continue automatically once the connection is restored.',
     'theme.title': 'Appearance', 'theme.light': 'Day', 'theme.dark': 'Night',
     'cur': 'UZS', 'lang.label': 'Language',
   },
@@ -118,6 +124,7 @@ const I18N = {
     'login.confirmPassword': 'Подтверждение пароля', 'login.confirmPasswordPh': 'Повторите пароль',
     'login.passMismatch': 'Пароли не совпадают', 'login.passTooShort': 'Пароль должен быть не короче 6 символов',
     'login.userExists': 'Этот email уже зарегистрирован', 'login.checkEmail': 'Проверьте email — отправлена ссылка для подтверждения',
+    'login.banned': 'Этот аккаунт заблокирован',
     'login.secure': 'Безопасная и защищённая система',
     'app.title': 'Основной зал', 'search.tablePh': 'Название стола...',
     'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые', 'filter.repair': 'На ремонте',
@@ -159,6 +166,8 @@ const I18N = {
     'common.cancel': 'Отмена', 'common.delete': 'Удалить', 'common.deleted': 'Удалено', 'common.saved': 'Сохранено',
     'toast.sessionStarted': 'Сессия началась', 'toast.sessionEnded': 'Сессия завершена', 'toast.sessionCancelled': 'Сессия отменена',
     'repair.hint': 'Временно выведен из эксплуатации',
+    'block.title': 'Аккаунт заблокирован', 'block.text': 'Ваш аккаунт заблокирован администратором. Это окно исчезнет автоматически после снятия блокировки.', 'block.retry': 'Проверить снова',
+    'net.title': 'Проблема с интернетом', 'net.text': 'Нет подключения к интернету. Работа продолжится автоматически после восстановления связи.',
     'theme.title': 'Оформление', 'theme.light': 'День', 'theme.dark': 'Ночь',
     'cur': 'сум', 'lang.label': 'Язык',
   },
@@ -569,6 +578,8 @@ loginForm.addEventListener('submit', async e => {
       $('#login-error').textContent = t('login.userExists');
     } else if (/at least 6/i.test(m)) {
       $('#login-error').textContent = t('login.passTooShort');
+    } else if (/banned|disabled|blocked/i.test(m)) {
+      $('#login-error').textContent = t('login.banned');
     } else {
       $('#login-error').textContent = signup ? m : t('login.error');
     }
@@ -593,6 +604,7 @@ function enterApp() {
 
 function exitToLogin() {
   closeSheet(); closeAlert();
+  $('#blocked-overlay').hidden = true;
   $('#bottom-nav').hidden = true;
   VIEWS.forEach(x => { $(`#view-${x}`).hidden = true; });
   $('#view-login').hidden = false;
@@ -1683,6 +1695,52 @@ function tick() {
 
 setInterval(tick, 1000);
 
+/* ---------------- Blok va internet holati ---------------- */
+const blockedOverlay = $('#blocked-overlay');
+const netOverlay = $('#net-overlay');
+let netProbeTimer = null;
+
+function showBlocked(v) { blockedOverlay.hidden = !v; }
+function showNet(v) { netOverlay.hidden = !v; }
+
+/* Admin bloklashi tekshiruvi: 30 sekundda bir + ilova ochilganda */
+async function checkBlockStatus() {
+  if (!currentUser) { showBlocked(false); return; }
+  try {
+    const { data, error } = await sb.auth.getUser();
+    if (error) {
+      if (error.code === 'fetch_error' || !error.status) return;
+      showBlocked(true);
+      return;
+    }
+    showBlocked(!!(data && data.user && data.user.banned_until));
+  } catch { /* tarmoq xatosi — blok emas */ }
+}
+
+/* Internet aloqasi nazorati */
+async function probeNet() {
+  try {
+    const res = await fetch(SUPABASE_URL + '/auth/v1/health', { cache: 'no-store' });
+    if (res.ok) {
+      if (!netOverlay.hidden) { showNet(false); if (currentUser) loadData(); }
+      stopNetProbe();
+    } else {
+      startNetProbe();
+    }
+  } catch {
+    showNet(true);
+    startNetProbe();
+  }
+}
+function startNetProbe() { if (!netProbeTimer) netProbeTimer = setInterval(probeNet, 5000); }
+function stopNetProbe() { clearInterval(netProbeTimer); netProbeTimer = null; }
+
+window.addEventListener('offline', () => showNet(true));
+window.addEventListener('online', () => probeNet());
+$('#blocked-retry').addEventListener('click', checkBlockStatus);
+setInterval(checkBlockStatus, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) checkBlockStatus(); });
+
 /* ---------------- Boshlang'ich holat ---------------- */
 applyTheme();
 applyStaticLang();
@@ -1690,6 +1748,7 @@ const langSelect = $('#lang-select');
 if (langSelect) langSelect.value = currentLang;
 renderHome();
 tick();
+probeNet();
 
 (async () => {
   try {

@@ -900,6 +900,22 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 }
 .alert-warn-box--danger { background: var(--error-container); border-color: rgba(186,26,26,.3); color: var(--on-error-container); }
 
+/* ---------- Tizim overlaylari (blok / internet) ---------- */
+.sys-overlay { z-index: 120; }
+.sys-alert { display: flex; flex-direction: column; align-items: center; padding: 28px 24px 24px; }
+.sys-alert-ic {
+  width: 66px; height: 66px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px; flex-shrink: 0;
+}
+.sys-alert-ic .material-symbols-outlined { font-size: 34px; color: #fff; }
+.sys-alert-ic--danger { background: var(--error); box-shadow: 0 10px 26px rgba(186,26,26,.35); }
+.sys-alert-ic--warn { background: #ff9f0a; box-shadow: 0 10px 26px rgba(255,159,10,.32); }
+.sys-alert .alert-title { font-size: 19px; margin-bottom: 6px; }
+.sys-alert .alert-text { max-width: 300px; }
+.sys-alert-btn { margin-top: 18px; width: 100%; height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.sys-alert-btn .material-symbols-outlined { font-size: 19px; }
+
 /* ---------- Toasts ---------- */
 .toasts {
   position: fixed; bottom: calc(96px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);

@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=69">
+<link rel="stylesheet" href="style.css?v=70">
 <script>document.documentElement.dataset.theme = localStorage.getItem('zona-theme') || 'dark';</script>
 </head>
 <body>
@@ -219,13 +219,35 @@
     <div class="alert-box" id="alert-body" role="alertdialog"></div>
   </div>
 
+  <!-- ================= TIZIM: HISOB BLOKLANGAN ================= -->
+  <div class="overlay overlay--center sys-overlay" id="blocked-overlay" hidden>
+    <div class="alert-box sys-alert" role="alertdialog">
+      <div class="sys-alert-ic sys-alert-ic--danger"><span class="material-symbols-outlined">lock</span></div>
+      <h2 class="alert-title" data-i18n="block.title">Hisob bloklangan</h2>
+      <p class="alert-text" data-i18n="block.text">Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo'qoladi.</p>
+      <button class="btn btn--primary sys-alert-btn" id="blocked-retry">
+        <span class="material-symbols-outlined">refresh</span>
+        <span data-i18n="block.retry">Qayta tekshirish</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= TIZIM: INTERNET ================= -->
+  <div class="overlay overlay--center sys-overlay" id="net-overlay" hidden>
+    <div class="alert-box sys-alert" role="alertdialog">
+      <div class="sys-alert-ic sys-alert-ic--warn"><span class="material-symbols-outlined">wifi_off</span></div>
+      <h2 class="alert-title" data-i18n="net.title">Internet bilan muammo</h2>
+      <p class="alert-text" data-i18n="net.text">Internet aloqasi yo'q. Aloqa tiklanganda avtomatik davom etadi.</p>
+    </div>
+  </div>
+
   <!-- ================= TOASTS ================= -->
   <div class="toasts" id="toasts"></div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js?v=36"></script>
+<script src="app.js?v=37"></script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
