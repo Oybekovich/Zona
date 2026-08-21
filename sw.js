@@ -1,5 +1,5 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v2';
+const CACHE_NAME = 'zona-shell-v3';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -44,6 +44,7 @@ self.addEventListener('activate', event => {
 
 /* Fetch — strategiya:
    - Supabase API (network) → offline'da xato qaytaradi (app xatosini ko'rsatadi)
+   - HTML sahifalar → network-first (yangilanishlar darhol ko'rinadi), offline'da keshdan
    - App shell va CDN → cache-first
 */
 self.addEventListener('fetch', event => {
@@ -51,6 +52,22 @@ self.addEventListener('fetch', event => {
 
   /* Supabase API so'rovlari — doimo network (cache qilinmaydi) */
   if (url.hostname.includes('supabase.co') || url.hostname.includes('supabase.io')) {
+    return;
+  }
+
+  /* HTML navigatsiyalari — avval tarmoq, keyin kesh */
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        if (response && response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      }).catch(() =>
+        caches.match(event.request).then(m => m || caches.match('/'))
+      )
+    );
     return;
   }
 
