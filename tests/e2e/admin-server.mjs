@@ -11,6 +11,13 @@ process.env.ADMIN_PASSWORD ||= 'testpass123';
 process.env.HMAC_SECRET ||= 'test-hmac-secret-0123456789';
 process.env.SUPABASE_PROJECT_REF ||= 'localref';
 process.env.SUPABASE_ACCESS_TOKEN ||= 'sbp_test';
+process.env.PUSH_HOOK_SECRET ||= 'test-push-secret';
 const dir = process.env.ADMIN_DIR || new URL('../../../Zona-Admin', import.meta.url).pathname;
+if (!process.env.VAPID_PUBLIC_KEY) {
+  const { generateVapidKeys } = await import(dir + '/push.mjs');
+  const k = generateVapidKeys();
+  process.env.VAPID_PUBLIC_KEY = k.publicKey;
+  process.env.VAPID_PRIVATE_KEY = k.privateKey;
+}
 const { default: handler } = await import(dir + '/api/index.mjs');
 http.createServer(handler).listen(Number(process.env.ADMIN_PORT || 8080), '127.0.0.1', () => console.log('admin on 8080'));

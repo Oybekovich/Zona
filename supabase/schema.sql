@@ -390,6 +390,66 @@ drop policy if exists "own_access_read" on public.user_access;
 create policy "own_access_read" on public.user_access for select to authenticated
   using (user_id = (select auth.uid()));
 
+/* ================= ADMIN BILDIRISHNOMALARI (Web Push) ================= */
+-- Yangi mijoz so'rovi → pg_net → admin server /api/push/notify → admin telefoniga push + ikonkada son.
+
+do $$
+begin
+  create extension if not exists pg_net;
+exception when others then
+  raise notice 'pg_net mavjud emas — push hook o''chiq (lokal muhit)';
+end $$;
+
+-- Admin qurilmalarining push obunalari (faqat admin server yozadi/o'qiydi)
+create table if not exists private.push_subscriptions (
+  endpoint text primary key,
+  p256dh text not null,
+  auth text not null,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+-- Hook manzili va maxfiy kaliti (qiymatlar deploy paytida yoziladi, repo'da saqlanmaydi)
+create table if not exists private.push_config (
+  id int primary key default 1 check (id = 1),
+  url text not null default '',
+  secret text not null default ''
+);
+insert into private.push_config (id) values (1) on conflict (id) do nothing;
+
+create or replace function public.notify_admin_new_request()
+returns trigger
+language plpgsql security definer
+set search_path = ''
+as $$
+declare cfg record;
+begin
+  select c.url, c.secret into cfg from private.push_config c where c.id = 1;
+  if cfg.url is null or cfg.url = '' then
+    return new;
+  end if;
+  begin
+    perform net.http_post(
+      url := cfg.url,
+      body := jsonb_build_object('type', 'new_request', 'user_id', new.user_id),
+      headers := jsonb_build_object('Content-Type', 'application/json', 'x-push-secret', cfg.secret),
+      timeout_milliseconds := 5000
+    );
+  exception when others then
+    -- bildirishnoma yuborilmasa ham ro'yxatdan o'tish buzilmasin
+    raise log 'notify_admin_new_request: %', sqlerrm;
+  end;
+  return new;
+end;
+$$;
+revoke all on function public.notify_admin_new_request() from public, anon, authenticated;
+
+drop trigger if exists on_access_request_notify on public.user_access;
+create trigger on_access_request_notify
+  after insert on public.user_access
+  for each row when (new.status = 'pending')
+  execute function public.notify_admin_new_request();
+
 /* ================= REALTIME ================= */
 
 do $$

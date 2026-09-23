@@ -234,6 +234,14 @@ Dizayn: kun va tun mavzulari (tizim sozlamasiga ergashadi), yagona o'lchamdagi t
 
 > **Parollarni ko'rsatib bo'lmaydi** — Supabase bcrypt hash'da saqlaydi. Shuning uchun faqat "tiklash" bor.
 
+### 6.3.1 Bildirishnomalar (Web Push)
+- Yangi so'rov → `user_access` INSERT (pending) → trigger `notify_admin_new_request` → `pg_net` →
+  admin `/api/push/notify` (`x-push-secret`) → obuna bo'lgan admin qurilmalariga push.
+- SW bildirishnoma ko'rsatadi va ilova ikonkasiga kutilayotgan so'rovlar sonini qo'yadi (Badging API);
+  panel ochiq bo'lsa ham son sinxronlanadi. Bosilganda So'rovlar tabi ochiladi.
+- Obunalar `private.push_subscriptions`, hook sozlamasi `private.push_config` da (API orqali ko'rinmaydi).
+- Qurilmalar: Android Chrome, iOS 16.4+ (faqat Bosh ekranga qo'shilgan PWA), desktop Chrome/Edge.
+
 ### 6.4 Ma'lumot bo'limlari
 - Mijoz → zona bo'yicha guruhlangan jadvallar (yig'iladigan), qidiruv, har qatorda o'chirish (tasdiq bilan).
 - Sessiyalar: **Faol / Yakunlangan / Hammasi** filtri; faol sessiya davomiyligi jonli ("Faol · 49 daq").
@@ -331,7 +339,7 @@ setsid bash -c 'exec node server.mjs' > /tmp/zona-admin-server.log 2>&1 < /dev/n
 ## 10. Test strategiyasi
 
 **Avtomatik E2E** — `tests/e2e/` (lokal Postgres + Supabase emulyatori + Playwright), `bash tests/e2e/run.sh`:
-DB darajasi (30), asosiy ilova (28), admin panel (30) testlari. Batafsil: `tests/e2e/README.md`.
+DB darajasi (30), asosiy ilova (28), admin panel (40), push bildirishnomalari (20) testlari. Batafsil: `tests/e2e/README.md`.
 
 Eski qo'lda testlar — **Headless Chrome CDP** (`/tmp/zona-tests/cdp.mjs`):
 ```bash

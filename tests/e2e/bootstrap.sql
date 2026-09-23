@@ -24,3 +24,8 @@ alter default privileges in schema public grant all on tables to anon, authentic
 alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
 alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
 create publication supabase_realtime;
+-- pg_net stub: push hook chaqiruvlarini yozib boradi (testlar ularni admin serverga uzatadi)
+create schema net;
+create table net._calls (id bigserial primary key, url text, body jsonb, headers jsonb, created_at timestamptz default now());
+create function net.http_post(url text, body jsonb default '{}', params jsonb default '{}', headers jsonb default '{}', timeout_milliseconds int default 5000)
+returns bigint language sql as $$ insert into net._calls (url, body, headers) values (url, body, headers) returning id $$;

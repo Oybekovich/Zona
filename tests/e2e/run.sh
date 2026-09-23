@@ -29,7 +29,7 @@ trap 'kill $P1 $P2 $P3 2>/dev/null; pg "$PG_BIN/pg_ctl -D $PGDATA/data stop -m f
 sleep 1.5
 
 FAIL=0
-for t in test-db test-app test-admin; do
+for t in ${TESTS:-test-db test-app test-admin test-push}; do
   echo "== $t"; node $t.mjs || FAIL=1
 done
 exit $FAIL
