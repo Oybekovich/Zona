@@ -215,35 +215,28 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - Token `localStorage` da — brauzer yopilsa ham login saqlanadi.
 - 401 bo'lsa: token tozalanadi, login ekraniga qaytadi. **Login uchun 401** → "Login yoki parol noto'g'ri" (maxsus ishlov).
 
-### 6.2 Yuqori nav (liquid glass)
-6 ta bo'lim — har biri Supabase jadvalining frontend ko'rinishi:
-1. **Foydalanuvchilar** (`auth.users`)
-2. **Zonalar** (`public.zones`)
-3. **Stollar** (`public.tables`)
-4. **Mahsulotlar** (`public.products`)
-5. **Sessiyalar** (`public.sessions`)
-6. **Sessiya mahsulotlari** (`public.session_products`)
+### 6.2 Navigatsiya
+Chap yon menyu (telefonda ☰ tugmasi bilan ochiladi), guruhlangan:
+1. **Mijozlar** — kutilayotgan so'rovlar soni qizil belgida
+2. **Ma'lumotlar:** Zonalar, Stollar, Mahsulotlar, Sessiyalar, Sotilgan mahsulotlar
+3. **Tizim:** Sozlamalar (sinov muddati, Kun/Tun/Avto mavzu, chiqish)
 
-Dizayn: `backdrop-filter: blur(18px)`, gradient shaffof fon, yaltiroq chegaralar, hover'da yorug'lik o'tishi, faol bo'lim ko'k rangda. Topbar ham shisha.
+Dizayn: kun va tun mavzulari (tizim sozlamasiga ergashadi), yagona o'lchamdagi tugmalar, telefonda jadvallar kartaga aylanadi.
 
-### 6.3 Foydalanuvchilar bo'limi
-- **Statistika kartalari**: Jami, Faol, Bloklangan, Zonalar soni.
-- **Qidiruv**: email bo'yicha filtr.
-- **Jadval**: email, ID (qisqa), ro'yxatdan o'tgan vaqt, oxirgi kirish (Asia/Tashkent, `DD.MM.YYYY HH:MM`), holat (Faol/Bloklangan/Tasdiqlanmagan), biznes ma'lumot (zona · stol · mahsulot).
-- **Amallar:**
-  - **Ruxsat berish / Rad etish / Qayta sinov** — mijoz ruxsati (So'rovlar bo'limida ham).
-  - **Bloklash**: `banned_until = now() + 100 yil` → kirish yopiladi.
-  - **Yechish**: `banned_until = null`.
-  - **Parol tiklash**: `encrypted_password = crypt('yangi', gen_salt('bf'))` — yangi parol o'rnatish.
-  - **O'chirish**: user + identitetlar + zonalari/stollari/sessiyalari (cascade) — qaytarib bo'lmaydi, tasdiqlash oynasi.
+### 6.3 Mijozlar bo'limi
+- **Tablar:** So'rovlar · Hammasi · Umrbod · Rad etilgan · Bloklangan (har birida son). So'rov bo'lsa panel shu tabda ochiladi.
+- **Qidiruv:** email yoki zona nomi bo'yicha.
+- **Ro'yxat:** email, holat belgilari, "Qo'shilgan / Kirgan" (nisbiy vaqt), biznes qisqacha. Kutilayotgan so'rovlarda
+  **Ruxsat berish** va **Rad etish** tugmalari to'g'ridan-to'g'ri qatorda.
+- **Mijoz kartasi** (qatorga bosilganda o'ngdan chiqadi, telefonda pastdan): Ruxsat · Ma'lumot · Biznes ·
+  Hisob (Bloklash, Parolni tiklash) · Xavfli amal (O'chirish). Har bir amal tasdiqlash oynasi bilan.
+- Bloklash: `banned_until = now() + 100 yil`; parol tiklash: `crypt(..., gen_salt('bf'))`; o'chirish: cascade.
 
 > **Parollarni ko'rsatib bo'lmaydi** — Supabase bcrypt hash'da saqlaydi. Shuning uchun faqat "tiklash" bor.
 
-### 6.4 Qolgan bo'limlar (jadval ko'rinishlari)
-- Har bir bo'lim: ID, nomlar, bog'liqliklar (zona nomi, stol nomi...), vaqtlar, narxlar (`so'm` formatida).
-- **O'chirish** amali: tasdiqlash oynasi → `DELETE ... WHERE id = N` (cascade).
-- Sessiyalarda: faol sessiya `Faol` badge bilan, yakunlanganlari daqiqalarda.
-- Har bo'limda "Yangilash" tugmasi + topbardagi global yangilash.
+### 6.4 Ma'lumot bo'limlari
+- Mijoz → zona bo'yicha guruhlangan jadvallar (yig'iladigan), qidiruv, har qatorda o'chirish (tasdiq bilan).
+- Sessiyalar: **Faol / Yakunlangan / Hammasi** filtri; faol sessiya davomiyligi jonli ("Faol · 49 daq").
 
 ### 6.5 Server API (server.mjs)
 
