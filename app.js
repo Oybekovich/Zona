@@ -864,16 +864,15 @@ let homeZoneId = null;
 
 function cardFor(tab) {
   const s = sessions[tab.id];
-  const head = extra => `
-    <div class="tc-head">
-      <span class="tc-type">${typeIcon(tab.type)}</span>
-      <span class="tc-name">${escH(tab.name)}</span>
-      ${extra}
-    </div>`;
+  const typeCls = tab.type === 'tennis' ? ' tc--tennis' : '';
   if (!s) {
     return `
-      <div class="table-card is-free" role="button" tabindex="0" data-action="start" data-tid="${tab.id}">
-        ${head(`<span class="pill pill--free pill--dot">${t('zones.statusFree')}</span>`)}
+      <div class="table-card is-free${typeCls}" role="button" tabindex="0" data-action="start" data-tid="${tab.id}">
+        <div class="tc-cover"></div>
+        <div class="tc-head">
+          <span class="tc-name">${escH(tab.name)}</span>
+          <span class="tc-pill">${t('zones.statusFree')}</span>
+        </div>
         <div class="tc-main">
           <span class="tc-start"><span class="tc-play"><span class="material-symbols-outlined">play_arrow</span></span>${t('tile.start')}</span>
         </div>
@@ -881,21 +880,27 @@ function cardFor(tab) {
       </div>`;
   }
   const st = tileState(s);
-  const label = st === 'over' ? t('panel.timeOver') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
+  const pill = st === 'over' ? t('panel.timeOver') : st === 'ending' ? t('panel.ending') : t('panel.active');
+  const label = st === 'over' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
   const pct = progressPct(s);
   const n = productCount(s);
   return `
-    <div class="table-card is-${st}" role="button" tabindex="0" data-action="panel" data-tid="${tab.id}">
-      ${head(`<span class="material-symbols-outlined tc-mode" title="${s.mode === 'countdown' ? t('start.timer') : t('start.stopwatch')}">${s.mode === 'countdown' ? 'hourglass_top' : 'timer'}</span>`)}
+    <div class="table-card is-${st}${typeCls}" role="button" tabindex="0" data-action="panel" data-tid="${tab.id}">
+      <div class="tc-cover"></div>
+      <div class="tc-head">
+        <span class="tc-name">${escH(tab.name)}</span>
+        <span class="tc-pill">${pill}</span>
+        <span class="material-symbols-outlined tc-mode" title="${s.mode === 'countdown' ? t('start.timer') : t('start.stopwatch')}">${s.mode === 'countdown' ? 'hourglass_top' : 'timer'}</span>
+      </div>
       <div class="tc-main">
         <div class="tc-timer" data-timer="${tab.id}">${timerText(s)}</div>
         <div class="tc-label">${label}</div>
       </div>
-      ${pct !== null && st !== 'over' ? `<div class="progress"><i data-progress="${tab.id}" style="width:${pct.toFixed(1)}%"></i></div>` : ''}
       <div class="tc-foot">
         <span class="tc-sum" data-total-price="${tab.id}">${fmtMoney(sessionPrice(s) + productSum(s))}</span>
         ${n ? `<span class="tc-extra"><span class="material-symbols-outlined">local_cafe</span>${n}</span>` : ''}
       </div>
+      ${pct !== null && st !== 'over' ? `<div class="progress"><i data-progress="${tab.id}" style="width:${pct.toFixed(1)}%"></i></div>` : ''}
     </div>`;
 }
 

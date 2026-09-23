@@ -203,7 +203,8 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - **Maket**: telefonda pastki menyu (Stollar, Zonalar, Tarix, Mahsulotlar, Profil), kompyuterda (≥900px) chap yon panel;
   sheet oynalar telefonda pastdan, kompyuterda o'ngdan chiqadi, asosiy tugma doim pastda (sticky).
 - **Stollar ekrani**: statistika (band stollar, joriy hisob — jonli, bugungi tushum), zona tablari (band soni bilan),
-  filtr chiplari (soni bilan), ixcham stol kartalari (telefonda 2 ustun).
+  filtr chiplari (soni bilan), stol kartalari — billiard / tennis stoli rasmi ustida nom, holat, taymer va summa
+  (telefonda 1 ustun, planshetda 2, kompyuterda 2–3).
   Rang faqat holatni bildiradi: bo'sh — neytral, band — teal, 5 daqiqa qoldi — sariq, vaqt tugadi — qizil (miltillaydi).
   Taymer rejimida qolgan vaqt progress chizig'i bilan.
 - **Sessiyani boshlash**: rejim kartalari (Sekundomer / Taymer), davomiylik tayyor variantlari (30 daq – 3 soat) va ±15 daq,

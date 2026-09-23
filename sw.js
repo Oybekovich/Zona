@@ -1,5 +1,5 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v7';
+const CACHE_NAME = 'zona-shell-v8';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -9,6 +9,8 @@ const SHELL_ASSETS = [
   '/manifest.json',
   '/img/icon-192.png',
   '/img/icon-512.png',
+  '/img/billiard.jpeg',
+  '/img/table-tennis.jpg',
   '/fonts/material-symbols-outlined.woff2',
 ];
 
