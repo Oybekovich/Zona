@@ -19,10 +19,10 @@ console.log('1) Signup → access request + trial banner');
 const { page, context } = await newPage(browser);
 await signup(page, email);
 const uid = await uidOf(email);
-const [acc] = await q('select status, trial_until > now() + interval \'29 days\' ok from user_access where user_id=$1', [uid]);
-check(acc && acc.status === 'pending' && acc.ok, 'first signup creates pending request with 30-day trial');
+const [acc] = await q('select status, trial_until > now() + interval \'6 days\' ok from user_access where user_id=$1', [uid]);
+check(acc && acc.status === 'pending' && acc.ok, 'first signup creates pending request with 7-day trial');
 await page.waitForSelector('#trial-banner:not([hidden])', { timeout: 5000 });
-check(/30/.test(await page.textContent('#trial-banner-text')), 'trial banner shows 30 days left');
+check(/7 kun/.test(await page.textContent('#trial-banner-text')), 'trial banner shows 7 days left');
 check(await page.isHidden('#access-overlay'), 'no lock overlay during trial');
 
 console.log('2) CRUD with hostile names (XSS must not run)');

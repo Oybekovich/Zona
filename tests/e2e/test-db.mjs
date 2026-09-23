@@ -24,7 +24,7 @@ const A = await mkUser(`a${tag}@t.uz`), B = await mkUser(`b${tag}@t.uz`);
 console.log('1) New user → pending request with trial');
 const [acc] = await su('select status, trial_until - requested_at as d from user_access where user_id=$1', [A]);
 check(acc.status === 'pending', 'signup creates pending access request');
-check(acc.d.days === 30, `trial = 30 days (got ${JSON.stringify(acc.d)})`);
+check(acc.d.days === 7, `trial = 7 days (got ${JSON.stringify(acc.d)})`);
 const ra = await as(A, 'select public.request_access() r');
 check(ra[0].r.status === 'pending' && ra[0].r.has_access === true, 'request_access(): pending + has_access during trial');
 check(!!(await err(() => as(null, 'select public.request_access()'))), 'anon cannot call request_access');
@@ -87,7 +87,7 @@ console.log('5) trial_days setting');
 await su(`update app_settings set value='0' where key='trial_days'`);
 const C = await mkUser(`c${tag}@t.uz`);
 check((await as(C, 'select public.request_access() r'))[0].r.has_access === false, 'trial_days=0 → approval required before any use');
-await su(`update app_settings set value='30' where key='trial_days'`);
+await su(`update app_settings set value='7' where key='trial_days'`);
 
 await su('delete from auth.users where id = any($1)', [[A, B, C]]);
 await pool.end();

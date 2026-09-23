@@ -44,9 +44,9 @@ check(await page.isVisible('#req-count'), 'nav badge shows pending requests');
 await page.click('#user-tabs [data-filter=pending]');
 await sleep(300);
 check((await page.textContent('#users-list')).includes(email), 'new client listed in requests');
-check(/Sinov: 30 kun/.test(await page.textContent('#users-list')), 'shows remaining trial days');
+check(/Sinov: 7 kun/.test(await page.textContent('#users-list')), 'shows remaining trial days');
 await page.click('.nav-btn[data-sec=settings]'); await sleep(500);
-check(await page.inputValue('#trial-days') === '30', 'trial setting loaded (30)');
+check(await page.inputValue('#trial-days') === '7', 'trial setting loaded (7)');
 await page.click('.nav-btn[data-sec=users]'); await sleep(500);
 
 console.log('3) Trial expires → client locked → admin approves → client unlocked for life');
@@ -81,8 +81,8 @@ check(/berilmagan/.test(await app.textContent('#access-title')), 'client sees ac
 await page.click(`#dr-body [data-act=pending][data-id="${uid}"]`); await page.click('#modal-ok'); await sleep(700);
 await page.keyboard.press('Escape');
 check(await page.isHidden('#drawer'), 'Esc closes the client card');
-const [r] = await q('select status, trial_until > now() + interval \'29 days\' ok from user_access where user_id=$1', [uid]);
-check(r.status === 'pending' && r.ok, 'Qayta sinov → pending with fresh 30-day trial');
+const [r] = await q('select status, trial_until > now() + interval \'6 days\' ok from user_access where user_id=$1', [uid]);
+check(r.status === 'pending' && r.ok, 'Qayta sinov → pending with fresh 7-day trial');
 await app.click('#access-retry');
 await app.waitForSelector('#access-overlay', { state: 'hidden' });
 check(await app.evaluate(() => !document.querySelector('#trial-banner').hidden), 'client back in trial mode');
@@ -98,7 +98,7 @@ await app2.fill('#login-username', email2); await app2.fill('#login-password', '
 await app2.click('#login-btn');
 await app2.waitForSelector('#access-overlay:not([hidden])');
 check(true, 'new client immediately waits for approval');
-await page.fill('#trial-days', '30'); await page.click('#trial-save'); await sleep(300);
+await page.fill('#trial-days', '7'); await page.click('#trial-save'); await sleep(300);
 
 console.log('6) Existing admin actions');
 await page.click('.nav-btn[data-sec=users]'); await sleep(700);

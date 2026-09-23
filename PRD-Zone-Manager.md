@@ -114,7 +114,7 @@ user_access (
   status        text  -- pending / approved / rejected
   requested_at  timestamptz, trial_until timestamptz, decided_at timestamptz, note text
 )
-app_settings (key text PK, value jsonb)      -- trial_days (standart 30)
+app_settings (key text PK, value jsonb)      -- trial_days (standart 7)
 
 -- Sessiya mahsulotlari
 session_products (

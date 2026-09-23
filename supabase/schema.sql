@@ -68,12 +68,12 @@ create table if not exists public.user_access (
   note text
 );
 
--- Global sozlamalar (faqat admin server o'zgartiradi). trial_days = 0 → tasdiqsiz umuman ishlamaydi.
+-- Global sozlamalar (faqat admin server o'zgartiradi). trial_days — standart 7 kun; 0 → tasdiqsiz umuman ishlamaydi.
 create table if not exists public.app_settings (
   key text primary key,
   value jsonb not null
 );
-insert into public.app_settings (key, value) values ('trial_days', '30') on conflict (key) do nothing;
+insert into public.app_settings (key, value) values ('trial_days', '7') on conflict (key) do nothing;
 
 -- Admin panel login urinishlari (brute-force himoyasi). API orqali ko'rinmaydigan sxemada.
 create schema if not exists private;
@@ -136,7 +136,7 @@ language sql stable security definer
 set search_path = ''
 as $$
   select make_interval(days => greatest(coalesce(
-    (select (s.value #>> '{}')::int from public.app_settings s where s.key = 'trial_days'), 30), 0));
+    (select (s.value #>> '{}')::int from public.app_settings s where s.key = 'trial_days'), 7), 0));
 $$;
 
 -- Yangi foydalanuvchi → adminga so'rov (pending) + sinov muddati
