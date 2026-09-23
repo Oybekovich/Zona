@@ -14,6 +14,12 @@ const okRes = await login('testadmin', 'testpass123');
 check(okRes.status === 200, 'correct login after lock cleared');
 check(/default-src 'self'/.test((await fetch(ADMIN)).headers.get('content-security-policy') || ''), 'CSP header on admin pages');
 check((await fetch(ADMIN + 'api/users')).status === 401, 'API requires token');
+// Vercel rewrite: /api/:path* → /api/index?__path=:path*
+const rw = await fetch(ADMIN + 'api/index?__path=login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: 'testadmin', password: 'testpass123' }) });
+check(rw.status === 200, 'login works through Vercel rewrite path');
+const rwTok = (await rw.json()).token;
+check((await fetch(ADMIN + 'api/index?__path=users', { headers: { Authorization: 'Bearer ' + rwTok } })).status === 200, 'API works through Vercel rewrite path');
+check((await fetch(ADMIN + 'api/index?__path=settings', { headers: { Authorization: 'Bearer ' + rwTok } })).status === 200, 'nested API route through rewrite');
 
 console.log('2) Client signs up → request appears in admin');
 const email = `client${tag}@t.uz`;
