@@ -12,15 +12,25 @@ async function signup(page, em, pw = 'secret123') {
   await page.fill('#login-password', pw);
   await page.fill('#login-confirm', pw);
   await page.click('#login-btn');
-  await page.waitForSelector('#bottom-nav:not([hidden])', { timeout: 8000 });
+  await page.waitForSelector('#bottom-nav:not([hidden]), #access-overlay:not([hidden])', { timeout: 8000 });
 }
 
-console.log('1) Signup → access request + trial banner');
+console.log('1) Signup → "waiting for admin" card; admin approval → 7-day trial');
 const { page, context } = await newPage(browser);
 await signup(page, email);
 const uid = await uidOf(email);
+const [acc0] = await q('select status, trial_until from user_access where user_id=$1', [uid]);
+check(acc0 && acc0.status === 'pending' && acc0.trial_until === null, 'signup creates pending request with no trial');
+await page.waitForSelector('#access-overlay:not([hidden])', { timeout: 5000 });
+check(/kutilmoqda/.test(await page.textContent('#access-title')), 'new account sees "Admin tasdig\'i kutilmoqda" card');
+check(/7 kunlik sinov/.test(await page.textContent('#access-text')), 'card explains the 7-day trial starts after approval');
+check(await page.isHidden('#trial-banner'), 'no trial banner before approval');
+check(await page.evaluate(async () => (await sb.from('zones').select('*')).data.length) === 0, 'new account gets no data before approval (RLS)');
+// admin "Tasdiqlash" (trial action) bilan bir xil SQL — realtime orqali oyna o'zi yopiladi
+await q(`update user_access set trial_until = now() + public.trial_interval(), decided_at = now() where user_id = $1`, [uid]);
+await page.waitForSelector('#access-overlay', { state: 'hidden', timeout: 35000 });
 const [acc] = await q('select status, trial_until > now() + interval \'6 days\' ok from user_access where user_id=$1', [uid]);
-check(acc && acc.status === 'pending' && acc.ok, 'first signup creates pending request with 7-day trial');
+check(acc && acc.status === 'pending' && acc.ok, 'approval starts a 7-day trial');
 await page.waitForSelector('#trial-banner:not([hidden])', { timeout: 5000 });
 check(/7 kun/.test(await page.textContent('#trial-banner-text')), 'trial banner shows 7 days left');
 check(await page.isHidden('#access-overlay'), 'no lock overlay during trial');

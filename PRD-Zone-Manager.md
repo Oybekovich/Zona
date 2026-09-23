@@ -189,8 +189,10 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - **Vibratsiya**: countdown tugasa `navigator.vibrate`.
 
 ### 5.5.1 Ruxsat (bir martalik to'lov)
-- Ro'yxatdan o'tish → `user_access` ga `pending` so'rov (trigger) → admin panel «So'rovlar» bo'limida ko'rinadi.
-- Sinov muddati davomida ilova ishlaydi, Asosiy oynada «Sinov muddati: N kun qoldi» banneri.
+- Ro'yxatdan o'tish → `user_access` ga `pending` so'rov (trigger, `trial_until` bo'sh) → admin panel «So'rovlar» bo'limida ko'rinadi.
+- Yangi hisob darhol «Admin tasdig'i kutilmoqda» oynasini ko'radi — admin tasdiqlamaguncha ilova yopiq
+  (yangi hisob ochib sinovni qayta-qayta ishlatib bo'lmaydi).
+- Admin «Tasdiqlash» → sinov muddati (standart 7 kun, Sozlamalarda 1–365) boshlanadi; Asosiy oynada «Sinov muddati: N kun qoldi» banneri.
 - Muddat tugasa / rad etilsa — «Admin tasdig'i kutilmoqda» / «Ruxsat berilmagan» oynasi (Qayta tekshirish, Chiqish).
 - Admin «Ruxsat berish» → umrbod; oyna realtime yoki 30 soniyalik tekshiruv bilan o'zi yo'qoladi.
 

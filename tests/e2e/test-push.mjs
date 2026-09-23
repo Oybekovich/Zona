@@ -53,7 +53,7 @@ const browser = await chromium.launch({ channel: 'chromium' }); // to'liq Chromi
 const { page: app } = await newPage(browser);
 await app.goto(APP); await app.click('#mode-toggle');
 await app.fill('#login-username', email); await app.fill('#login-password', 'secret123'); await app.fill('#login-confirm', 'secret123');
-await app.click('#login-btn'); await app.waitForSelector('#bottom-nav:not([hidden])');
+await app.click('#login-btn'); await app.waitForSelector('#bottom-nav:not([hidden]), #access-overlay:not([hidden])');
 const calls = await q('select url, body, headers from net._calls order by id');
 check(calls.length === 1 && calls[0].url.endsWith('/api/push/notify') && calls[0].headers['x-push-secret'] === 'test-push-secret', 'signup fires exactly one pg_net hook with secret');
 const uid = (await q('select id from auth.users where email=$1', [email]))[0].id;

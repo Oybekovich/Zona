@@ -21,12 +21,18 @@ const mkUser = async (email) => (await su(`insert into auth.users (email) values
 const tag = Date.now();
 const A = await mkUser(`a${tag}@t.uz`), B = await mkUser(`b${tag}@t.uz`);
 
-console.log('1) New user → pending request with trial');
-const [acc] = await su('select status, trial_until - requested_at as d from user_access where user_id=$1', [A]);
-check(acc.status === 'pending', 'signup creates pending access request');
-check(acc.d.days === 7, `trial = 7 days (got ${JSON.stringify(acc.d)})`);
+console.log('1) New user → pending request WITHOUT trial; admin approval starts the trial');
+const [acc] = await su('select status, trial_until from user_access where user_id=$1', [A]);
+check(acc.status === 'pending' && acc.trial_until === null, 'signup creates pending request with no trial');
+const ra0 = await as(A, 'select public.request_access() r');
+check(ra0[0].r.status === 'pending' && ra0[0].r.has_access === false && ra0[0].r.trial_days === 7, 'request_access(): new account locked until admin approves (trial_days=7 reported)');
+check((await as(A, 'select * from zones')).length === 0 && !!(await err(() => as(A, `insert into zones (name) values ('x')`))), 'new account cannot read/write before approval');
+// admin "Tasdiqlash" (trial action) bilan bir xil SQL
+await su(`update user_access set trial_until = now() + public.trial_interval(), decided_at = now() where user_id = any($1) and trial_until is null`, [[A, B]]);
 const ra = await as(A, 'select public.request_access() r');
-check(ra[0].r.status === 'pending' && ra[0].r.has_access === true, 'request_access(): pending + has_access during trial');
+check(ra[0].r.status === 'pending' && ra[0].r.has_access === true, 'after admin approval: pending + has_access during trial');
+const [acc2] = await su('select trial_until - now() as d from user_access where user_id=$1', [A]);
+check(acc2.d.days === 6 || acc2.d.days === 7, `trial = 7 days from approval (got ${JSON.stringify(acc2.d)})`);
 check(!!(await err(() => as(null, 'select public.request_access()'))), 'anon cannot call request_access');
 
 console.log('2) Trial user can work; isolation between tenants');
@@ -84,9 +90,10 @@ check((await as(B, 'select * from user_access')).every(r => r.user_id === B), 'u
 check(!!(await err(() => as(A, 'select * from private.admin_login_attempts'))), 'private schema not reachable');
 
 console.log('5) trial_days setting');
-await su(`update app_settings set value='0' where key='trial_days'`);
+await su(`update app_settings set value='3' where key='trial_days'`);
 const C = await mkUser(`c${tag}@t.uz`);
-check((await as(C, 'select public.request_access() r'))[0].r.has_access === false, 'trial_days=0 → approval required before any use');
+const rc = (await as(C, 'select public.request_access() r'))[0].r;
+check(rc.has_access === false && rc.trial_days === 3, 'trial_days setting reported to app; new account still locked');
 await su(`update app_settings set value='7' where key='trial_days'`);
 
 await su('delete from auth.users where id = any($1)', [[A, B, C]]);

@@ -56,7 +56,8 @@ create table if not exists public.session_products (
 );
 
 /* Mijozga ruxsat: ro'yxatdan o'tganda 'pending' so'rov yaratiladi (admin panelga keladi).
-   pending  — sinov muddati (trial_until) tugaguncha ishlaydi, keyin admin tasdig'ini kutadi
+   pending  — trial_until yo'q: yangi so'rov, admin tasdig'ini kutadi (ilova yopiq);
+              admin tasdiqlasa trial_until = hozir + trial_days — sinov muddati tugaguncha ishlaydi, keyin yana kutadi
    approved — admin ruxsat bergan, umrbod ishlaydi
    rejected — admin rad etgan / ruxsatni olib qo'ygan */
 create table if not exists public.user_access (
@@ -68,7 +69,7 @@ create table if not exists public.user_access (
   note text
 );
 
--- Global sozlamalar (faqat admin server o'zgartiradi). trial_days — standart 7 kun; 0 → tasdiqsiz umuman ishlamaydi.
+-- Global sozlamalar (faqat admin server o'zgartiradi). trial_days — admin tasdiqlagach beriladigan sinov muddati (standart 7 kun).
 create table if not exists public.app_settings (
   key text primary key,
   value jsonb not null
@@ -139,7 +140,8 @@ as $$
     (select (s.value #>> '{}')::int from public.app_settings s where s.key = 'trial_days'), 7), 0));
 $$;
 
--- Yangi foydalanuvchi → adminga so'rov (pending) + sinov muddati
+-- Yangi foydalanuvchi → adminga so'rov (pending, sinovsiz). Sinov muddati faqat admin tasdiqlagach boshlanadi —
+-- aks holda yangi hisob ochib sinovni qayta-qayta ishlatish mumkin edi.
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql security definer
@@ -147,7 +149,7 @@ set search_path = ''
 as $$
 begin
   insert into public.user_access (user_id, status, trial_until)
-  values (new.id, 'pending', now() + public.trial_interval())
+  values (new.id, 'pending', null)
   on conflict (user_id) do nothing;
   return new;
 end;
@@ -172,7 +174,7 @@ begin
     raise exception 'not authenticated' using errcode = '42501';
   end if;
   insert into public.user_access (user_id, status, trial_until)
-  values (uid, 'pending', now() + public.trial_interval())
+  values (uid, 'pending', null)
   on conflict (user_id) do nothing;
   select json_build_object(
     'status', a.status,
@@ -181,6 +183,7 @@ begin
     'decided_at', a.decided_at,
     'banned', coalesce(u.banned_until > now(), false),
     'has_access', public.has_access(),
+    'trial_days', extract(day from public.trial_interval())::int,
     'server_time', now()
   ) into r
   from public.user_access a join auth.users u on u.id = a.user_id

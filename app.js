@@ -60,7 +60,8 @@ const I18N = {
     'theme.title': 'Ko\'rinish', 'theme.light': 'Kun', 'theme.dark': 'Tun',
     'err.tableBusy': 'Bu stolda allaqachon faol sessiya bor', 'err.sessionGone': 'Sessiya allaqachon yakunlangan yoki o\'chirilgan',
     'access.trialLeft': 'Sinov muddati: {n} kun qoldi · admin tasdig\'i kutilmoqda',
-    'access.pendingTitle': 'Admin tasdig\'i kutilmoqda', 'access.pendingText': 'So\'rovingiz administratorga yuborildi. To\'lovdan so\'ng admin ruxsat beradi va ilova umrbod ochiladi. Ruxsat berilishi bilan bu oyna avtomatik yo\'qoladi.',
+    'access.pendingTitle': 'Admin tasdig\'i kutilmoqda', 'access.pendingText': 'Sinov muddati tugadi. To\'lovdan so\'ng admin ruxsat beradi va ilova umrbod ochiladi. Ruxsat berilishi bilan bu oyna avtomatik yo\'qoladi.',
+    'access.newText': 'Hisobingiz administratorga yuborildi. Admin tasdiqlagach {n} kunlik sinov muddati boshlanadi. Tasdiqlanishi bilan bu oyna avtomatik yo\'qoladi.',
     'access.rejectedTitle': 'Ruxsat berilmagan', 'access.rejectedText': 'Administrator bu hisobga ruxsat bermagan. Batafsil ma\'lumot uchun administrator bilan bog\'laning.',
     'access.retry': 'Qayta tekshirish', 'access.logout': 'Chiqish',
     'cur': 'so\'m', 'lang.label': 'Til',
@@ -119,7 +120,8 @@ const I18N = {
     'theme.title': 'Appearance', 'theme.light': 'Day', 'theme.dark': 'Night',
     'err.tableBusy': 'This table already has an active session', 'err.sessionGone': 'The session was already finished or deleted',
     'access.trialLeft': 'Trial: {n} days left · waiting for admin approval',
-    'access.pendingTitle': 'Waiting for admin approval', 'access.pendingText': 'Your request has been sent to the administrator. After payment the admin approves it and the app is unlocked for life. This window disappears automatically once approved.',
+    'access.pendingTitle': 'Waiting for admin approval', 'access.pendingText': 'Your trial has ended. After payment the admin approves it and the app is unlocked for life. This window disappears automatically once approved.',
+    'access.newText': 'Your account has been sent to the administrator. Once approved, a {n}-day trial starts. This window disappears automatically once approved.',
     'access.rejectedTitle': 'Access not granted', 'access.rejectedText': 'The administrator has not granted access to this account. Please contact the administrator.',
     'access.retry': 'Check again', 'access.logout': 'Log out',
     'cur': 'UZS', 'lang.label': 'Language',
@@ -178,7 +180,8 @@ const I18N = {
     'theme.title': 'Оформление', 'theme.light': 'День', 'theme.dark': 'Ночь',
     'err.tableBusy': 'На этом столе уже есть активная сессия', 'err.sessionGone': 'Сессия уже завершена или удалена',
     'access.trialLeft': 'Пробный период: осталось {n} дн. · ожидается подтверждение администратора',
-    'access.pendingTitle': 'Ожидается подтверждение', 'access.pendingText': 'Ваш запрос отправлен администратору. После оплаты администратор подтвердит доступ, и приложение откроется навсегда. Это окно исчезнет автоматически.',
+    'access.pendingTitle': 'Ожидается подтверждение', 'access.pendingText': 'Пробный период закончился. После оплаты администратор подтвердит доступ, и приложение откроется навсегда. Это окно исчезнет автоматически.',
+    'access.newText': 'Ваш аккаунт отправлен администратору. После подтверждения начнётся пробный период ({n} дн.). Это окно исчезнет автоматически.',
     'access.rejectedTitle': 'Доступ не предоставлен', 'access.rejectedText': 'Администратор не предоставил доступ этому аккаунту. Свяжитесь с администратором.',
     'access.retry': 'Проверить снова', 'access.logout': 'Выйти',
     'cur': 'сум', 'lang.label': 'Язык',
@@ -706,7 +709,10 @@ function renderAccess() {
   $('#access-ic').textContent = rejected ? 'block' : 'hourglass_top';
   $('#access-ic-wrap').className = 'sys-alert-ic ' + (rejected ? 'sys-alert-ic--danger' : 'sys-alert-ic--warn');
   $('#access-title').textContent = t(rejected ? 'access.rejectedTitle' : 'access.pendingTitle');
-  $('#access-text').textContent = t(rejected ? 'access.rejectedText' : 'access.pendingText');
+  /* trial_until yo'q — yangi hisob, admin hali sinovni boshlamagan */
+  $('#access-text').textContent = rejected ? t('access.rejectedText')
+    : a.trial_until ? t('access.pendingText')
+    : t('access.newText').replace('{n}', a.trial_days || 7);
   $('#access-email').textContent = currentUser.email || '';
   overlay.hidden = false;
 }
