@@ -1,5 +1,5 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v6';
+const CACHE_NAME = 'zona-shell-v7';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -9,15 +9,13 @@ const SHELL_ASSETS = [
   '/manifest.json',
   '/img/icon-192.png',
   '/img/icon-512.png',
-  '/img/billiard.jpeg',
-  '/img/table-tennis.png',
+  '/fonts/material-symbols-outlined.woff2',
 ];
 
-/* CDN fayllari (Supabase JS, Material Symbols) */
+/* CDN fayllari (Supabase JS). Ikon shrifti lokal — /fonts */
 const CDN_ASSETS = [
   /* versiya qat'iy — keshda doimiy qolgani uchun '@2' kabi o'zgaruvchan manzil ishlatilmaydi */
   'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js',
-  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block',
 ];
 
 /* Install — app shell ni keshlash */

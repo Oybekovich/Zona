@@ -79,10 +79,10 @@ await sleep(300);
 await page.click('[data-extend="1800"]');
 await sleep(800);
 const dur = async () => (await q('select s.duration_sec d from sessions s join tables t on t.id=s.table_id join zones z on z.id=t.zone_id where z.owner_id=$1 and s.end_time is null', [uid]))[0].d;
-check(await dur() === 2700 + 2700, `+15 and +30 saved to DB (${await dur()}s)`);
+check(await dur() === 3600 + 2700, `+15 and +30 saved to DB (${await dur()}s)`);
 await page.reload();
 await page.waitForSelector('.table-card[data-action=panel]');
-check(await page.evaluate(() => Object.values(sessions)[0].duration) === 5400, 'extension survives reload');
+check(await page.evaluate(() => Object.values(sessions)[0].duration) === 6300, 'extension survives reload');
 await page.evaluate(async () => {
   const tid = Object.keys(sessions)[0];
   const pid = findZone(tid).products[0].id;

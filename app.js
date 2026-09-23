@@ -19,13 +19,13 @@ const I18N = {
     'app.title': 'Asosiy oyna', 'search.tablePh': 'Stol nomi...',
     'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band',
     'home.empty': 'Hali stol qo\'shilmagan', 'home.firstTable': 'Birinchi stolni qo\'shish',
-    'nav.home': 'Asosiy', 'nav.zones': 'Zonalar', 'nav.history': 'Tarix', 'nav.products': 'Mahsulotlar', 'nav.profile': 'Profil',
+    'nav.home': 'Stollar', 'nav.zones': 'Zonalar', 'nav.history': 'Tarix', 'nav.products': 'Mahsulotlar', 'nav.profile': 'Profil',
     'history.title': 'Tarix', 'history.today': 'Bugun', 'history.empty': 'Hali yakunlangan sessiya yo\'q',
     'history.time': 'Vaqt', 'history.tableTime': 'Stol', 'history.products': 'Mahsulot', 'history.total': 'Jami',
     'history.tablesTotal': 'Stollardan', 'history.productsTotal': 'Mahsulotlardan', 'history.dayTotal': 'Kun jami',
-    'zones.title': 'Zonalar', 'zones.add': '+ Yangi zona qo\'shish', 'zones.empty': 'Hali zona yo\'q — birinchi zonani qo\'shing',
+    'zones.title': 'Zonalar', 'zones.add': 'Zona qo\'shish', 'zones.empty': 'Hali zona yo\'q — birinchi zonani qo\'shing',
     'zones.tables': 'stol', 'zones.statusBusy': 'Band', 'zones.statusFree': 'Bo\'sh', 'zones.addTable': 'Yangi stol qo\'shish',
-    'products.title': 'Mahsulotlar', 'products.add': '+ Yangi mahsulot qo\'shish', 'products.empty': 'Avval zona qo\'shing',
+    'products.title': 'Mahsulotlar', 'products.add': 'Mahsulot qo\'shish', 'products.empty': 'Avval zona qo\'shing',
     'products.none': 'Hali mahsulot yo\'q',
     'profile.title': 'Profil', 'profile.role': 'Egasi', 'profile.logout': 'Chiqish', 'profile.edit': 'Profilni tahrirlash',
     'profile.name': 'Ism', 'profile.login': 'Login', 'profile.nameLoginReq': 'Ism va loginni kiriting',
@@ -38,12 +38,12 @@ const I18N = {
     'modal.save': 'Saqlash', 'modal.delete': 'O\'chirish', 'modal.deleteZone': 'Zonani o\'chirish', 'modal.deleteTable': 'Stolni o\'chirish', 'modal.deleteProduct': 'Mahsulotni o\'chirish',
     'err.required': 'Bu maydon to\'ldirilishi shart', 'err.number': 'To\'g\'ri son kiriting', 'err.rate': 'To\'g\'ri narx kiriting',
     'start.title': 'Sessiyani boshlash', 'start.stopwatch': 'Sekundomer', 'start.timer': 'Taymer',
-    'start.duration': 'Davomiylikni belgilash', 'start.minutes': 'daqiqa', 'start.hourly': 'Soatlik narx', 'start.btn': 'Sessiyani boshlash',
+    'start.duration': 'Davomiylikni belgilash', 'start.minutes': 'daqiqa', 'start.hourly': 'Soatlik narx', 'start.btn': 'Boshlash',
     'time.hour': 'soat', 'time.min': 'daqiqa',
     'panel.addProduct': 'Mahsulot qo\'shish', 'panel.searchPh': 'Mahsulot qidirish...', 'panel.noProduct': 'Mahsulot topilmadi',
     'panel.order': 'Joriy buyurtma', 'panel.done': 'Bajarildi', 'panel.edit': 'Tahrirlash',
     'panel.sessionTime': 'Sessiya vaqti', 'panel.tariff': 'Tarif', 'panel.perHour': '/ soat', 'panel.total': 'Jami',
-    'panel.finish': 'Sessiyani yakunlash va to\'lash', 'panel.cancelSession': 'Sessiyani bekor qilish',
+    'panel.finish': 'Yakunlash', 'panel.cancelSession': 'Sessiyani bekor qilish',
     'panel.overtime': 'Qo\'shimcha vaqt', 'panel.timeLeft': 'Qolgan vaqt', 'panel.timePassed': 'O\'tgan vaqt',
     'panel.active': 'Faol', 'panel.ending': 'Yaqin tugaydi', 'panel.timeOver': 'Vaqt tugadi', 'panel.dona': '/ dona',
     'dialog.add': 'Qo\'shish', 'dialog.added': 'qo\'shildi',
@@ -64,6 +64,15 @@ const I18N = {
     'access.newText': 'Hisobingiz administratorga yuborildi. Admin tasdiqlagach {n} kunlik sinov muddati boshlanadi. Tasdiqlanishi bilan bu oyna avtomatik yo\'qoladi.',
     'access.rejectedTitle': 'Ruxsat berilmagan', 'access.rejectedText': 'Administrator bu hisobga ruxsat bermagan. Batafsil ma\'lumot uchun administrator bilan bog\'laning.',
     'access.retry': 'Qayta tekshirish', 'access.logout': 'Chiqish',
+    'home.title': 'Stollar', 'home.emptyText': 'Zona va stollarni qo\'shing — keyin shu yerdan sessiyalarni boshqarasiz.', 'home.noMatch': 'Mos stol topilmadi',
+    'stats.busy': 'Band stollar', 'stats.live': 'Joriy hisob', 'stats.today': 'Bugungi tushum', 'tile.start': 'Boshlash',
+    'zones.sub': 'Zonalar, stollar va tariflar', 'zones.busyCount': '{n} band', 'zones.emptyText': 'Masalan: «Asosiy zal», «VIP xona». Har bir zonaga stollar qo\'shasiz.',
+    'history.sub': 'Tushum va yakunlangan sessiyalar', 'history.sessions': 'Sessiyalar', 'history.todaySessions': 'Bugungi sessiyalar',
+    'history.past': 'Oldingi kunlar', 'history.week': 'So\'nggi 7 kun', 'history.weekTotal': '7 kun jami', 'history.noToday': 'Bugun hali yakunlangan sessiya yo\'q',
+    'products.sub': 'Bar va oshxona menyusi', 'products.sold': 'Sotilgan: {n}', 'products.noneText': 'Sessiya davomida mijozga sotiladigan ichimlik va taomlarni qo\'shing.',
+    'profile.settings': 'Sozlamalar', 'modal.icon': 'Belgi',
+    'start.stopwatchHint': 'Vaqt ochiq, oxirida hisoblanadi', 'start.timerHint': 'Oldindan belgilangan vaqt', 'start.estimate': 'Taxminiy summa',
+    'panel.startedAt': 'Boshlangan', 'panel.endsAt': 'Tugaydi', 'panel.bill': 'Hisob', 'panel.noProducts': 'Hali mahsulot qo\'shilmagan',
     'cur': 'so\'m', 'lang.label': 'Til',
   },
   en: {
@@ -79,13 +88,13 @@ const I18N = {
     'app.title': 'Main Floor', 'search.tablePh': 'Table name...',
     'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy',
     'home.empty': 'No tables yet', 'home.firstTable': 'Add the first table',
-    'nav.home': 'Home', 'nav.zones': 'Zones', 'nav.history': 'History', 'nav.products': 'Products', 'nav.profile': 'Profile',
+    'nav.home': 'Tables', 'nav.zones': 'Zones', 'nav.history': 'History', 'nav.products': 'Products', 'nav.profile': 'Profile',
     'history.title': 'History', 'history.today': 'Today', 'history.empty': 'No finished sessions yet',
     'history.time': 'Time', 'history.tableTime': 'Table', 'history.products': 'Products', 'history.total': 'Total',
     'history.tablesTotal': 'Tables', 'history.productsTotal': 'Products', 'history.dayTotal': 'Day total',
-    'zones.title': 'Zones', 'zones.add': '+ Add new zone', 'zones.empty': 'No zones yet — add the first one',
+    'zones.title': 'Zones', 'zones.add': 'Add zone', 'zones.empty': 'No zones yet — add the first one',
     'zones.tables': 'tables', 'zones.statusBusy': 'Busy', 'zones.statusFree': 'Free', 'zones.addTable': 'Add new table',
-    'products.title': 'Products', 'products.add': '+ Add new product', 'products.empty': 'Add a zone first',
+    'products.title': 'Products', 'products.add': 'Add product', 'products.empty': 'Add a zone first',
     'products.none': 'No products yet',
     'profile.title': 'Profile', 'profile.role': 'Owner', 'profile.logout': 'Log out', 'profile.edit': 'Edit profile',
     'profile.name': 'Name', 'profile.login': 'Login', 'profile.nameLoginReq': 'Enter name and login',
@@ -98,12 +107,12 @@ const I18N = {
     'modal.save': 'Save', 'modal.delete': 'Delete', 'modal.deleteZone': 'Delete zone', 'modal.deleteTable': 'Delete table', 'modal.deleteProduct': 'Delete product',
     'err.required': 'This field is required', 'err.number': 'Enter a valid number', 'err.rate': 'Enter a valid rate',
     'start.title': 'Start session', 'start.stopwatch': 'Stopwatch', 'start.timer': 'Timer',
-    'start.duration': 'Set duration', 'start.minutes': 'min', 'start.hourly': 'Hourly rate', 'start.btn': 'Start session',
+    'start.duration': 'Set duration', 'start.minutes': 'min', 'start.hourly': 'Hourly rate', 'start.btn': 'Start',
     'time.hour': 'h', 'time.min': 'min',
     'panel.addProduct': 'Add product', 'panel.searchPh': 'Search products...', 'panel.noProduct': 'No products found',
     'panel.order': 'Current order', 'panel.done': 'Done', 'panel.edit': 'Edit',
     'panel.sessionTime': 'Session time', 'panel.tariff': 'Rate', 'panel.perHour': '/ hour', 'panel.total': 'Total',
-    'panel.finish': 'Finish and pay', 'panel.cancelSession': 'Cancel session',
+    'panel.finish': 'Finish', 'panel.cancelSession': 'Cancel session',
     'panel.overtime': 'Overtime', 'panel.timeLeft': 'Time left', 'panel.timePassed': 'Elapsed',
     'panel.active': 'Active', 'panel.ending': 'Ending soon', 'panel.timeOver': 'Time is up', 'panel.dona': 'per item',
     'dialog.add': 'Add', 'dialog.added': 'added',
@@ -124,6 +133,15 @@ const I18N = {
     'access.newText': 'Your account has been sent to the administrator. Once approved, a {n}-day trial starts. This window disappears automatically once approved.',
     'access.rejectedTitle': 'Access not granted', 'access.rejectedText': 'The administrator has not granted access to this account. Please contact the administrator.',
     'access.retry': 'Check again', 'access.logout': 'Log out',
+    'home.title': 'Tables', 'home.emptyText': 'Add zones and tables — then run all sessions from here.', 'home.noMatch': 'No matching tables',
+    'stats.busy': 'Busy tables', 'stats.live': 'Running total', 'stats.today': 'Today\'s revenue', 'tile.start': 'Start',
+    'zones.sub': 'Zones, tables and rates', 'zones.busyCount': '{n} busy', 'zones.emptyText': 'For example: “Main hall”, “VIP room”. Then add tables to each zone.',
+    'history.sub': 'Revenue and finished sessions', 'history.sessions': 'Sessions', 'history.todaySessions': 'Today\'s sessions',
+    'history.past': 'Previous days', 'history.week': 'Last 7 days', 'history.weekTotal': '7-day total', 'history.noToday': 'No finished sessions today yet',
+    'products.sub': 'Bar and kitchen menu', 'products.sold': 'Sold: {n}', 'products.noneText': 'Add drinks and snacks you sell to customers during a session.',
+    'profile.settings': 'Settings', 'modal.icon': 'Icon',
+    'start.stopwatchHint': 'Open-ended, billed at the end', 'start.timerHint': 'Fixed, pre-set duration', 'start.estimate': 'Estimated amount',
+    'panel.startedAt': 'Started', 'panel.endsAt': 'Ends', 'panel.bill': 'Bill', 'panel.noProducts': 'No products added yet',
     'cur': 'UZS', 'lang.label': 'Language',
   },
   ru: {
@@ -139,13 +157,13 @@ const I18N = {
     'app.title': 'Основной зал', 'search.tablePh': 'Название стола...',
     'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые',
     'home.empty': 'Столы ещё не добавлены', 'home.firstTable': 'Добавить первый стол',
-    'nav.home': 'Главная', 'nav.zones': 'Зоны', 'nav.history': 'История', 'nav.products': 'Товары', 'nav.profile': 'Профиль',
+    'nav.home': 'Столы', 'nav.zones': 'Зоны', 'nav.history': 'История', 'nav.products': 'Товары', 'nav.profile': 'Профиль',
     'history.title': 'История', 'history.today': 'Сегодня', 'history.empty': 'Завершённых сессий пока нет',
     'history.time': 'Время', 'history.tableTime': 'Стол', 'history.products': 'Товары', 'history.total': 'Итого',
     'history.tablesTotal': 'Столы', 'history.productsTotal': 'Товары', 'history.dayTotal': 'Итог дня',
-    'zones.title': 'Зоны', 'zones.add': '+ Добавить новую зону', 'zones.empty': 'Зон ещё нет — добавьте первую',
+    'zones.title': 'Зоны', 'zones.add': 'Добавить зону', 'zones.empty': 'Зон ещё нет — добавьте первую',
     'zones.tables': 'стол.', 'zones.statusBusy': 'Занят', 'zones.statusFree': 'Свободен', 'zones.addTable': 'Добавить новый стол',
-    'products.title': 'Товары', 'products.add': '+ Добавить новый товар', 'products.empty': 'Сначала добавьте зону',
+    'products.title': 'Товары', 'products.add': 'Добавить товар', 'products.empty': 'Сначала добавьте зону',
     'products.none': 'Товаров ещё нет',
     'profile.title': 'Профиль', 'profile.role': 'Владелец', 'profile.logout': 'Выйти', 'profile.edit': 'Редактирование профиля',
     'profile.name': 'Имя', 'profile.login': 'Логин', 'profile.nameLoginReq': 'Введите имя и логин',
@@ -158,12 +176,12 @@ const I18N = {
     'modal.save': 'Сохранить', 'modal.delete': 'Удалить', 'modal.deleteZone': 'Удалить зону', 'modal.deleteTable': 'Удалить стол', 'modal.deleteProduct': 'Удалить товар',
     'err.required': 'Это поле обязательно', 'err.number': 'Введите корректное число', 'err.rate': 'Введите корректную цену',
     'start.title': 'Начать сессию', 'start.stopwatch': 'Секундомер', 'start.timer': 'Таймер',
-    'start.duration': 'Установить длительность', 'start.minutes': 'мин', 'start.hourly': 'Тариф за час', 'start.btn': 'Начать сессию',
+    'start.duration': 'Установить длительность', 'start.minutes': 'мин', 'start.hourly': 'Тариф за час', 'start.btn': 'Начать',
     'time.hour': 'ч', 'time.min': 'мин',
     'panel.addProduct': 'Добавить товар', 'panel.searchPh': 'Поиск товаров...', 'panel.noProduct': 'Товары не найдены',
     'panel.order': 'Текущий заказ', 'panel.done': 'Готово', 'panel.edit': 'Изменить',
     'panel.sessionTime': 'Время сессии', 'panel.tariff': 'Тариф', 'panel.perHour': '/ час', 'panel.total': 'Итого',
-    'panel.finish': 'Завершить и оплатить', 'panel.cancelSession': 'Отменить сессию',
+    'panel.finish': 'Завершить', 'panel.cancelSession': 'Отменить сессию',
     'panel.overtime': 'Дополнительное время', 'panel.timeLeft': 'Осталось времени', 'panel.timePassed': 'Прошло времени',
     'panel.active': 'Активна', 'panel.ending': 'Скоро закончится', 'panel.timeOver': 'Время вышло', 'panel.dona': '/ шт',
     'dialog.add': 'Добавить', 'dialog.added': 'добавлен',
@@ -184,6 +202,15 @@ const I18N = {
     'access.newText': 'Ваш аккаунт отправлен администратору. После подтверждения начнётся пробный период ({n} дн.). Это окно исчезнет автоматически.',
     'access.rejectedTitle': 'Доступ не предоставлен', 'access.rejectedText': 'Администратор не предоставил доступ этому аккаунту. Свяжитесь с администратором.',
     'access.retry': 'Проверить снова', 'access.logout': 'Выйти',
+    'home.title': 'Столы', 'home.emptyText': 'Добавьте зоны и столы — затем управляйте всеми сеансами здесь.', 'home.noMatch': 'Столы не найдены',
+    'stats.busy': 'Занято столов', 'stats.live': 'Текущий счёт', 'stats.today': 'Выручка сегодня', 'tile.start': 'Начать',
+    'zones.sub': 'Зоны, столы и тарифы', 'zones.busyCount': 'занято: {n}', 'zones.emptyText': 'Например: «Основной зал», «VIP комната». Затем добавьте столы в каждую зону.',
+    'history.sub': 'Выручка и завершённые сеансы', 'history.sessions': 'Сеансы', 'history.todaySessions': 'Сеансы за сегодня',
+    'history.past': 'Предыдущие дни', 'history.week': 'Последние 7 дней', 'history.weekTotal': 'Итого за 7 дней', 'history.noToday': 'Сегодня завершённых сеансов пока нет',
+    'products.sub': 'Меню бара и кухни', 'products.sold': 'Продано: {n}', 'products.noneText': 'Добавьте напитки и закуски, которые продаёте во время сеанса.',
+    'profile.settings': 'Настройки', 'modal.icon': 'Иконка',
+    'start.stopwatchHint': 'Без лимита, расчёт в конце', 'start.timerHint': 'Заранее заданное время', 'start.estimate': 'Ориентировочная сумма',
+    'panel.startedAt': 'Начало', 'panel.endsAt': 'Окончание', 'panel.bill': 'Счёт', 'panel.noProducts': 'Товары ещё не добавлены',
     'cur': 'сум', 'lang.label': 'Язык',
   },
 };
@@ -197,6 +224,8 @@ let themeMode = localStorage.getItem('zona-theme') || 'dark';
 function applyTheme() {
   document.documentElement.dataset.theme = themeMode;
   $$('#theme-seg .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === themeMode));
+  const meta = document.querySelector('meta[name=theme-color]');
+  if (meta) meta.content = themeMode === 'dark' ? '#0e1013' : '#f3f4f6';
 }
 
 function setTheme(m) {
@@ -291,15 +320,15 @@ async function apiDeleteTable(tab, zone) {
   delete sessions[tab.id];
   delete lastStatus[tab.id];
 }
-async function apiAddProduct(zone, name, price) {
-  const { data, error } = await sb.from('products').insert({ zone_id: zone.id, name, price, icon: 'local_bar', sold: 0, sort_order: zone.products.length }).select().single();
+async function apiAddProduct(zone, name, price, icon = 'local_cafe') {
+  const { data, error } = await sb.from('products').insert({ zone_id: zone.id, name, price, icon, sold: 0, sort_order: zone.products.length }).select().single();
   if (error) throw error;
   zone.products.push({ id: String(data.id), name: data.name, price: Number(data.price), icon: data.icon, sold: data.sold });
 }
-async function apiUpdateProduct(p, name, price) {
-  const { error } = await sb.from('products').update({ name, price }).eq('id', p.id);
+async function apiUpdateProduct(p, name, price, icon = p.icon) {
+  const { error } = await sb.from('products').update({ name, price, icon }).eq('id', p.id);
   if (error) throw error;
-  p.name = name; p.price = price;
+  p.name = name; p.price = price; p.icon = icon;
 }
 async function apiDeleteProduct(zone, p) {
   const { error } = await sb.from('products').delete().eq('id', p.id);
@@ -384,6 +413,7 @@ async function loadData() {
       if (sessions[currentPanel]) { if (!focusInSheet) renderPanel(); }
       else closeSheet();
     }
+    loadHistory(); /* bugungi tushum (bosh ekrandagi statistika) */
   } catch (err) {
     toast(errText(err));
   }
@@ -416,7 +446,10 @@ function teardownRealtime() {
 
 /* ---------------- Yordamchilar ---------------- */
 const escH = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const fmtMoney = n => Math.round(n).toLocaleString('en-US') + ' ' + cur();
+/* Pul: "36 100 so'm" — raqamlar orasida bo'linmaydigan bo'shliq (qatorga bo'linib ketmasin) */
+const fmtNum = n => Math.round(n || 0).toLocaleString('en-US').replace(/,/g, '\u00a0');
+const fmtMoney = n => fmtNum(n) + '\u00a0' + cur();
+const moneyHTML = n => `${fmtNum(n)}<small>${cur()}</small>`;
 const pad = n => String(n).padStart(2, '0');
 
 /* Narx inputlar uchun: "1 000", "23 000", "4 500 000" */
@@ -486,12 +519,15 @@ function toast(msg, cls) {
 let currentPanel = null;
 let panelEdit = false;
 let panelSearch = '';
-let dialogQty = 1;
 
 function openSheet(html) {
   $('#sheet-body').innerHTML = html;
   $('#sheet').hidden = false;
   $$('.sheet-close').forEach(b => b.addEventListener('click', closeSheet));
+  /* Enter — asosiy tugma (Saqlash / Boshlash) */
+  $$('#sheet-body input:not([type=search])').forEach(i => i.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); $('#sheet-body .sheet-actions .btn--primary')?.click(); }
+  }));
 }
 function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelSearch = ''; startTable = null; }
 function openAlert(html) { $('#alert-body').innerHTML = html; $('#alert').hidden = false; }
@@ -556,6 +592,9 @@ function setAuthMode(mode) {
   const label = $('#login-btn').querySelector('.btn-label');
   const toggleLabel = $('#mode-toggle-label');
   const toggleIc = $('#mode-toggle-ic');
+  const title = $('#login-mode-title');
+  title.dataset.i18n = mode === 'signup' ? 'login.signupBtn' : 'login.btn';
+  title.textContent = t(title.dataset.i18n);
   if (mode === 'signup') {
     label.textContent = t('login.signupBtn');
     label.dataset.i18n = 'login.signupBtn';
@@ -640,6 +679,7 @@ function enterApp() {
   appUserId = currentUser ? currentUser.id : null;
   $('#view-login').hidden = true;
   $('#bottom-nav').hidden = false;
+  closeSheet(); closeAlert();
   renderProfile();
   loginForm.reset();
   resetLoginBtn();
@@ -749,7 +789,7 @@ function showView(v) {
   $$('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === v));
   if (v === 'home') renderHome();
   if (v === 'zones') renderZones();
-  if (v === 'history') loadHistory();
+  if (v === 'history') { renderHistory(); loadHistory(); }
   if (v === 'products') renderProducts();
 }
 
@@ -761,186 +801,307 @@ $$('[data-nav]').forEach(b => b.addEventListener('click', () => showView(b.datas
 $$('.back-btn').forEach(b => b.addEventListener('click', () => showView('profile')));
 $('#first-table-btn').addEventListener('click', () => showView('zones'));
 
-/* ---------------- ASOSIY EKRAN ---------------- */
+/* ---------------- Sana nomlari ---------------- */
+const MONTH_NAMES = {
+  uz: ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'],
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+};
+/* "23 сентября" — ruscha sana qaratqich kelishigida */
+const MONTH_GEN_RU = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const WEEKDAYS = {
+  uz: ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'],
+  en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  ru: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+};
+const WEEKDAYS_SHORT = {
+  uz: ['Ya', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'],
+  en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  ru: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+};
+const dayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+const hm = d => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+const dayMonth = d => currentLang === 'ru' ? `${d.getDate()} ${MONTH_GEN_RU[d.getMonth()]}` : `${d.getDate()} ${MONTH_NAMES[currentLang][d.getMonth()]}`;
+const dayLabel = d => `${dayMonth(d)} ${d.getFullYear()}`;
+const parseDay = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+
+/* ---------------- Stol turi belgisi ---------------- */
+/* billiard — 8-shar, tennis — raketka (Material Symbols'da yo'q, shuning uchun SVG) */
+function typeIcon(type) {
+  if (type === 'tennis') {
+    /* raketka (dastasi pastga-chapga) + koptok */
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 15.4 4.3 19.7" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><circle cx="13.6" cy="10.4" r="7.3" fill="currentColor"/><circle cx="20" cy="19.6" r="2.4" fill="currentColor" opacity=".6"/></svg>';
+  }
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.6" fill="currentColor"/><circle cx="12" cy="10.8" r="4.5" fill="var(--surface)"/><circle cx="12" cy="9.05" r="1.35" fill="none" stroke="currentColor" stroke-width="1.35"/><circle cx="12" cy="12.3" r="1.8" fill="none" stroke="currentColor" stroke-width="1.35"/></svg>';
+}
+const typeName = type => type === 'tennis' ? 'Tennis' : 'Billiard';
+
+/* ---------------- Sessiya holati yordamchilari ---------------- */
+/* free | busy | ending | over — rang faqat shu holatni bildiradi */
+function tileState(s, now = nowMs()) {
+  if (!s) return 'free';
+  const st = statusOf(s, now);
+  return st === 'expired' ? 'over' : st === 'ending' ? 'ending' : 'busy';
+}
+function timerText(s, now = nowMs()) {
+  const sec = sessionSeconds(s, now);
+  return sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
+}
+/* Taymer rejimida qolgan vaqt ulushi (%) — progress chizig'i uchun */
+function progressPct(s, now = nowMs()) {
+  if (s.mode !== 'countdown' || !s.duration) return null;
+  const { remaining } = sessionSeconds(s, now);
+  return Math.max(0, Math.min(100, remaining / s.duration * 100));
+}
+const productCount = s => s.products.reduce((n, e) => n + e.qty, 0);
+const liveTotal = (now = nowMs()) => Object.values(sessions).reduce((sum, s) => sum + sessionPrice(s, now) + productSum(s), 0);
+
+/* ---------------- STOLLAR (asosiy ekran) ---------------- */
 let activeFilter = 'all';
 let searchQuery = '';
 let homeZoneId = null;
 
-const RING_C = r => 2 * Math.PI * r;
-
 function cardFor(tab) {
-  const isTt = tab.type === 'tennis';
-  const coverCls = isTt ? 'card-cover card-cover--tt' : 'card-cover';
-  const cardCls = isTt ? ' card--tt' : '';
   const s = sessions[tab.id];
+  const head = extra => `
+    <div class="tc-head">
+      <span class="tc-type">${typeIcon(tab.type)}</span>
+      <span class="tc-name">${escH(tab.name)}</span>
+      ${extra}
+    </div>`;
   if (!s) {
     return `
-      <div class="table-card card-free${cardCls}" data-action="start" data-tid="${tab.id}">
-        <div class="${coverCls}"></div>
-        <div class="card-body">
-          <span class="table-name table-name--lg">${escH(tab.name)}</span>
+      <div class="table-card is-free" role="button" tabindex="0" data-action="start" data-tid="${tab.id}">
+        ${head(`<span class="pill pill--free pill--dot">${t('zones.statusFree')}</span>`)}
+        <div class="tc-main">
+          <span class="tc-start"><span class="tc-play"><span class="material-symbols-outlined">play_arrow</span></span>${t('tile.start')}</span>
         </div>
+        <div class="tc-foot"><span class="tc-rate">${fmtMoney(tab.tariff)} ${t('panel.perHour')}</span></div>
       </div>`;
   }
-  const st = statusOf(s);
-  const sec = sessionSeconds(s);
-  const cls = st === 'ending' ? 'card-ending' : 'card-busy';
-  const label = st === 'expired' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
-  const timerText = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
+  const st = tileState(s);
+  const label = st === 'over' ? t('panel.timeOver') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
+  const pct = progressPct(s);
+  const n = productCount(s);
   return `
-    <div class="table-card ${cls}${cardCls}" data-action="panel" data-tid="${tab.id}">
-      <div class="${coverCls}"></div>
-      <div class="card-body">
-        <div class="card-info">
-          <span class="table-name">${escH(tab.name)}</span>
-          <span class="card-price" data-price="${tab.id}">${fmtMoney(sessionPrice(s))}</span>
-        </div>
-        <div class="timer-wrap">
-          ${s.mode === 'countdown' && st !== 'expired'
-            ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${tab.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="6" stroke="#dee4e1"/></svg>` : ''}
-          <div class="timer" data-timer="${tab.id}">${timerText}</div>
-          <span class="timer-label">${label}</span>
-        </div>
+    <div class="table-card is-${st}" role="button" tabindex="0" data-action="panel" data-tid="${tab.id}">
+      ${head(`<span class="material-symbols-outlined tc-mode" title="${s.mode === 'countdown' ? t('start.timer') : t('start.stopwatch')}">${s.mode === 'countdown' ? 'hourglass_top' : 'timer'}</span>`)}
+      <div class="tc-main">
+        <div class="tc-timer" data-timer="${tab.id}">${timerText(s)}</div>
+        <div class="tc-label">${label}</div>
+      </div>
+      ${pct !== null && st !== 'over' ? `<div class="progress"><i data-progress="${tab.id}" style="width:${pct.toFixed(1)}%"></i></div>` : ''}
+      <div class="tc-foot">
+        <span class="tc-sum" data-total-price="${tab.id}">${fmtMoney(sessionPrice(s) + productSum(s))}</span>
+        ${n ? `<span class="tc-extra"><span class="material-symbols-outlined">local_cafe</span>${n}</span>` : ''}
       </div>
     </div>`;
 }
 
+function zoneTables() {
+  return state.zones.filter(z => !homeZoneId || z.id === homeZoneId).flatMap(z => z.tables);
+}
+
 function visibleTables() {
-  let list = [];
-  state.zones.forEach(z => {
-    if (homeZoneId && z.id !== homeZoneId) return;
-    z.tables.forEach(t => list.push({ ...t, zone: z }));
-  });
-  list = list.filter(t => {
-    const has = !!sessions[t.id];
+  let list = zoneTables().filter(tab => {
+    const has = !!sessions[tab.id];
     if (activeFilter === 'free') return !has;
     if (activeFilter === 'busy') return has;
     return true;
   });
-  if (searchQuery) list = list.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  if (searchQuery) list = list.filter(tab => tab.name.toLowerCase().includes(searchQuery.toLowerCase()));
   return list;
 }
 
+function updateLiveStat(now = nowMs()) {
+  const el = $('#stat-live');
+  if (el) el.innerHTML = moneyHTML(liveTotal(now));
+}
+function renderTodayStat() {
+  const el = $('#stat-today');
+  if (el) el.innerHTML = moneyHTML(histSessions.reduce((x, s) => x + finSummary(s).total, 0));
+}
+
 function renderHome() {
+  const now = new Date();
+  $('#home-date').textContent = `${WEEKDAYS[currentLang][now.getDay()]}, ${dayMonth(now)}`;
+
   const tabs = $('#home-zone-tabs');
   if (state.zones.length > 1) {
     if (!state.zones.some(z => z.id === homeZoneId)) homeZoneId = state.zones[0].id;
     tabs.hidden = false;
-    tabs.innerHTML = state.zones.map(z =>
-      `<button class="seg-btn ${z.id === homeZoneId ? 'active' : ''}" data-htab="${z.id}">${escH(z.name)}</button>`).join('');
-    $$('#home-zone-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
-      homeZoneId = b.dataset.htab;
-      renderHome();
-    }));
+    tabs.innerHTML = state.zones.map(z => {
+      const busy = z.tables.filter(x => sessions[x.id]).length;
+      return `<button class="seg-btn ${z.id === homeZoneId ? 'active' : ''}" data-htab="${z.id}">${escH(z.name)}${busy ? `<span class="seg-count">${busy}</span>` : ''}</button>`;
+    }).join('');
   } else {
     tabs.hidden = true;
     homeZoneId = null;
   }
-  const total = state.zones.reduce((n, z) => n + z.tables.length, 0);
-  $('#home-empty').hidden = total !== 0;
-  $('#table-grid').innerHTML = visibleTables().map(t => cardFor(t)).join('');
+
+  const all = state.zones.flatMap(z => z.tables);
+  const busyAll = all.filter(x => sessions[x.id]).length;
+  $('#stat-busy').innerHTML = `${busyAll}<small class="keep">/ ${all.length}</small>`;
+  updateLiveStat();
+  renderTodayStat();
+
+  const zt = zoneTables();
+  const busyZone = zt.filter(x => sessions[x.id]).length;
+  $('#cnt-all').textContent = zt.length;
+  $('#cnt-busy').textContent = busyZone;
+  $('#cnt-free').textContent = zt.length - busyZone;
+
+  const empty = all.length === 0;
+  $('#home-empty').hidden = !empty;
+  $('#search-toggle').hidden = empty;
+  $('#home-stats').hidden = empty;
+  $('#filter-chips').closest('.toolbar').hidden = empty;
+  const list = visibleTables();
+  $('#table-grid').innerHTML = list.map(cardFor).join('');
+  $('#home-nomatch').hidden = empty || list.length > 0;
 }
 
+$('#home-zone-tabs').addEventListener('click', e => {
+  const b = e.target.closest('[data-htab]');
+  if (!b) return;
+  homeZoneId = b.dataset.htab;
+  renderHome();
+});
 $('#filter-chips').addEventListener('click', e => {
   const chip = e.target.closest('.chip');
   if (!chip) return;
-  $$('#filter-chips .chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
+  $$('#filter-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
   activeFilter = chip.dataset.filter;
   renderHome();
 });
+function closeSearch() {
+  $('#search-bar').hidden = true;
+  $('#search-input').value = '';
+  searchQuery = '';
+  renderHome();
+}
 $('#search-toggle').addEventListener('click', () => {
-  const inp = $('#search-input');
-  inp.hidden = !inp.hidden;
-  if (!inp.hidden) inp.focus();
+  const bar = $('#search-bar');
+  if (!bar.hidden) { closeSearch(); return; }
+  bar.hidden = false;
+  $('#search-input').focus();
 });
-$('#search-input').addEventListener('input', e => { searchQuery = e.target.value; renderHome(); });
+$('#search-clear').addEventListener('click', closeSearch);
+$('#search-input').addEventListener('input', e => { searchQuery = e.target.value.trim(); renderHome(); });
+$('#search-input').addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
 
 $('#table-grid').addEventListener('click', e => {
   const card = e.target.closest('[data-action]');
   if (!card) return;
-  const t = findTable(card.dataset.tid);
-  if (card.dataset.action === 'start') openStartSheet(t);
-  else openPanel(t);
+  const tab = findTable(card.dataset.tid);
+  if (!tab) return;
+  if (card.dataset.action === 'start') openStartSheet(tab);
+  else openPanel(tab);
+});
+$('#table-grid').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.table-card')) { e.preventDefault(); e.target.click(); }
 });
 
 $('#lang-select').addEventListener('change', e => setLang(e.target.value));
 
-/* ---------------- SESSIYANI BOSHLASH OYNASI ---------------- */
+/* Sheet ichidagi karta sarlavhasi */
+function sheetHead(icon, title, sub) {
+  return `
+    <div class="sheet-handle"></div>
+    <header class="sheet-head">
+      <span class="sheet-head-ic">${icon}</span>
+      <div class="sheet-head-text">
+        <div class="sheet-title">${title}</div>
+        ${sub ? `<div class="sheet-sub">${sub}</div>` : ''}
+      </div>
+      <button class="sheet-close" aria-label="${t('common.cancel')}"><span class="material-symbols-outlined">close</span></button>
+    </header>`;
+}
+const msIcon = name => `<span class="material-symbols-outlined">${escH(name)}</span>`;
+
+/* ---------------- SESSIYANI BOSHLASH ---------------- */
 let startTable = null;
 let startMode = 'stopwatch';
-let startDuration = 2700;
+let startDuration = 3600;
+let startRateDraft = null;
+const DURATION_PRESETS = [1800, 3600, 5400, 7200, 10800];
+const presetLabel = sec => sec % 3600 === 0 ? `${sec / 3600} ${t('time.hour')}`
+  : sec > 3600 && sec % 1800 === 0 ? `${(sec / 3600).toLocaleString(currentLang === 'en' ? 'en-US' : 'ru-RU')} ${t('time.hour')}`
+  : `${sec / 60} ${t('start.minutes')}`;
 
-function openStartSheet(t) {
-  startTable = t;
+function openStartSheet(tab) {
+  startTable = tab;
   startMode = 'stopwatch';
-  startDuration = 2700;
+  startDuration = 3600;
+  startRateDraft = null;
   renderStartSheet();
+}
+
+function startEstimate() {
+  const rate = parseIn(startRateDraft ?? fmtIn(startTable.tariff));
+  return startMode === 'countdown' && rate > 0 ? rate * startDuration / 3600 : null;
 }
 
 function renderStartSheet() {
   const tab = startTable;
   if (!tab) return;
   const zone = findZone(tab.id);
-  const mode = startMode;
-  const duration = startDuration;
+  const rateVal = startRateDraft ?? fmtIn(tab.tariff);
+  const est = startEstimate();
 
   openSheet(`
-    <div class="sheet-handle"></div>
-    <div class="sheet-head">
-      <div>
-        <div class="sheet-title">${t('start.title')}</div>
-        <div class="sheet-sub">${escH(tab.name)} · ${escH(zone.name)}</div>
-      </div>
-      <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-    </div>
+    ${sheetHead(typeIcon(tab.type), escH(tab.name), `${t('start.title')} · ${escH(zone.name)}`)}
     <div class="sheet-content">
-      <div class="segmented" id="mode-seg">
-        <button class="seg-btn ${mode === 'stopwatch' ? 'active' : ''}" data-mode="stopwatch">${t('start.stopwatch')}</button>
-        <button class="seg-btn ${mode === 'countdown' ? 'active' : ''}" data-mode="countdown">${t('start.timer')}</button>
+      <div class="mode-cards" id="mode-seg">
+        <button class="mode-card ${startMode === 'stopwatch' ? 'active' : ''}" data-mode="stopwatch">
+          ${msIcon('timer')}<b>${t('start.stopwatch')}</b><small>${t('start.stopwatchHint')}</small>
+        </button>
+        <button class="mode-card ${startMode === 'countdown' ? 'active' : ''}" data-mode="countdown">
+          ${msIcon('hourglass_top')}<b>${t('start.timer')}</b><small>${t('start.timerHint')}</small>
+        </button>
       </div>
 
-      ${mode === 'countdown' ? `
-        <div class="sheet-section">
-          <div class="sheet-section-title">${t('start.duration')}</div>
-          <div class="duration-stepper">
-            <button class="step-btn" data-step="-900"><span class="material-symbols-outlined">remove</span></button>
-            <div class="duration-val">${Math.round(duration / 60)} <span>${t('start.minutes')}</span></div>
-            <button class="step-btn" data-step="900"><span class="material-symbols-outlined">add</span></button>
-          </div>
-          <div class="quick-chips">
-            <button class="chip" data-add="900">+15 ${t('start.minutes')}</button>
-            <button class="chip" data-add="1800">+30 ${t('start.minutes')}</button>
-            <button class="chip" data-add="3600">+1 ${t('time.hour')}</button>
-          </div>
+      ${startMode === 'countdown' ? `
+        <p class="section-title">${t('start.duration')}</p>
+        <div class="duration-box">
+          <button class="step-btn" data-step="-900" aria-label="−15 ${t('start.minutes')}">${msIcon('remove')}</button>
+          <div class="duration-val">${fmtDur(startDuration)}</div>
+          <button class="step-btn" data-step="900" aria-label="+15 ${t('start.minutes')}">${msIcon('add')}</button>
+        </div>
+        <div class="presets">
+          ${DURATION_PRESETS.map(p => `<button class="preset ${p === startDuration ? 'active' : ''}" data-preset="${p}">${presetLabel(p)}</button>`).join('')}
         </div>` : ''}
 
-      <div class="sheet-section">
-        <div class="sheet-section-title">${t('start.hourly')} (${cur()})</div>
-        <input id="start-rate" type="text" inputmode="numeric" value="${fmtIn(tab.tariff)}" class="rate-input" aria-label="${t('start.hourly')}">
-        <span class="field-error" id="err-rate"></span>
+      <p class="section-title">${t('start.hourly')}</p>
+      <div class="affix">
+        <input id="start-rate" class="input" type="text" inputmode="numeric" value="${escH(rateVal)}" aria-label="${t('start.hourly')}">
+        <span class="affix-text">${cur()}</span>
       </div>
+      <span class="field-error" id="err-rate"></span>
+      ${est !== null ? `<div class="estimate"><span>${t('start.estimate')}</span><b id="start-est">${fmtMoney(est)}</b></div>` : ''}
     </div>
-    <div class="sheet-actions">
-      <button class="btn btn--primary btn--block btn--lg" id="start-confirm">
-        <span class="material-symbols-outlined">play_arrow</span> ${t('start.btn')}
-      </button>
-    </div>
+    <footer class="sheet-actions">
+      <button class="btn btn--primary btn--lg" id="start-confirm"><span class="material-symbols-outlined ms-fill">play_arrow</span>${t('start.btn')}</button>
+    </footer>
   `);
 
-  bindMoneyInput($('#start-rate'));
-
-  $$('#mode-seg .seg-btn').forEach(b => b.addEventListener('click', () => { startMode = b.dataset.mode; renderStartSheet(); }));
-  $$('[data-step]').forEach(b => b.addEventListener('click', () => {
+  const rateInput = $('#start-rate');
+  bindMoneyInput(rateInput);
+  rateInput.addEventListener('input', () => {
+    startRateDraft = rateInput.value;
+    const e2 = startEstimate();
+    if ($('#start-est') && e2 !== null) $('#start-est').textContent = fmtMoney(e2);
+  });
+  const rerender = () => { startRateDraft = rateInput.value; renderStartSheet(); };
+  $$('#mode-seg [data-mode]').forEach(b => b.addEventListener('click', () => { startMode = b.dataset.mode; rerender(); }));
+  $$('#sheet-body [data-step]').forEach(b => b.addEventListener('click', () => {
     startDuration = Math.min(172800, Math.max(900, startDuration + +b.dataset.step));
-    renderStartSheet();
+    rerender();
   }));
-  $$('[data-add]').forEach(b => b.addEventListener('click', () => {
-    startDuration = Math.min(172800, startDuration + +b.dataset.add);
-    renderStartSheet();
-  }));
+  $$('#sheet-body [data-preset]').forEach(b => b.addEventListener('click', () => { startDuration = +b.dataset.preset; rerender(); }));
+
   $('#start-confirm').addEventListener('click', async () => {
-    const rateInput = $('#start-rate');
     const rate = parseIn(rateInput.value);
     const errEl = $('#err-rate');
     if (!rateInput.value || isNaN(rate) || rate <= 0) {
@@ -972,131 +1133,114 @@ function renderStartSheet() {
 function openPanel(tab) {
   currentPanel = tab.id;
   panelEdit = false;
+  panelSearch = '';
   renderPanel();
 }
-
 
 function renderPanel() {
   const s = sessions[currentPanel];
   if (!s) { closeSheet(); return; }
   const tab = findTable(currentPanel);
   const zone = findZone(currentPanel);
-  const st = statusOf(s);
-  const sec = sessionSeconds(s);
+  /* qayta chizishda aylantirish joyi saqlansin (mahsulot qo'shganda tepaga sakramasin) */
+  const prevScroll = $('#sheet-body .sheet-content')?.scrollTop || 0;
+  const st = tileState(s);
   const timePrice = sessionPrice(s);
   const total = timePrice + productSum(s);
-
-  const label = st === 'expired' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
-  const orbTimer = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
-  const orbCls = st === 'ending' ? 'card-ending' : '';
-  const badge = st === 'expired' ? t('panel.timeOver') : st === 'ending' ? t('panel.ending') : t('panel.active');
-  const badgeCls = st === 'ending' ? 'badge--ending' : 'badge--busy';
-
-  const timeSub = s.mode === 'countdown' ? `(${fmtDur(s.duration)})` : `(${fmtDur(sec.elapsed)})`;
   const rate = s.rate ?? tab.tariff;
-  const timeRow = `
-    <div class="order-row order-row--time">
-      <div class="order-name">${t('panel.sessionTime')} ${timeSub}
-        <span class="sub">${t('panel.tariff')}: ${fmtMoney(rate)} ${t('panel.perHour')}</span>
-      </div>
-      <div class="order-amount" data-price="${tab.id}">${fmtMoney(timePrice)}</div>
-    </div>`;
+  const pct = progressPct(s);
+
+  const pill = st === 'over' ? `<span class="pill pill--danger pill--dot">${t('panel.timeOver')}</span>`
+    : st === 'ending' ? `<span class="pill pill--warn pill--dot">${t('panel.ending')}</span>`
+    : `<span class="pill pill--accent pill--dot">${t('panel.active')}</span>`;
+  const label = st === 'over' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
+  const startAt = new Date(s.start);
+  const times = s.mode === 'countdown'
+    ? `<div class="hero-times"><span>${t('panel.startedAt')} <b>${hm(startAt)}</b></span><span>${t('panel.endsAt')} <b>${hm(new Date(s.start + s.duration * 1000))}</b></span></div>`
+    : `<div class="hero-times hero-times--single"><span>${t('panel.startedAt')} <b>${hm(startAt)}</b></span></div>`;
 
   const prodRows = s.products.map(e => {
     const p = productById(zone.id, e.pid);
     if (!p) return '';
     return `
-      <div class="order-row">
-        <div class="order-name">${escH(p.name)}
-          <span class="sub">${e.qty} x ${fmtMoney(p.price)}</span>
+      <div class="bill-row">
+        <span class="bill-ic">${msIcon(p.icon || 'local_cafe')}</span>
+        <div class="bill-main">
+          <div class="bill-name">${escH(p.name)}</div>
+          <div class="bill-sub">${fmtMoney(p.price)} × ${e.qty}</div>
         </div>
-        <div class="order-amount">${fmtMoney(p.price * e.qty)}</div>
-        ${panelEdit ? `
-          <div class="order-actions">
-            <div class="stepper-sm">
-              <button data-dec="${p.id}">−</button>
-              <span class="qty">${e.qty}</span>
-              <button data-inc="${p.id}">+</button>
-            </div>
-            <button class="add-mini" data-remove="${p.id}" title="${t('common.delete')}" style="background:var(--error-container);color:var(--on-error-container)"><span class="material-symbols-outlined">delete</span></button>
-          </div>` : `<span class="order-qty">×${e.qty}</span>`}
+        <div class="stepper">
+          <button data-dec="${p.id}" aria-label="−1">${msIcon('remove')}</button>
+          <span class="qty">${e.qty}</span>
+          <button data-inc="${p.id}" aria-label="+1">${msIcon('add')}</button>
+        </div>
+        <span class="bill-amt">${fmtMoney(p.price * e.qty)}</span>
       </div>`;
   }).join('');
 
   openSheet(`
-    <div class="sheet-handle"></div>
-    <div class="sheet-head">
-      <div>
-        <div class="sheet-title">${escH(tab.name)}</div>
-        <div class="sheet-sub">${escH(zone.name)} · ${fmtMoney(tab.tariff)} ${t('panel.perHour')}</div>
-      </div>
-      <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-    </div>
-
+    ${sheetHead(typeIcon(tab.type), escH(tab.name), `${escH(zone.name)} · ${s.mode === 'countdown' ? t('start.timer') : t('start.stopwatch')}`)}
     <div class="sheet-content">
-      <div class="timer-orb-card ${orbCls}">
-        <span class="orb-badge ${badgeCls}">${badge}</span>
-        <div class="timer-orb">
-          ${s.mode === 'countdown' && st !== 'expired'
-            ? `<svg class="ring ring--${st === 'ending' ? 'amber' : 'red'}" viewBox="-52 -52 104 104" data-ring="${tab.id}" data-radius="46"><circle class="ring-circle" cx="0" cy="0" r="46" stroke-width="4" stroke="#dee4e1"/></svg>` : ''}
-          <div class="orb-inner">
-            <div class="orb-timer" data-timer="${tab.id}">${orbTimer}</div>
-            <div class="orb-label" data-orb-label="${tab.id}">${label}</div>
-          </div>
-        </div>
+      <div class="timer-hero is-${st}">
+        ${pill}
+        <div class="hero-timer" data-timer="${tab.id}">${timerText(s)}</div>
+        <div class="hero-label">${label}</div>
+        ${pct !== null && st !== 'over' ? `<div class="progress"><i data-progress="${tab.id}" style="width:${pct.toFixed(1)}%"></i></div>` : ''}
+        ${times}
         ${s.mode === 'countdown' ? `
-          <div class="orb-btns">
-            <button class="btn btn--ghost btn--sm" data-extend="900">+15 ${t('start.minutes')}</button>
-            <button class="btn btn--ghost btn--sm" data-extend="1800">+30 ${t('start.minutes')}</button>
+          <div class="hero-actions">
+            <button class="btn btn--sm" data-extend="900">+15 ${t('start.minutes')}</button>
+            <button class="btn btn--sm" data-extend="1800">+30 ${t('start.minutes')}</button>
+            <button class="btn btn--sm" data-extend="3600">+1 ${t('time.hour')}</button>
           </div>` : ''}
       </div>
 
-      <div class="sheet-section">
-        <div class="sheet-section-title">${t('panel.addProduct')}</div>
-        <div class="search-box">
-          <span class="material-symbols-outlined">search</span>
-          <input id="prod-search" type="text" class="search-input" placeholder="${t('panel.searchPh')}" autocomplete="off" value="${escH(panelSearch)}">
+      <p class="section-title">${t('panel.bill')}</p>
+      <div class="bill">
+        <div class="bill-row">
+          <span class="bill-ic">${msIcon('schedule')}</span>
+          <div class="bill-main">
+            <div class="bill-name">${t('panel.sessionTime')}</div>
+            <div class="bill-sub">${s.mode === 'countdown' ? fmtDur(s.duration) + ' · ' : ''}${fmtMoney(rate)} ${t('panel.perHour')}</div>
+          </div>
+          <span class="bill-amt" data-price="${tab.id}">${fmtMoney(timePrice)}</span>
         </div>
-        <div class="prod-pick-list" id="prod-search-results">${panelSearchHTML(zone)}</div>
+        ${prodRows || `<div class="bill-empty">${t('panel.noProducts')}</div>`}
       </div>
 
-      <div class="sheet-section">
-        <div class="sheet-section-title">
-          ${t('panel.order')}
-          ${panelEdit
-            ? `<button class="link" id="done-edit">${t('panel.done')}</button>`
-            : `<button class="link" id="toggle-edit"><span class="material-symbols-outlined" style="font-size:16px">edit</span> ${t('panel.edit')}</button>`}
-        </div>
-        <div class="order-list">${timeRow}${prodRows}</div>
-        <div class="order-total">
-          <span>${t('panel.total')}:</span><b data-total-price="${tab.id}">${fmtMoney(total)}</b>
-        </div>
+      <p class="section-title">${t('panel.addProduct')}</p>
+      ${zone.products.length > 6 ? `
+        <label class="pick-search">
+          ${msIcon('search')}
+          <input id="prod-search" type="search" placeholder="${t('panel.searchPh')}" autocomplete="off" value="${escH(panelSearch)}">
+        </label>` : ''}
+      <div class="pick-grid" id="prod-search-results">${panelSearchHTML(zone, s)}</div>
+
+      <div class="danger-zone">
+        <button class="btn btn--link-danger" id="cancel-btn">${msIcon('delete')}${t('panel.cancelSession')}</button>
       </div>
     </div>
-
-    <div class="sheet-actions">
-      <button class="btn btn--danger btn--block btn--lg" id="finish-btn">${t('panel.finish')}</button>
-      <button class="btn btn--ghost btn--block" id="cancel-btn">${t('panel.cancelSession')}</button>
-    </div>
+    <footer class="sheet-actions">
+      <div class="pay-total"><span>${t('panel.total')}</span><b data-total-price="${tab.id}">${fmtMoney(total)}</b></div>
+      <button class="btn btn--primary btn--lg" id="finish-btn">${msIcon('check_circle')}${t('panel.finish')}</button>
+    </footer>
   `);
+  const sc = $('#sheet-body .sheet-content');
+  if (sc && prevScroll) sc.scrollTop = prevScroll;
 
-  $('#prod-search').addEventListener('input', e => {
+  $('#prod-search')?.addEventListener('input', e => {
     panelSearch = e.target.value.trim().toLowerCase();
-    $('#prod-search-results').innerHTML = panelSearchHTML(zone);
-    bindProductPicks();
+    $('#prod-search-results').innerHTML = panelSearchHTML(zone, sessions[currentPanel] || s);
   });
-  bindProductPicks();
-  $('#toggle-edit')?.addEventListener('click', () => { panelEdit = true; renderPanel(); });
-  $('#done-edit')?.addEventListener('click', () => { panelEdit = false; renderPanel(); });
-  $$('[data-inc]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.inc, 1); renderPanel(); }));
-  $$('[data-dec]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.dec, -1); renderPanel(); }));
-  $$('[data-remove]').forEach(b => b.addEventListener('click', () => { removeFromSession(currentPanel, b.dataset.remove); renderPanel(); }));
-  $$('[data-extend]').forEach(b => b.addEventListener('click', async () => {
+  $$('#sheet-body [data-inc]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.inc, 1); renderPanel(); }));
+  $$('#sheet-body [data-dec]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.dec, -1); renderPanel(); }));
+  $$('#sheet-body [data-extend]').forEach(b => b.addEventListener('click', async () => {
     const s2 = sessions[currentPanel];
     if (!s2 || s2.mode !== 'countdown') return;
     const add = +b.dataset.extend;
     s2.duration += add;
-    renderPanel();
+    lastStatus[s2.tableId] = statusOf(s2);
+    renderPanel(); renderHome();
     try { await apiExtendSession(s2, add); }
     catch (err) { s2.duration -= add; toast(errText(err)); loadData(); }
     if (currentPanel === s2.tableId && sessions[currentPanel]) renderPanel();
@@ -1104,6 +1248,15 @@ function renderPanel() {
   $('#finish-btn').addEventListener('click', finishConfirm);
   $('#cancel-btn').addEventListener('click', cancelConfirm);
 }
+
+/* Mahsulot tugmalari — bitta bosish = +1 (delegatsiya: qidiruvdan keyin ham ishlaydi) */
+$('#sheet-body').addEventListener('click', e => {
+  const b = e.target.closest('[data-pick]');
+  if (!b || !currentPanel) return;
+  addToSession(currentPanel, b.dataset.pick, 1);
+  renderPanel();
+  renderHome();
+});
 
 async function addToSession(tid, pid, delta = 1) {
   const s = sessions[tid];
@@ -1119,81 +1272,42 @@ async function addToSession(tid, pid, delta = 1) {
   try { await apiAddSessionProduct(s, pid, delta); }
   catch (err) { toast(errText(err)); loadData(); }
 }
-async function removeFromSession(tid, pid) {
-  const s = sessions[tid];
-  if (!s) return;
-  const e = s.products.find(x => x.pid === pid);
-  if (!e) return;
-  s.products = s.products.filter(x => x !== e);
-  try { await apiAddSessionProduct(s, pid, -e.qty); }
-  catch (err) { toast(errText(err)); loadData(); }
-}
 
-function panelSearchHTML(zone) {
+function panelSearchHTML(zone, s) {
   const q = panelSearch;
   const list = q
     ? zone.products.filter(p => p.name.toLowerCase().includes(q)).sort((a, b) => a.name.localeCompare(b.name))
-    : zone.products.slice().sort((a, b) => b.sold - a.sold).slice(0, 4);
-  if (!list.length) return '<div class="prod-pick-empty">' + t('panel.noProduct') + '</div>';
-  return list.map(p => `
-    <button class="prod-pick" data-pick="${p.id}">
-      <span class="quick-icon"><span class="material-symbols-outlined">${escH(p.icon || 'local_bar')}</span></span>
-      <span class="pp-name">${escH(p.name)}</span>
-      <span class="pp-price">${fmtMoney(p.price)}</span>
-    </button>`).join('');
-}
-
-function bindProductPicks() {
-  $$('[data-pick]').forEach(b => b.addEventListener('click', () => {
-    const p = productById(findZone(currentPanel).id, b.dataset.pick);
-    if (p) openProductDialog(p);
-  }));
-}
-
-function openProductDialog(p) {
-  dialogQty = 1;
-  openAlert(`
-    <button class="alert-close" id="qty-close"><span class="material-symbols-outlined">close</span></button>
-    <div class="alert-title">${escH(p.name)}</div>
-    <div class="alert-sub">${fmtMoney(p.price)} ${t('panel.dona')}</div>
-    <div class="qty-stepper">
-      <button class="qty-btn" id="qty-dec">−</button>
-      <span class="qty-num" id="qty-num">1</span>
-      <button class="qty-btn" id="qty-inc">+</button>
-    </div>
-    <div class="alert-btns">
-      <button class="btn btn--primary" id="qty-add">${t('dialog.add')}</button>
-    </div>
-  `);
-  $('#qty-close').addEventListener('click', closeAlert);
-  $('#qty-dec').addEventListener('click', () => {
-    if (dialogQty > 1) { dialogQty--; $('#qty-num').textContent = dialogQty; }
-  });
-  $('#qty-inc').addEventListener('click', () => {
-    dialogQty++; $('#qty-num').textContent = dialogQty;
-  });
-  $('#qty-add').addEventListener('click', async () => {
-    closeAlert();
-    renderPanel();
-    await addToSession(currentPanel, p.id, dialogQty);
-    toast(`${p.name} ${t('dialog.added')}`);
-  });
+    : zone.products.slice().sort((a, b) => (b.sold || 0) - (a.sold || 0));
+  if (!zone.products.length) return `<div class="pick-empty">${t('products.none')}</div>`;
+  if (!list.length) return `<div class="pick-empty">${t('panel.noProduct')}</div>`;
+  return list.map(p => {
+    const inOrder = s ? (s.products.find(e => e.pid === p.id) || {}).qty : 0;
+    return `
+      <button class="pick" data-pick="${p.id}">
+        <span class="pick-ic">${msIcon(p.icon || 'local_cafe')}</span>
+        <span class="pick-text"><span class="pick-name">${escH(p.name)}</span><span class="pick-price">${fmtMoney(p.price)}</span></span>
+        ${inOrder ? `<span class="pick-qty">${inOrder}</span>` : ''}
+      </button>`;
+  }).join('');
 }
 
 /* ---------------- YAKUNLASH / BEKOR QILISH ---------------- */
 function finishConfirm() {
   const s = sessions[currentPanel];
   if (!s) return;
+  const tab = findTable(currentPanel);
   const timePrice = sessionPrice(s);
   const prod = productSum(s);
   const sec = sessionSeconds(s);
   openAlert(`
+    <div class="alert-ic">${msIcon('point_of_sale')}</div>
     <div class="alert-title">${t('finish.title')}</div>
-    <div class="alert-breakdown">
-      <div class="ab-row"><span>${t('finish.time')}</span><b>${fmtTime(sec.elapsed)}</b></div>
-      <div class="ab-row"><span>${t('finish.tableTime')}</span><b>${fmtMoney(timePrice)}</b></div>
-      <div class="ab-row"><span>${t('finish.products')}</span><b>${fmtMoney(prod)}</b></div>
-      <div class="ab-total"><span>${t('finish.total')}</span><span>${fmtMoney(timePrice + prod)}</span></div>
+    <div class="alert-sub">${escH(tab ? tab.name : '')}</div>
+    <div class="receipt">
+      <div class="receipt-row"><span>${t('finish.time')}</span><b>${fmtTime(sec.elapsed)}</b></div>
+      <div class="receipt-row"><span>${t('finish.tableTime')}</span><b>${fmtMoney(timePrice)}</b></div>
+      <div class="receipt-row"><span>${t('finish.products')}</span><b>${fmtMoney(prod)}</b></div>
+      <div class="receipt-total"><span>${t('finish.total')}</span><span>${fmtMoney(timePrice + prod)}</span></div>
     </div>
     <div class="alert-btns">
       <button class="btn btn--ghost" id="abort-finish">${t('common.cancel')}</button>
@@ -1223,8 +1337,9 @@ function cancelConfirm() {
   const s = sessions[currentPanel];
   if (!s) return;
   openAlert(`
+    <div class="alert-ic alert-ic--danger">${msIcon('delete')}</div>
     <div class="alert-title">${t('cancel.title')}</div>
-    <p class="alert-text alert-text--warn">${t('cancel.warn')}</p>
+    <p class="alert-text">${t('cancel.warn')}</p>
     <div class="alert-btns">
       <button class="btn btn--ghost" id="abort-cancel">${t('cancel.no')}</button>
       <button class="btn btn--danger" id="ok-cancel">${t('cancel.yes')}</button>
@@ -1243,124 +1358,141 @@ function cancelConfirm() {
   });
 }
 
-/* ---------------- ZONALAR ---------------- */
-let openZoneId = null;
-
-function zoneStatus(tab) {
-  return sessions[tab.id]
-    ? { cls: 'busy', txt: t('zones.statusBusy') }
-    : { cls: 'free', txt: t('zones.statusFree') };
+/* O'chirishni tasdiqlash (zona / stol / mahsulot) */
+function confirmDelete(name, warn, onOk) {
+  openAlert(`
+    <div class="alert-ic alert-ic--danger">${msIcon('delete')}</div>
+    <div class="alert-title">'${escH(name)}'${t('confirm.deleteTitle')}</div>
+    <p class="alert-text">${t('confirm.irreversible')}</p>
+    ${warn ? `<div class="alert-warn-box alert-warn-box--danger">${warn}</div>` : ''}
+    <div class="alert-btns">
+      <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
+      <button class="btn btn--danger" id="confirm-del" ${warn ? 'disabled' : ''}>${t('common.delete')}</button>
+    </div>
+  `);
+  $('#cancel-del').addEventListener('click', closeAlert);
+  $('#confirm-del').addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    if (btn.disabled) return;
+    btn.disabled = true;
+    try {
+      await onOk();
+      closeAlert(); closeSheet();
+      toast(t('common.deleted'));
+    } catch (err) { btn.disabled = false; toast(errText(err)); }
+  });
 }
 
+/* Saqlash tugmasi: ikki marta bosilsa ham bitta so'rov */
+function bindSave(btnSel, validate, save) {
+  $(btnSel).addEventListener('click', async e => {
+    const btn = e.currentTarget;
+    const vals = validate();
+    if (!vals || btn.disabled) return;
+    btn.disabled = true;
+    try {
+      await save(vals);
+      closeSheet();
+      toast(t('common.saved'));
+    } catch (err) { btn.disabled = false; toast(errText(err)); }
+  });
+}
+function markError(input, msg) {
+  input.classList.toggle('input-error', !!msg);
+  const err = input.closest('.field').querySelector('.field-error');
+  if (err) err.textContent = msg || '';
+  return !msg;
+}
+
+/* ---------------- ZONALAR ---------------- */
 function renderZones() {
+  const list = $('#zones-table-list');
   if (!state.zones.length) {
-    $('#zone-tabs').innerHTML = '';
-    $('#zones-table-list').innerHTML = '<div class="empty-state"><p>' + t('zones.empty') + '</p></div>';
+    list.innerHTML = `
+      <div class="empty-state">
+        <span class="empty-icon">${msIcon('grid_view')}</span>
+        <p class="empty-title">${t('zones.empty')}</p>
+        <p class="empty-text">${t('zones.emptyText')}</p>
+      </div>`;
     return;
   }
-  if (!state.zones.some(z => z.id === openZoneId)) openZoneId = state.zones[0].id;
-
-  $('#zone-tabs').innerHTML = state.zones.map(z =>
-    `<button class="seg-btn ${z.id === openZoneId ? 'active' : ''}" data-ztab="${z.id}">${escH(z.name)}</button>`).join('');
-  $$('#zone-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
-    openZoneId = b.dataset.ztab;
-    renderZones();
-  }));
-
-  const zone = state.zones.find(z => z.id === openZoneId);
-  $('#zones-table-list').innerHTML = `
-    <div class="zone-block" style="margin-top:14px">
-      <div class="zone-head">
-        <span class="zone-name">${escH(zone.name)}</span>
-        <span class="zone-count">${zone.tables.length} ${t('zones.tables')}</span>
-        <button class="icon-btn" data-edit-zone="${zone.id}" title="${t('panel.edit')}"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
-      </div>
-      <div class="zone-body" style="display:block;padding:0 18px 16px">
+  list.innerHTML = state.zones.map(zone => {
+    const busy = zone.tables.filter(x => sessions[x.id]).length;
+    return `
+      <div class="zone-card">
+        <div class="zone-card-head">
+          <span class="zone-ic">${msIcon('grid_view')}</span>
+          <div class="zone-meta">
+            <b>${escH(zone.name)}</b>
+            <span>${zone.tables.length} ${t('zones.tables')}${busy ? ' · ' + t('zones.busyCount').replace('{n}', busy) : ''}</span>
+          </div>
+          <button class="icon-btn" data-edit-zone="${zone.id}" title="${t('panel.edit')}" aria-label="${t('panel.edit')}">${msIcon('edit')}</button>
+        </div>
         ${zone.tables.map(tab => {
-          const s = zoneStatus(tab);
+          const isBusy = !!sessions[tab.id];
           return `
-            <div class="table-row">
-              <span class="status-dot ${s.cls}"></span>
-              <span class="table-row-name">${escH(tab.name)}</span>
-              <span class="status-text ${s.cls}">${s.txt}</span>
-              <button class="icon-btn" data-edit-table="${tab.id}" title="${t('panel.edit')}" style="width:36px;height:36px"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
-            </div>`;
+            <button class="t-row" data-edit-table="${tab.id}">
+              <span class="t-type">${typeIcon(tab.type)}</span>
+              <span class="row-text"><b>${escH(tab.name)}</b><small>${typeName(tab.type)} · ${fmtMoney(tab.tariff)} ${t('panel.perHour')}</small></span>
+              <span class="pill pill--dot ${isBusy ? 'pill--accent' : 'pill--free'}">${isBusy ? t('zones.statusBusy') : t('zones.statusFree')}</span>
+              <span class="material-symbols-outlined row-chevron">chevron_right</span>
+            </button>`;
         }).join('')}
-        <button class="link-add" data-add-table="${zone.id}"><span class="material-symbols-outlined" style="font-size:18px">add</span> ${t('zones.addTable')}</button>
-      </div>
-    </div>`;
+        <button class="zone-add" data-add-table="${zone.id}">${msIcon('add')}${t('zones.addTable')}</button>
+      </div>`;
+  }).join('');
 }
 
 $('#zones-table-list').addEventListener('click', e => {
   const ez = e.target.closest('[data-edit-zone]');
   const et = e.target.closest('[data-edit-table]');
   const at = e.target.closest('[data-add-table]');
-  if (ez) {
-    openZoneModal(state.zones.find(x => x.id === ez.dataset.editZone));
-  } else if (et) {
-    openTableModal(findTable(et.dataset.editTable));
-  } else if (at) {
-    openTableModal(null, state.zones.find(x => x.id === at.dataset.addTable).id);
-  }
+  if (ez) openZoneModal(state.zones.find(x => x.id === ez.dataset.editZone));
+  else if (et) openTableModal(findTable(et.dataset.editTable));
+  else if (at) openTableModal(null, at.dataset.addTable);
 });
 $('#add-zone-btn').addEventListener('click', () => openZoneModal(null));
+$('#first-table-btn').addEventListener('click', () => {
+  showView('zones');
+  if (!state.zones.length) openZoneModal(null);
+});
 
 function zoneHasActiveSession(z) {
-  return z.tables.some(t => sessions[t.id]);
+  return z.tables.some(x => sessions[x.id]);
 }
+
+function refreshAll() { renderHome(); renderZones(); renderProducts(); }
 
 function openZoneModal(z) {
   const isEdit = !!z;
   openSheet(`
-    <div class="sheet-handle"></div>
-    <div class="sheet-head">
-      <div class="sheet-title">${isEdit ? t('modal.editZone') : t('modal.newZone')}</div>
-      <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-    </div>
+    ${sheetHead(msIcon('grid_view'), isEdit ? t('modal.editZone') : t('modal.newZone'), isEdit ? escH(z.name) : '')}
     <div class="sheet-content">
       <div class="field">
-        <label>${t('modal.zoneName')}</label>
-        <input id="zone-name" value="${isEdit ? escH(z.name) : ''}" placeholder="${t('modal.zonePh')}">
+        <label for="zone-name">${t('modal.zoneName')}</label>
+        <input id="zone-name" maxlength="80" value="${isEdit ? escH(z.name) : ''}" placeholder="${t('modal.zonePh')}" autocomplete="off">
         <span class="field-error"></span>
       </div>
-      <button class="btn btn--primary btn--block" id="save-zone">${t('modal.save')}</button>
-      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-zone" style="margin-top:10px">${t('modal.deleteZone')}</button>` : ''}
     </div>
+    <footer class="sheet-actions">
+      ${isEdit ? `<button class="btn btn--danger-soft btn--lg" id="del-zone">${msIcon('delete')}</button>` : ''}
+      <button class="btn btn--primary btn--lg" id="save-zone">${t('modal.save')}</button>
+    </footer>
   `);
   const input = $('#zone-name');
-  $('#save-zone').addEventListener('click', async e => {
+  if (!isEdit) setTimeout(() => input.focus(), 50);
+  bindSave('#save-zone', () => {
     const name = input.value.trim();
-    if (!name) { input.classList.add('input-error'); input.nextElementSibling.textContent = t('err.required'); return; }
-    const btn = e.currentTarget;
-    if (btn.disabled) return;
-    btn.disabled = true;
-    try {
-      if (isEdit) await apiUpdateZone(z, name);
-      else await apiAddZone(name);
-      closeSheet(); renderHome(); renderZones(); renderProducts();
-      toast(t('common.saved'));
-    } catch (err) { btn.disabled = false; toast(errText(err)); }
+    return markError(input, name ? '' : t('err.required')) && { name };
+  }, async ({ name }) => {
+    if (isEdit) await apiUpdateZone(z, name);
+    else await apiAddZone(name);
+    refreshAll();
   });
   if (isEdit) $('#del-zone').addEventListener('click', () => {
-    const active = zoneHasActiveSession(z);
-    openAlert(`
-      <div class="alert-title">'${escH(z.name)}'${t('confirm.deleteTitle')}</div>
-      <p class="alert-text">${t('confirm.irreversible')}</p>
-      ${active ? `<div class="alert-warn-box alert-warn-box--danger">${t('confirm.zoneActive')}</div>` : ''}
-      <div class="alert-btns">
-        <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
-        <button class="btn btn--danger" id="confirm-del" ${active ? 'disabled' : ''}>${t('common.delete')}</button>
-      </div>
-    `);
-    $('#cancel-del').addEventListener('click', closeAlert);
-    $('#confirm-del').addEventListener('click', async () => {
-      try {
-        await apiDeleteZone(z);
-        if (openZoneId === z.id) openZoneId = state.zones[0] ? state.zones[0].id : null;
-        closeAlert(); closeSheet();
-        renderHome(); renderZones(); renderProducts();
-        toast(t('common.deleted'));
-      } catch (err) { toast(errText(err)); }
+    confirmDelete(z.name, zoneHasActiveSession(z) ? t('confirm.zoneActive') : '', async () => {
+      await apiDeleteZone(z);
+      refreshAll();
     });
   });
 }
@@ -1368,122 +1500,110 @@ function openZoneModal(z) {
 function openTableModal(tab, presetZoneId) {
   const isEdit = !!tab;
   const zone = tab ? findZone(tab.id) : state.zones.find(x => x.id === presetZoneId) || state.zones[0];
+  if (!zone) return;
   let tableType = isEdit ? (tab.type || 'billiard') : 'billiard';
   /* turini almashtirganda kiritilgan qiymatlar yo'qolmasin */
   const draft = { name: isEdit ? tab.name : '', tariff: isEdit ? fmtIn(tab.tariff) : '' };
 
   const render = () => {
     openSheet(`
-      <div class="sheet-handle"></div>
-      <div class="sheet-head">
-        <div class="sheet-title">${isEdit ? t('modal.editTable') : t('modal.newTable')}</div>
-        <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-      </div>
+      ${sheetHead(typeIcon(tableType), isEdit ? t('modal.editTable') : t('modal.newTable'), escH(zone.name))}
       <div class="sheet-content">
         <div class="segmented" id="type-seg">
-          <button class="seg-btn ${tableType === 'billiard' ? 'active' : ''}" data-type="billiard">Billiard</button>
-          <button class="seg-btn ${tableType === 'tennis' ? 'active' : ''}" data-type="tennis">Tennis</button>
+          <button class="seg-btn ${tableType === 'billiard' ? 'active' : ''}" data-type="billiard"><span class="seg-svg">${typeIcon('billiard')}</span>Billiard</button>
+          <button class="seg-btn ${tableType === 'tennis' ? 'active' : ''}" data-type="tennis"><span class="seg-svg">${typeIcon('tennis')}</span>Tennis</button>
         </div>
-        <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${escH(zone.name)}</div>
-        <div class="field">
-          <label>${t('modal.tableName')}</label>
-          <input id="table-name" value="${escH(draft.name)}" placeholder="${t('modal.tablePh')}">
+        <div class="field" style="margin-top:16px">
+          <label for="table-name">${t('modal.tableName')}</label>
+          <input id="table-name" maxlength="80" value="${escH(draft.name)}" placeholder="${t('modal.tablePh')}" autocomplete="off">
           <span class="field-error"></span>
         </div>
         <div class="field">
-          <label>${t('modal.tariff')} (${cur()})</label>
-          <input id="table-tariff" type="text" inputmode="numeric" value="${escH(draft.tariff)}" placeholder="${t('modal.tariffPh')}">
+          <label for="table-tariff">${t('modal.tariff')}</label>
+          <div class="affix">
+            <input id="table-tariff" type="text" inputmode="numeric" value="${escH(draft.tariff)}" placeholder="${t('modal.tariffPh')}">
+            <span class="affix-text">${cur()}</span>
+          </div>
           <span class="field-error"></span>
         </div>
-        <button class="btn btn--primary btn--block" id="save-table">${t('modal.save')}</button>
-        ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">${t('modal.deleteTable')}</button>` : ''}
       </div>
+      <footer class="sheet-actions">
+        ${isEdit ? `<button class="btn btn--danger-soft btn--lg" id="del-table">${msIcon('delete')}</button>` : ''}
+        <button class="btn btn--primary btn--lg" id="save-table">${t('modal.save')}</button>
+      </footer>
     `);
-
     $$('#type-seg .seg-btn').forEach(b => b.addEventListener('click', () => {
       draft.name = $('#table-name').value;
       draft.tariff = $('#table-tariff').value;
       tableType = b.dataset.type;
       render();
     }));
-    bindTableForm(tab, zone, isEdit, () => tableType);
+    const nameInput = $('#table-name');
+    const tariffInput = $('#table-tariff');
+    bindMoneyInput(tariffInput);
+    if (!isEdit && !draft.name) setTimeout(() => nameInput.focus(), 50);
+    bindSave('#save-table', () => {
+      const name = nameInput.value.trim();
+      const tariff = parseIn(tariffInput.value);
+      const ok1 = markError(nameInput, name ? '' : t('err.required'));
+      const ok2 = markError(tariffInput, (!tariffInput.value || isNaN(tariff) || tariff < 0) ? t('err.number') : '');
+      return ok1 && ok2 && { name, tariff };
+    }, async ({ name, tariff }) => {
+      if (isEdit) await apiUpdateTable(tab, name, tariff, tableType);
+      else await apiAddTable(zone, name, tariff, tableType);
+      renderHome(); renderZones();
+    });
+    if (isEdit) $('#del-table').addEventListener('click', () => {
+      confirmDelete(tab.name, sessions[tab.id] ? t('confirm.tableActive') : '', async () => {
+        await apiDeleteTable(tab, zone);
+        renderHome(); renderZones();
+      });
+    });
   };
   render();
 }
 
-function bindTableForm(tab, zone, isEdit, getType) {
-  const nameInput = $('#table-name');
-  const tariffInput = $('#table-tariff');
-  bindMoneyInput(tariffInput);
-  $('#save-table').addEventListener('click', async e => {
-    const name = nameInput.value.trim();
-    const tariff = parseIn(tariffInput.value);
-    let ok = true;
-    if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = t('err.required'); ok = false; }
-    else nameInput.classList.remove('input-error');
-    if (!tariffInput.value || isNaN(tariff) || tariff < 0) {
-      tariffInput.classList.add('input-error'); tariffInput.nextElementSibling.textContent = t('err.number'); ok = false;
-    } else tariffInput.classList.remove('input-error');
-    if (!ok) return;
-    const btn = e.currentTarget;
-    if (btn.disabled) return;
-    btn.disabled = true;
-    try {
-      if (isEdit) await apiUpdateTable(tab, name, tariff, getType());
-      else await apiAddTable(zone, name, tariff, getType());
-      closeSheet(); renderHome(); renderZones();
-      toast(t('common.saved'));
-    } catch (err) { btn.disabled = false; toast(errText(err)); }
-  });
-  if (isEdit) $('#del-table').addEventListener('click', () => {
-    const active = !!sessions[tab.id];
-    openAlert(`
-      <div class="alert-title">'${escH(tab.name)}'${t('confirm.deleteTitle')}</div>
-      <p class="alert-text">${t('confirm.irreversible')}</p>
-      ${active ? `<div class="alert-warn-box alert-warn-box--danger">${t('confirm.tableActive')}</div>` : ''}
-      <div class="alert-btns">
-        <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
-        <button class="btn btn--danger" id="confirm-del" ${active ? 'disabled' : ''}>${t('common.delete')}</button>
-      </div>
-    `);
-    $('#cancel-del').addEventListener('click', closeAlert);
-    $('#confirm-del').addEventListener('click', async () => {
-      try {
-        await apiDeleteTable(tab, zone);
-        closeAlert(); closeSheet();
-        renderHome(); renderZones();
-        toast(t('common.deleted'));
-      } catch (err) { toast(errText(err)); }
-    });
-  });
-}
-
 /* ---------------- MAHSULOTLAR ---------------- */
-let productZoneId = state.zones[0] ? state.zones[0].id : null;
+const PRODUCT_ICONS = ['local_cafe', 'emoji_food_beverage', 'coffee', 'local_bar', 'sports_bar', 'liquor', 'wine_bar', 'water_drop',
+  'local_drink', 'icecream', 'fastfood', 'lunch_dining', 'local_pizza', 'bakery_dining', 'cookie', 'cake', 'tapas', 'restaurant', 'smoking_rooms', 'shopping_bag'];
+let productZoneId = null;
 
 function renderProducts() {
+  const tabs = $('#prod-tabs');
+  const list = $('#products-list');
   if (!state.zones.length) {
-    $('#prod-tabs').innerHTML = '';
-    $('#products-list').innerHTML = '<div class="empty-state"><p>' + t('products.empty') + '</p></div>';
+    tabs.hidden = true;
+    list.innerHTML = `<li class="empty-state"><span class="empty-icon">${msIcon('local_cafe')}</span><p class="empty-title">${t('products.empty')}</p></li>`;
     return;
   }
   if (!state.zones.some(z => z.id === productZoneId)) productZoneId = state.zones[0].id;
-  $('#prod-tabs').innerHTML = state.zones.map(z =>
+  tabs.hidden = state.zones.length < 2;
+  tabs.innerHTML = state.zones.map(z =>
     `<button class="seg-btn ${z.id === productZoneId ? 'active' : ''}" data-pzone="${z.id}">${escH(z.name)}</button>`).join('');
-  $$('#prod-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
-    productZoneId = b.dataset.pzone;
-    renderProducts();
-  }));
 
   const zone = state.zones.find(z => z.id === productZoneId);
-  $('#products-list').innerHTML = zone.products.map(p => `
-    <li class="list-row product-row">
-      <span class="list-row-left"><span class="material-symbols-outlined">${escH(p.icon || 'local_bar')}</span> <span class="product-name">${escH(p.name)}</span></span>
-      <span class="product-price">${fmtMoney(p.price)}</span>
-      <button class="icon-btn" data-edit-product="${p.id}" title="${t('panel.edit')}"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
-    </li>`).join('') || '<li class="empty-state" style="padding:30px"><p>' + t('products.none') + '</p></li>';
+  list.innerHTML = zone.products.map(p => `
+    <li>
+      <button class="list-row" data-edit-product="${p.id}">
+        <span class="row-ic prod-ic">${msIcon(p.icon || 'local_cafe')}</span>
+        <span class="row-text"><b>${escH(p.name)}</b><small>${t('products.sold').replace('{n}', p.sold || 0)}</small></span>
+        <span class="row-value">${fmtMoney(p.price)}</span>
+        <span class="material-symbols-outlined row-chevron">chevron_right</span>
+      </button>
+    </li>`).join('') || `
+    <li class="empty-state">
+      <span class="empty-icon">${msIcon('local_cafe')}</span>
+      <p class="empty-title">${t('products.none')}</p>
+      <p class="empty-text">${t('products.noneText')}</p>
+    </li>`;
 }
 
+$('#prod-tabs').addEventListener('click', e => {
+  const b = e.target.closest('[data-pzone]');
+  if (!b) return;
+  productZoneId = b.dataset.pzone;
+  renderProducts();
+});
 $('#products-list').addEventListener('click', e => {
   const b = e.target.closest('[data-edit-product]');
   if (!b) return;
@@ -1492,88 +1612,82 @@ $('#products-list').addEventListener('click', e => {
 });
 $('#add-product-btn').addEventListener('click', () => {
   const zone = state.zones.find(z => z.id === productZoneId) || state.zones[0];
+  if (!zone) { toast(t('products.empty')); showView('zones'); return; }
   openProductModal(zone, null);
 });
 
 function openProductModal(zone, p) {
   const isEdit = !!p;
+  let icon = (p && p.icon) || 'local_cafe';
   openSheet(`
-    <div class="sheet-handle"></div>
-    <div class="sheet-head">
-      <div class="sheet-title">${isEdit ? t('modal.editProduct') : t('modal.newProduct')}</div>
-      <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
-    </div>
+    ${sheetHead(msIcon(icon), isEdit ? t('modal.editProduct') : t('modal.newProduct'), escH(zone.name))}
     <div class="sheet-content">
-      <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${escH(zone.name)}</div>
       <div class="field">
-        <label>${t('modal.prodName')}</label>
-        <input id="prod-name" value="${isEdit ? escH(p.name) : ''}" placeholder="${t('modal.prodNamePh')}">
+        <label for="prod-name">${t('modal.prodName')}</label>
+        <input id="prod-name" maxlength="80" value="${isEdit ? escH(p.name) : ''}" placeholder="${t('modal.prodNamePh')}" autocomplete="off">
         <span class="field-error"></span>
       </div>
       <div class="field">
-        <label>${t('modal.prodPrice')} (${cur()})</label>
-        <input id="prod-price" type="text" inputmode="numeric" value="${isEdit ? fmtIn(p.price) : ''}" placeholder="${t('modal.prodPricePh')}">
+        <label for="prod-price">${t('modal.prodPrice')}</label>
+        <div class="affix">
+          <input id="prod-price" type="text" inputmode="numeric" value="${isEdit ? fmtIn(p.price) : ''}" placeholder="${t('modal.prodPricePh')}">
+          <span class="affix-text">${cur()}</span>
+        </div>
         <span class="field-error"></span>
       </div>
-      <button class="btn btn--primary btn--block" id="save-prod">${t('modal.save')}</button>
-      ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-prod" style="margin-top:10px">${t('modal.deleteProduct')}</button>` : ''}
+      <span class="field-label">${t('modal.icon')}</span>
+      <div class="icon-grid" id="icon-grid">
+        ${PRODUCT_ICONS.map(i => `<button class="icon-opt ${i === icon ? 'active' : ''}" data-icon="${i}" aria-label="${i}">${msIcon(i)}</button>`).join('')}
+      </div>
     </div>
+    <footer class="sheet-actions">
+      ${isEdit ? `<button class="btn btn--danger-soft btn--lg" id="del-prod">${msIcon('delete')}</button>` : ''}
+      <button class="btn btn--primary btn--lg" id="save-prod">${t('modal.save')}</button>
+    </footer>
   `);
+  $('#icon-grid').addEventListener('click', e => {
+    const b = e.target.closest('[data-icon]');
+    if (!b) return;
+    icon = b.dataset.icon;
+    $$('#icon-grid .icon-opt').forEach(x => x.classList.toggle('active', x === b));
+    $('#sheet-body .sheet-head-ic').innerHTML = msIcon(icon);
+  });
   const nameInput = $('#prod-name');
   const priceInput = $('#prod-price');
   bindMoneyInput(priceInput);
-  $('#save-prod').addEventListener('click', async e => {
+  if (!isEdit) setTimeout(() => nameInput.focus(), 50);
+  bindSave('#save-prod', () => {
     const name = nameInput.value.trim();
     const price = parseIn(priceInput.value);
-    let ok = true;
-    if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = t('err.required'); ok = false; }
-    else nameInput.classList.remove('input-error');
-    if (!priceInput.value || isNaN(price) || price < 0) {
-      priceInput.classList.add('input-error'); priceInput.nextElementSibling.textContent = t('err.number'); ok = false;
-    } else priceInput.classList.remove('input-error');
-    if (!ok) return;
-    const btn = e.currentTarget;
-    if (btn.disabled) return;
-    btn.disabled = true;
-    try {
-      if (isEdit) await apiUpdateProduct(p, name, price);
-      else await apiAddProduct(zone, name, price);
-      closeSheet(); renderProducts();
-      toast(t('common.saved'));
-    } catch (err) { btn.disabled = false; toast(errText(err)); }
+    const ok1 = markError(nameInput, name ? '' : t('err.required'));
+    const ok2 = markError(priceInput, (!priceInput.value || isNaN(price) || price < 0) ? t('err.number') : '');
+    return ok1 && ok2 && { name, price };
+  }, async ({ name, price }) => {
+    if (isEdit) await apiUpdateProduct(p, name, price, icon);
+    else await apiAddProduct(zone, name, price, icon);
+    renderProducts();
   });
   if (isEdit) $('#del-prod').addEventListener('click', () => {
-    openAlert(`
-      <div class="alert-title">'${escH(p.name)}'${t('confirm.deleteTitle')}</div>
-      <p class="alert-text">${t('confirm.irreversible')}</p>
-      <div class="alert-btns">
-        <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
-        <button class="btn btn--danger" id="confirm-del">${t('common.delete')}</button>
-      </div>
-    `);
-    $('#cancel-del').addEventListener('click', closeAlert);
-    $('#confirm-del').addEventListener('click', async () => {
-      try {
-        await apiDeleteProduct(zone, p);
-        closeAlert(); closeSheet(); renderProducts();
-        toast(t('common.deleted'));
-      } catch (err) { toast(errText(err)); }
+    confirmDelete(p.name, '', async () => {
+      await apiDeleteProduct(zone, p);
+      renderProducts();
     });
   });
 }
 
-/* ---------------- CHIQISH ---------------- */
+/* ---------------- PROFIL ---------------- */
 function openProfileModal() {
   openAlert(`
+    <div class="alert-ic">${msIcon('person')}</div>
     <div class="alert-title">${t('profile.edit')}</div>
     <div class="alert-fields">
       <div class="field">
-        <label>${t('profile.name')}</label>
+        <label for="profile-name-input">${t('profile.name')}</label>
         <input id="profile-name-input" maxlength="60" value="${escH($('#profile-name').textContent)}">
         <span class="field-error"></span>
       </div>
       <div class="field">
-        <label>${t('login.username')}</label>
+        <label for="profile-login-input">${t('login.username')}</label>
         <input id="profile-login-input" value="${escH((currentUser && currentUser.email) || '')}" disabled>
       </div>
     </div>
@@ -1586,11 +1700,7 @@ function openProfileModal() {
   $('#cancel-profile').addEventListener('click', closeAlert);
   $('#save-profile').addEventListener('click', async e => {
     const name = nameInput.value.trim();
-    if (!name) {
-      nameInput.classList.add('input-error');
-      nameInput.nextElementSibling.textContent = t('err.required');
-      return;
-    }
+    if (!markError(nameInput, name ? '' : t('err.required'))) return;
     const btn = e.currentTarget;
     btn.disabled = true;
     const { data, error } = await sb.auth.updateUser({ data: { name } });
@@ -1607,12 +1717,15 @@ function renderProfile() {
   const name = (currentUser && currentUser.user_metadata && currentUser.user_metadata.name) || email.split('@')[0];
   $('#profile-name').textContent = name || '—';
   $('#profile-login').textContent = email;
+  $('#profile-avatar').textContent = (name || email || '?').trim().charAt(0) || '?';
+  $('#nav-user').textContent = name || email;
 }
 
 $('#edit-profile-btn').addEventListener('click', openProfileModal);
 
 $('#logout-btn').addEventListener('click', () => {
   openAlert(`
+    <div class="alert-ic alert-ic--danger">${msIcon('logout')}</div>
     <div class="alert-title">${t('profile.logoutTitle')}</div>
     <div class="alert-btns">
       <button class="btn btn--ghost" id="abort-logout">${t('common.cancel')}</button>
@@ -1627,20 +1740,10 @@ $('#logout-btn').addEventListener('click', () => {
 });
 
 /* ---------------- TARIX ---------------- */
-const MONTH_NAMES = {
-  uz: ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'],
-  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-};
 let histSessions = []; /* bugungi yakunlangan sessiyalar (batafsil) */
 let histDays = [];     /* o'tgan kunlar jami (serverda hisoblanadi) */
 let histDay = '';
-
-const dayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-const hm = d => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-const dayLabel = d => `${d.getDate()} ${MONTH_NAMES[currentLang][d.getMonth()]} ${d.getFullYear()}`;
-const parseDay = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+let histBarKey = '';   /* diagrammada tanlangan kun */
 
 function finSummary(s) {
   const start = new Date(s.start_time);
@@ -1654,52 +1757,119 @@ function finSummary(s) {
     const price = sp.price != null ? Number(sp.price) : Number(sp.products?.price ?? 0);
     return sum + (sp.quantity || 0) * price;
   }, 0);
-  return { timePrice, prod, total: timePrice + prod };
+  return { timePrice, prod, total: timePrice + prod, elapsed };
 }
 
 let histBusy = false;
+let histAgain = false; /* yuklash paytida yana so'ralsa — tugagach qayta yuklanadi */
 async function loadHistory() {
-  if (!currentUser || !(accessInfo && accessInfo.has_access) || histBusy) return;
+  if (!currentUser || !(accessInfo && accessInfo.has_access)) return;
+  if (histBusy) { histAgain = true; return; }
   histBusy = true;
   try {
     const now = new Date();
     const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC';
+    /* kunlik jamlar (butun tarix bo'yicha) — faqat Tarix ochiq bo'lsa; bosh ekranga bugungi sessiyalar yetarli */
+    const withDays = !$('#view-history').hidden;
     const [today, days] = await Promise.all([
       sb.from('sessions')
-        .select('id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff), session_products(quantity, price, products(price))')
+        .select('id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff, sport), session_products(quantity, price, products(price))')
         .gte('end_time', dayStart.toISOString())
         .order('end_time', { ascending: false }),
-      sb.rpc('history_days', { p_tz: tz }),
+      withDays ? sb.rpc('history_days', { p_tz: tz }) : Promise.resolve({ data: null, error: null }),
     ]);
     if (today.error) throw today.error;
     if (days.error) throw days.error;
     histSessions = today.data || [];
     const todayKey = dayKey(now);
-    histDays = (days.data || []).filter(d => d.day !== todayKey).map(d => ({
+    if (days.data) histDays = days.data.filter(d => d.day !== todayKey).map(d => ({
       key: d.day, date: parseDay(d.day), time: Number(d.time_sum) || 0, prod: Number(d.prod_sum) || 0,
       total: (Number(d.time_sum) || 0) + (Number(d.prod_sum) || 0),
     }));
     histDay = todayKey;
-    renderHistory();
+    renderTodayStat();
+    if (!$('#view-history').hidden) renderHistory();
   } catch (err) {
     toast(errText(err));
-  } finally { histBusy = false; }
+  } finally {
+    histBusy = false;
+    if (histAgain) { histAgain = false; loadHistory(); }
+  }
+}
+
+/* So'nggi 7 kun: bitta qator, bugun — aksent rangda; bosilgan kun qiymati pastda ko'rinadi */
+function weekChartHTML(todayTotal) {
+  const now = new Date();
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+    const key = dayKey(d);
+    const total = i === 0 ? todayTotal : ((histDays.find(x => x.key === key) || {}).total || 0);
+    days.push({ d, key, total, today: i === 0 });
+  }
+  const max = Math.max(...days.map(x => x.total), 1);
+  if (!days.some(x => x.key === histBarKey)) histBarKey = days[6].key;
+  const sel = days.find(x => x.key === histBarKey);
+  const sum = days.reduce((a, x) => a + x.total, 0);
+  return `
+    <div class="list-card chart-card">
+      <div class="chart-head">
+        <div><span class="chart-title">${t('history.week')}</span><span class="chart-sel">${sel.today ? t('history.today') : `${WEEKDAYS[currentLang][sel.d.getDay()]}, ${dayMonth(sel.d)}`}</span></div>
+        <b>${fmtMoney(sel.total)}</b>
+      </div>
+      <div class="bars" role="list">
+        ${days.map(x => `
+          <button class="bar ${x.today ? 'is-today' : ''} ${x.key === histBarKey ? 'is-sel' : ''}" data-bar="${x.key}" role="listitem"
+            aria-label="${dayLabel(x.d)}: ${fmtMoney(x.total)}">
+            <i style="height:${Math.max(3, Math.round(x.total / max * 88))}px"></i>
+            <span>${WEEKDAYS_SHORT[currentLang][x.d.getDay()]}</span>
+          </button>`).join('')}
+      </div>
+      <div class="bars-foot"><span>${t('history.weekTotal')}</span><b>${fmtMoney(sum)}</b></div>
+    </div>`;
 }
 
 function renderHistory() {
   const body = $('#history-body');
-  if (!histSessions.length && !histDays.length) {
-    body.innerHTML = '<div class="empty-state"><p>' + t('history.empty') + '</p></div>';
-    return;
-  }
   const now = new Date();
-  const todaySessions = histSessions;
+  const sums = histSessions.map(finSummary);
+  const tTime = sums.reduce((a, x) => a + x.timePrice, 0);
+  const tProd = sums.reduce((a, x) => a + x.prod, 0);
+  const tTotal = tTime + tProd;
 
-  let html = '';
-  html += `<div class="hist-section-title">${t('history.today')} — ${dayLabel(now)}</div>`;
-  if (todaySessions.length) html += renderToday(todaySessions);
-  else html += '<div class="empty-state" style="padding:20px"><p>' + t('history.empty') + '</p></div>';
+  let html = `
+    <div class="hist-top">
+    <div class="hist-hero">
+      <div class="hist-hero-label">${t('stats.today')} · ${dayMonth(now)}</div>
+      <div class="hist-hero-value">${fmtNum(tTotal)}<small>${cur()}</small></div>
+      <div class="hist-hero-grid">
+        <div><span>${t('history.tablesTotal')}</span><b>${fmtMoney(tTime)}</b></div>
+        <div><span>${t('history.productsTotal')}</span><b>${fmtMoney(tProd)}</b></div>
+        <div><span>${t('history.sessions')}</span><b>${histSessions.length}</b></div>
+      </div>
+    </div>`;
+
+  html += `${weekChartHTML(tTotal)}</div>`;
+
+  html += `<p class="section-title">${t('history.todaySessions')}${histSessions.length ? `<b>${histSessions.length}</b>` : ''}</p>`;
+  if (histSessions.length) {
+    html += '<div class="list-card">' + histSessions.map((s, i) => {
+      const f = sums[i];
+      const extra = f.prod ? ` · ${t('history.products')} ${fmtMoney(f.prod)}` : '';
+      return `
+        <div class="list-row">
+          <span class="row-ic">${typeIcon(s.tables?.sport)}</span>
+          <span class="row-text">
+            <b>${escH(s.tables?.name || '—')}</b>
+            <small>${hm(new Date(s.start_time))} – ${hm(new Date(s.end_time))} · ${fmtDur(f.elapsed)}${extra}</small>
+          </span>
+          <span class="row-value">${fmtMoney(f.total)}</span>
+        </div>`;
+    }).join('') + '</div>';
+  } else {
+    html += `<div class="list-card"><div class="empty-state empty-state--sm"><p class="empty-text">${t('history.noToday')}</p></div></div>`;
+  }
 
   if (histDays.length) {
     const byMonth = new Map();
@@ -1709,58 +1879,30 @@ function renderHistory() {
       byMonth.get(mk).push(d);
     }
     const curMk = monthKey(now);
+    html += `<p class="section-title">${t('history.past')}</p><div class="list-card">`;
     [...byMonth.keys()].sort().reverse().forEach(mk => {
       const [y, m] = mk.split('-').map(Number);
       const open = mk === curMk;
-      html += `<button class="hist-month ${open ? 'open' : ''}" data-mk="${mk}">${MONTH_NAMES[currentLang][m - 1]} ${y}</button>`;
+      const days = byMonth.get(mk).sort((a, b) => b.key.localeCompare(a.key));
+      html += `<button class="hist-month ${open ? 'open' : ''}" data-mk="${mk}"><span>${MONTH_NAMES[currentLang][m - 1]} ${y}</span><b>${fmtMoney(days.reduce((a, d) => a + d.total, 0))}</b>${msIcon('expand_more')}</button>`;
       html += `<div class="hist-month-body" ${open ? '' : 'hidden'}>`;
-      byMonth.get(mk).sort((a, b) => b.key.localeCompare(a.key)).forEach(d => {
-        html += `<button class="hist-day" data-dk="${d.key}"><span>${dayLabel(d.date)}</span><b>${fmtMoney(d.total)}</b></button>`;
+      days.forEach(d => {
+        html += `<button class="hist-day" data-dk="${d.key}"><span>${WEEKDAYS_SHORT[currentLang][d.date.getDay()]}, ${dayMonth(d.date)}</span><b>${fmtMoney(d.total)}</b>${msIcon('expand_more')}</button>`;
         html += `<div class="hist-day-body" hidden>
-          <div class="hist-day-sum">
             <div class="hist-sum-row"><span>${t('history.tablesTotal')}</span><b>${fmtMoney(d.time)}</b></div>
             <div class="hist-sum-row"><span>${t('history.productsTotal')}</span><b>${fmtMoney(d.prod)}</b></div>
-            <div class="hist-sum-total"><span>${t('history.total')}</span><span>${fmtMoney(d.total)}</span></div>
-          </div>
-        </div>`;
+          </div>`;
       });
       html += '</div>';
     });
+    html += '</div>';
   }
   body.innerHTML = html;
 }
 
-function renderToday(list) {
-  const byTable = new Map();
-  for (const s of list) {
-    const tid = String(s.table_id);
-    if (!byTable.has(tid)) byTable.set(tid, { name: s.tables?.name || '—', sessions: [] });
-    byTable.get(tid).sessions.push(s);
-  }
-  let html = '';
-  for (const tb of byTable.values()) {
-    let rows = '';
-    for (const s of tb.sessions) {
-      const sum = finSummary(s);
-      rows += `<div class="hist-sess">
-        <span class="hist-sess-time">${hm(new Date(s.start_time))} → ${hm(new Date(s.end_time))}</span>
-        <span class="hist-sess-money">
-          <i>${t('history.tableTime')}: ${fmtMoney(sum.timePrice)}</i>
-          <i>${t('history.products')}: ${fmtMoney(sum.prod)}</i>
-          <b>${t('history.total')}: ${fmtMoney(sum.total)}</b>
-        </span>
-      </div>`;
-    }
-    html += `<div class="hist-table">
-      <div class="hist-table-head"><b>${escH(tb.name)}</b><span>${fmtMoney(tb.sessions.reduce((x, s) => x + finSummary(s).total, 0))}</span></div>
-      ${rows}
-    </div>`;
-  }
-  html += `<div class="hist-total-row"><span>${t('history.dayTotal')}</span><b>${fmtMoney(list.reduce((x, s) => x + finSummary(s).total, 0))}</b></div>`;
-  return html;
-}
-
 $('#history-body').addEventListener('click', e => {
+  const bar = e.target.closest('[data-bar]');
+  if (bar) { histBarKey = bar.dataset.bar; renderHistory(); return; }
   const mb = e.target.closest('.hist-month');
   if (mb) {
     const bodyEl = mb.nextElementSibling;
@@ -1768,38 +1910,23 @@ $('#history-body').addEventListener('click', e => {
     bodyEl.hidden = !bodyEl.hidden;
     return;
   }
-  const db = e.target.closest('.hist-day');
-  if (db) {
-    const bodyEl = db.nextElementSibling;
+  const dbtn = e.target.closest('.hist-day');
+  if (dbtn) {
+    const bodyEl = dbtn.nextElementSibling;
     bodyEl.hidden = !bodyEl.hidden;
-    db.classList.toggle('open', !bodyEl.hidden);
+    dbtn.classList.toggle('open', !bodyEl.hidden);
   }
 });
 
 setInterval(() => {
   if (!currentUser) return;
   const k = dayKey(new Date());
-  if (k !== histDay) { histDay = k; loadHistory(); return; }
+  if (k !== histDay) { histDay = k; loadHistory(); renderHome(); return; }
   if (!$('#view-history').hidden) loadHistory();
 }, 30000);
 
 /* ---------------- TAYMER DVIGATELI ---------------- */
 let lastStatus = {};
-
-function updateRings(now) {
-  $$('[data-ring]').forEach(el => {
-    const s = sessions[el.dataset.ring];
-    if (!s || s.mode !== 'countdown') { el.hidden = true; return; }
-    const sec = sessionSeconds(s, now);
-    if (sec.remaining <= 0) { el.hidden = true; return; }
-    el.hidden = false;
-    const r = +el.dataset.radius || 46;
-    const C = RING_C(r);
-    const circ = el.querySelector('.ring-circle');
-    circ.style.strokeDasharray = C.toFixed(2);
-    circ.style.strokeDashoffset = (C * (1 - sec.remaining / s.duration)).toFixed(2);
-  });
-}
 
 function tick() {
   const now = nowMs();
@@ -1809,7 +1936,7 @@ function tick() {
     const s = sessions[tid];
     const st = statusOf(s, now);
     if (lastStatus[tid] !== st) {
-      if (st === 'expired' && navigator.vibrate) navigator.vibrate(400);
+      if (st === 'expired' && lastStatus[tid] && navigator.vibrate) navigator.vibrate(400);
       lastStatus[tid] = st;
       needRender = true;
     }
@@ -1821,9 +1948,7 @@ function tick() {
 
   $$('[data-timer]').forEach(el => {
     const s = sessions[el.dataset.timer];
-    if (!s) return;
-    const sec = sessionSeconds(s, now);
-    el.textContent = sec.overtime > 0 ? '+' + fmtTime(sec.overtime) : fmtTime(sec.remaining ?? sec.elapsed);
+    if (s) el.textContent = timerText(s, now);
   });
   $$('[data-price]').forEach(el => {
     const s = sessions[el.dataset.price];
@@ -1833,13 +1958,12 @@ function tick() {
     const s = sessions[el.dataset.totalPrice];
     if (s) el.textContent = fmtMoney(sessionPrice(s, now) + productSum(s));
   });
-  $$('[data-orb-label]').forEach(el => {
-    const s = sessions[el.dataset.orbLabel];
-    if (!s) return;
-    const st = statusOf(s, now);
-    el.textContent = st === 'expired' ? t('panel.overtime') : s.mode === 'countdown' ? t('panel.timeLeft') : t('panel.timePassed');
+  $$('[data-progress]').forEach(el => {
+    const s = sessions[el.dataset.progress];
+    const pct = s && progressPct(s, now);
+    if (pct != null) el.style.width = pct.toFixed(1) + '%';
   });
-  updateRings(now);
+  if (!$('#view-home').hidden) updateLiveStat(now);
 }
 
 setInterval(tick, 1000);

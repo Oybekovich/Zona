@@ -168,7 +168,7 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 
 ### 5.2 Zonalar (korxona maydonlari)
 - Zona yaratish, nomlash, tartiblash (sort_order).
-- Bosh sahifada zonalar kartalari ko'rinadi.
+- «Zonalar» bo'limida har bir zona kartasi: stollar ro'yxati (turi, tarifi, holati), stol qo'shish/tahrirlash.
 
 ### 5.3 Stollar
 - Zona ichida stollar: nomi, sport turi (billiard/tennis...), soatlik tarif.
@@ -199,11 +199,25 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 ### 5.6 Realtime
 - Boshqa qurilma (xuddi shu hisob bilan) o'zgartirsa — interfeys avtomatik yangilanadi.
 
-### 5.7 UI/UX
+### 5.7 UI/UX (dizayn v2)
+- **Maket**: telefonda pastki menyu (Stollar, Zonalar, Tarix, Mahsulotlar, Profil), kompyuterda (≥900px) chap yon panel;
+  sheet oynalar telefonda pastdan, kompyuterda o'ngdan chiqadi, asosiy tugma doim pastda (sticky).
+- **Stollar ekrani**: statistika (band stollar, joriy hisob — jonli, bugungi tushum), zona tablari (band soni bilan),
+  filtr chiplari (soni bilan), ixcham stol kartalari (telefonda 2 ustun).
+  Rang faqat holatni bildiradi: bo'sh — neytral, band — teal, 5 daqiqa qoldi — sariq, vaqt tugadi — qizil (miltillaydi).
+  Taymer rejimida qolgan vaqt progress chizig'i bilan.
+- **Sessiyani boshlash**: rejim kartalari (Sekundomer / Taymer), davomiylik tayyor variantlari (30 daq – 3 soat) va ±15 daq,
+  soatlik narx, taymer uchun taxminiy summa.
+- **Faol sessiya**: katta taymer, boshlangan/tugash vaqti, +15/+30/+1 soat, hisob (vaqt + mahsulotlar, miqdor ±),
+  mahsulotlar bir bosishda +1 (buyurtmadagi soni belgida), pastda «Jami» va «Yakunlash»; yakunlashda chek ko'rinishi.
+- **Tarix**: bugungi tushum (stollar / mahsulotlar / sessiyalar soni), so'nggi 7 kun diagrammasi (kun bosilsa summasi),
+  bugungi sessiyalar ro'yxati, oldingi kunlar oylar bo'yicha.
+- **Mahsulotlar**: ikonka tanlash (20 ta), sotilgan soni. **Profil**: til va mavzu sozlamalari.
 - **3 til**: o'zbek (`uz`), rus (`ru`), ingliz (`en`) — `i18n` obyekti app.js'da.
-- **Tungi/yorug' rejim**: `data-theme="dark|light"`, barcha ranglar `--var` bilan.
-- **Material Symbols** ikonkalar (Google Fonts).
-- Toasts, confirm dialoglar, empty states, loading state.
+- **Tungi/yorug' rejim**: `data-theme="dark|light"`, barcha ranglar `--var` token'lar bilan (style.css boshida).
+- **Material Symbols** ikonkalar — lokal subset shrift `fonts/material-symbols-outlined.woff2`
+  (yangi ikon qo'shilsa: `python3 tools/subset-icons.py <to'liq shrift>`); stol turi belgilari — inline SVG.
+- Toasts, tasdiqlash oynalari, bo'sh holatlar, Enter — asosiy tugma.
 
 ---
 
