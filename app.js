@@ -17,7 +17,7 @@ const I18N = {
     'login.banned': 'Bu hisob bloklangan',
     'login.secure': 'Xavfsiz va himoyalangan tizim',
     'app.title': 'Asosiy oyna', 'search.tablePh': 'Stol nomi...',
-    'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band', 'filter.repair': 'Ta\'mirlashda',
+    'filter.all': 'Barchasi', 'filter.free': 'Bo\'sh', 'filter.busy': 'Band',
     'home.empty': 'Hali stol qo\'shilmagan', 'home.firstTable': 'Birinchi stolni qo\'shish',
     'nav.home': 'Asosiy', 'nav.zones': 'Zonalar', 'nav.history': 'Tarix', 'nav.products': 'Mahsulotlar', 'nav.profile': 'Profil',
     'history.title': 'Tarix', 'history.today': 'Bugun', 'history.empty': 'Hali yakunlangan sessiya yo\'q',
@@ -55,12 +55,10 @@ const I18N = {
     'confirm.tableActive': 'Diqqat: bu stolda faol sessiya bor. Avval sessiyani yakunlang.',
     'common.cancel': 'Bekor qilish', 'common.delete': 'O\'chirish', 'common.deleted': 'O\'chirildi', 'common.saved': 'Saqlandi',
     'toast.sessionStarted': 'Sessiya boshlandi', 'toast.sessionEnded': 'Sessiya yakunlandi', 'toast.sessionCancelled': 'Sessiya bekor qilindi',
-    'repair.hint': 'Xizmatdan vaqtincha chiqarilgan',
     'block.title': 'Hisob bloklangan', 'block.text': 'Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo\'qoladi.', 'block.retry': 'Qayta tekshirish',
     'net.title': 'Internet bilan muammo', 'net.text': 'Internet aloqasi yo\'q. Aloqa tiklanganda avtomatik davom etadi.', 'net.retry': 'Qayta urinish',
     'theme.title': 'Ko\'rinish', 'theme.light': 'Kun', 'theme.dark': 'Tun',
     'err.tableBusy': 'Bu stolda allaqachon faol sessiya bor', 'err.sessionGone': 'Sessiya allaqachon yakunlangan yoki o\'chirilgan',
-    'modal.repair': 'Ta\'mirlashda (vaqtincha ishlamaydi)', 'modal.repairBusy': 'Faol sessiya bor — avval uni yakunlang',
     'access.trialLeft': 'Sinov muddati: {n} kun qoldi · admin tasdig\'i kutilmoqda',
     'access.pendingTitle': 'Admin tasdig\'i kutilmoqda', 'access.pendingText': 'So\'rovingiz administratorga yuborildi. To\'lovdan so\'ng admin ruxsat beradi va ilova umrbod ochiladi. Ruxsat berilishi bilan bu oyna avtomatik yo\'qoladi.',
     'access.rejectedTitle': 'Ruxsat berilmagan', 'access.rejectedText': 'Administrator bu hisobga ruxsat bermagan. Batafsil ma\'lumot uchun administrator bilan bog\'laning.',
@@ -78,7 +76,7 @@ const I18N = {
     'login.banned': 'This account is blocked',
     'login.secure': 'Secure and protected system',
     'app.title': 'Main Floor', 'search.tablePh': 'Table name...',
-    'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy', 'filter.repair': 'Repair',
+    'filter.all': 'All', 'filter.free': 'Free', 'filter.busy': 'Busy',
     'home.empty': 'No tables yet', 'home.firstTable': 'Add the first table',
     'nav.home': 'Home', 'nav.zones': 'Zones', 'nav.history': 'History', 'nav.products': 'Products', 'nav.profile': 'Profile',
     'history.title': 'History', 'history.today': 'Today', 'history.empty': 'No finished sessions yet',
@@ -116,12 +114,10 @@ const I18N = {
     'confirm.tableActive': 'Attention: this table has an active session. Finish it first.',
     'common.cancel': 'Cancel', 'common.delete': 'Delete', 'common.deleted': 'Deleted', 'common.saved': 'Saved',
     'toast.sessionStarted': 'Session started', 'toast.sessionEnded': 'Session finished', 'toast.sessionCancelled': 'Session cancelled',
-    'repair.hint': 'Temporarily out of service',
     'block.title': 'Account blocked', 'block.text': 'Your account has been blocked by the administrator. This window will disappear automatically once the block is lifted.', 'block.retry': 'Check again',
     'net.title': 'Connection problem', 'net.text': 'No internet connection. It will continue automatically once the connection is restored.', 'net.retry': 'Try again',
     'theme.title': 'Appearance', 'theme.light': 'Day', 'theme.dark': 'Night',
     'err.tableBusy': 'This table already has an active session', 'err.sessionGone': 'The session was already finished or deleted',
-    'modal.repair': 'Under repair (temporarily unavailable)', 'modal.repairBusy': 'Active session — finish it first',
     'access.trialLeft': 'Trial: {n} days left · waiting for admin approval',
     'access.pendingTitle': 'Waiting for admin approval', 'access.pendingText': 'Your request has been sent to the administrator. After payment the admin approves it and the app is unlocked for life. This window disappears automatically once approved.',
     'access.rejectedTitle': 'Access not granted', 'access.rejectedText': 'The administrator has not granted access to this account. Please contact the administrator.',
@@ -139,7 +135,7 @@ const I18N = {
     'login.banned': 'Этот аккаунт заблокирован',
     'login.secure': 'Безопасная и защищённая система',
     'app.title': 'Основной зал', 'search.tablePh': 'Название стола...',
-    'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые', 'filter.repair': 'На ремонте',
+    'filter.all': 'Все', 'filter.free': 'Свободные', 'filter.busy': 'Занятые',
     'home.empty': 'Столы ещё не добавлены', 'home.firstTable': 'Добавить первый стол',
     'nav.home': 'Главная', 'nav.zones': 'Зоны', 'nav.history': 'История', 'nav.products': 'Товары', 'nav.profile': 'Профиль',
     'history.title': 'История', 'history.today': 'Сегодня', 'history.empty': 'Завершённых сессий пока нет',
@@ -177,12 +173,10 @@ const I18N = {
     'confirm.tableActive': 'Внимание: на этом столе есть активная сессия. Сначала завершите её.',
     'common.cancel': 'Отмена', 'common.delete': 'Удалить', 'common.deleted': 'Удалено', 'common.saved': 'Сохранено',
     'toast.sessionStarted': 'Сессия началась', 'toast.sessionEnded': 'Сессия завершена', 'toast.sessionCancelled': 'Сессия отменена',
-    'repair.hint': 'Временно выведен из эксплуатации',
     'block.title': 'Аккаунт заблокирован', 'block.text': 'Ваш аккаунт заблокирован администратором. Это окно исчезнет автоматически после снятия блокировки.', 'block.retry': 'Проверить снова',
     'net.title': 'Проблема с интернетом', 'net.text': 'Нет подключения к интернету. Работа продолжится автоматически после восстановления связи.', 'net.retry': 'Повторить',
     'theme.title': 'Оформление', 'theme.light': 'День', 'theme.dark': 'Ночь',
     'err.tableBusy': 'На этом столе уже есть активная сессия', 'err.sessionGone': 'Сессия уже завершена или удалена',
-    'modal.repair': 'На ремонте (временно недоступен)', 'modal.repairBusy': 'Есть активная сессия — сначала завершите её',
     'access.trialLeft': 'Пробный период: осталось {n} дн. · ожидается подтверждение администратора',
     'access.pendingTitle': 'Ожидается подтверждение', 'access.pendingText': 'Ваш запрос отправлен администратору. После оплаты администратор подтвердит доступ, и приложение откроется навсегда. Это окно исчезнет автоматически.',
     'access.rejectedTitle': 'Доступ не предоставлен', 'access.rejectedText': 'Администратор не предоставил доступ этому аккаунту. Свяжитесь с администратором.',
@@ -277,15 +271,15 @@ async function apiDeleteZone(z) {
   state.zones = state.zones.filter(x => x.id !== z.id);
   Object.keys(sessions).forEach(tid => { if (!findTable(tid)) delete sessions[tid]; });
 }
-async function apiAddTable(zone, name, tariff, type, repair) {
-  const { data, error } = await sb.from('tables').insert({ zone_id: zone.id, name, tariff, sport: type, repair, sort_order: zone.tables.length }).select().single();
+async function apiAddTable(zone, name, tariff, type) {
+  const { data, error } = await sb.from('tables').insert({ zone_id: zone.id, name, tariff, sport: type, sort_order: zone.tables.length }).select().single();
   if (error) throw error;
-  zone.tables.push({ id: String(data.id), name: data.name, tariff: Number(data.tariff), type: data.sport, repair: !!data.repair });
+  zone.tables.push({ id: String(data.id), name: data.name, tariff: Number(data.tariff), type: data.sport });
 }
-async function apiUpdateTable(tab, name, tariff, type, repair) {
-  const { error } = await sb.from('tables').update({ name, tariff, sport: type, repair }).eq('id', tab.id);
+async function apiUpdateTable(tab, name, tariff, type) {
+  const { error } = await sb.from('tables').update({ name, tariff, sport: type }).eq('id', tab.id);
   if (error) throw error;
-  tab.name = name; tab.tariff = tariff; tab.type = type; tab.repair = repair;
+  tab.name = name; tab.tariff = tariff; tab.type = type;
 }
 async function apiDeleteTable(tab, zone) {
   const { error } = await sb.from('tables').delete().eq('id', tab.id);
@@ -354,7 +348,7 @@ async function loadData() {
   try {
     const [zr, sr] = await Promise.all([
       sb.from('zones')
-        .select('id, name, sort_order, tables(id, name, sport, tariff, repair, sort_order), products(id, name, price, icon, sold, sort_order)')
+        .select('id, name, sort_order, tables(id, name, sport, tariff, sort_order), products(id, name, price, icon, sold, sort_order)')
         .order('sort_order', { foreignTable: 'tables' })
         .order('sort_order', { foreignTable: 'products' })
         .order('sort_order'),
@@ -366,7 +360,7 @@ async function loadData() {
     if (seq !== loadSeq) return; /* eskirgan javob */
     state.zones = (zr.data || []).map(z => ({
       id: String(z.id), name: z.name,
-      tables: (z.tables || []).map(t => ({ id: String(t.id), name: t.name, tariff: Number(t.tariff), type: t.sport, repair: !!t.repair })),
+      tables: (z.tables || []).map(t => ({ id: String(t.id), name: t.name, tariff: Number(t.tariff), type: t.sport })),
       products: (z.products || []).map(p => ({ id: String(p.id), name: p.name, price: Number(p.price), icon: p.icon, sold: p.sold })),
     }));
     Object.keys(sessions).forEach(k => delete sessions[k]);
@@ -772,18 +766,6 @@ function cardFor(tab) {
   const isTt = tab.type === 'tennis';
   const coverCls = isTt ? 'card-cover card-cover--tt' : 'card-cover';
   const cardCls = isTt ? ' card--tt' : '';
-  if (tab.repair) {
-    return `
-      <div class="table-card card-repair${cardCls}">
-        <div class="${coverCls}"></div>
-        <div class="card-body">
-          <div class="card-info">
-            <span class="table-name">${escH(tab.name)}</span>
-            <span class="free-hint">${t('repair.hint')}</span>
-          </div>
-        </div>
-      </div>`;
-  }
   const s = sessions[tab.id];
   if (!s) {
     return `
@@ -825,10 +807,8 @@ function visibleTables() {
   });
   list = list.filter(t => {
     const has = !!sessions[t.id];
-    if (t.repair) return activeFilter === 'all' || activeFilter === 'repair';
     if (activeFilter === 'free') return !has;
     if (activeFilter === 'busy') return has;
-    if (activeFilter === 'repair') return false;
     return true;
   });
   if (searchQuery) list = list.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -1384,8 +1364,7 @@ function openTableModal(tab, presetZoneId) {
   const zone = tab ? findZone(tab.id) : state.zones.find(x => x.id === presetZoneId) || state.zones[0];
   let tableType = isEdit ? (tab.type || 'billiard') : 'billiard';
   /* turini almashtirganda kiritilgan qiymatlar yo'qolmasin */
-  const draft = { name: isEdit ? tab.name : '', tariff: isEdit ? fmtIn(tab.tariff) : '', repair: isEdit ? !!tab.repair : false };
-  const busy = isEdit && !!sessions[tab.id];
+  const draft = { name: isEdit ? tab.name : '', tariff: isEdit ? fmtIn(tab.tariff) : '' };
 
   const render = () => {
     openSheet(`
@@ -1410,12 +1389,6 @@ function openTableModal(tab, presetZoneId) {
           <input id="table-tariff" type="text" inputmode="numeric" value="${escH(draft.tariff)}" placeholder="${t('modal.tariffPh')}">
           <span class="field-error"></span>
         </div>
-        <label class="repair-toggle${busy ? ' is-disabled' : ''}">
-          <input type="checkbox" id="table-repair" ${draft.repair ? 'checked' : ''} ${busy && !draft.repair ? 'disabled' : ''}>
-          <span class="material-symbols-outlined">build</span>
-          <span>${t('modal.repair')}</span>
-        </label>
-        ${busy && !draft.repair ? `<div class="repair-note">${t('modal.repairBusy')}</div>` : ''}
         <button class="btn btn--primary btn--block" id="save-table">${t('modal.save')}</button>
         ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">${t('modal.deleteTable')}</button>` : ''}
       </div>
@@ -1424,7 +1397,6 @@ function openTableModal(tab, presetZoneId) {
     $$('#type-seg .seg-btn').forEach(b => b.addEventListener('click', () => {
       draft.name = $('#table-name').value;
       draft.tariff = $('#table-tariff').value;
-      draft.repair = $('#table-repair').checked;
       tableType = b.dataset.type;
       render();
     }));
@@ -1440,7 +1412,6 @@ function bindTableForm(tab, zone, isEdit, getType) {
   $('#save-table').addEventListener('click', async e => {
     const name = nameInput.value.trim();
     const tariff = parseIn(tariffInput.value);
-    const repair = $('#table-repair').checked;
     let ok = true;
     if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = t('err.required'); ok = false; }
     else nameInput.classList.remove('input-error');
@@ -1452,8 +1423,8 @@ function bindTableForm(tab, zone, isEdit, getType) {
     if (btn.disabled) return;
     btn.disabled = true;
     try {
-      if (isEdit) await apiUpdateTable(tab, name, tariff, getType(), repair);
-      else await apiAddTable(zone, name, tariff, getType(), repair);
+      if (isEdit) await apiUpdateTable(tab, name, tariff, getType());
+      else await apiAddTable(zone, name, tariff, getType());
       closeSheet(); renderHome(); renderZones();
       toast(t('common.saved'));
     } catch (err) { btn.disabled = false; toast(errText(err)); }

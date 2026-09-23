@@ -42,7 +42,6 @@ await sleep(400);
 await page.click('[data-add-table]');
 await page.fill('#table-name', 'Stol 2');
 await page.fill('#table-tariff', '30000');
-await page.check('#table-repair');
 await page.click('#save-table');
 await sleep(400);
 await page.click('.nav-btn[data-tab=products]');
@@ -56,7 +55,7 @@ for (const [n, pr] of [[XSS + 'Choy', '5000'], ['Suv', '3000']]) {
 await page.click('.nav-btn[data-tab=home]');
 await sleep(300);
 check(await page.evaluate(() => window.__xss !== 1), 'no XSS execution from names');
-check(await page.locator('.table-card.card-repair').count() === 1, 'repair table rendered as out of service');
+check(await page.locator('.table-card[data-action=start]').count() === 2, 'both new tables are free (no repair state)');
 check((await page.textContent('#table-grid')).includes('<img'), 'hostile name shown as text');
 
 console.log('3) Countdown session: extend persists, products atomic');

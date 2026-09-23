@@ -79,7 +79,7 @@ tables (
   name        text NOT NULL,
   sport       text DEFAULT 'billiard',   -- billiard / tennis / ...
   tariff      numeric DEFAULT 0,          -- soatlik tarif (so'm)
-  repair      boolean DEFAULT false,      -- ta'mirlashda
+  repair      boolean DEFAULT false,      -- eskirgan, ilovada ishlatilmaydi
   sort_order  int DEFAULT 0,
   created_at  timestamptz DEFAULT now()
 )
@@ -171,8 +171,7 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - Bosh sahifada zonalar kartalari ko'rinadi.
 
 ### 5.3 Stollar
-- Zona ichida stollar: nomi, sport turi (billiard/tennis...), soatlik tarif, ta'mirlash belgisi.
-- **Ta'mirlashda** stol — sessiya ochib bo'lmaydi.
+- Zona ichida stollar: nomi, sport turi (billiard/tennis...), soatlik tarif.
 
 ### 5.4 Mahsulotlar
 - Nom, narx, ikonka (Material Symbols), sotilgan soni.

@@ -416,6 +416,8 @@ create table if not exists private.push_config (
   secret text not null default ''
 );
 insert into private.push_config (id) values (1) on conflict (id) do nothing;
+-- Admin so'rovlarni oxirgi marta ko'rgan vaqt: ikonkadagi son = shundan keyingi yangi so'rovlar
+alter table private.push_config add column if not exists seen_at timestamptz;
 
 create or replace function public.notify_admin_new_request()
 returns trigger
