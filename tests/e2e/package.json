@@ -1,0 +1,12 @@
+{
+  "name": "zona-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Zone Manager + Zona-Admin E2E testlari (lokal Postgres + Supabase emulyatori)",
+  "scripts": { "test": "bash run.sh" },
+  "devDependencies": {
+    "@supabase/supabase-js": "2.117.0",
+    "pg": "^8.13.0",
+    "playwright": "1.56.1"
+  }
+}

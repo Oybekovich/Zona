@@ -1,6 +1,6 @@
 # PRD — Zone Manager: Asosiy ilova + Admin panel
 
-**Versiya:** 1.0 · **Sana:** 2026-08-14 · **Muallif:** Zone Manager loyihasi
+**Versiya:** 1.1 · **Sana:** 2026-09-23 · **Muallif:** Zone Manager loyihasi
 **Qamrov:** barcha funksiyalar, arxitektura, ma'lumotlar modeli, xavfsizlik, testlar, cheklovlar
 
 ---
@@ -103,9 +103,18 @@ sessions (
   mode          text DEFAULT 'stopwatch',  -- stopwatch / countdown / alarm
   rate          numeric,                   -- tarif (sessiya vaqtida saqlanadi)
   start_time    timestamptz DEFAULT now(),
-  duration_sec  int,                       -- NULL = sessiya FAOL
+  duration_sec  int,                       -- faqat taymer rejimidagi muddat (soniya)
+  end_time      timestamptz,               -- NULL = sessiya FAOL (server vaqti bilan yoziladi)
   created_at    timestamptz DEFAULT now()
 )
+
+-- Mijoz ruxsati (bir martalik to'lov → admin tasdig'i → umrbod)
+user_access (
+  user_id       uuid PK REFERENCES auth.users ON DELETE CASCADE,
+  status        text  -- pending / approved / rejected
+  requested_at  timestamptz, trial_until timestamptz, decided_at timestamptz, note text
+)
+app_settings (key text PK, value jsonb)      -- trial_days (standart 30)
 
 -- Sessiya mahsulotlari
 session_products (
@@ -119,7 +128,9 @@ session_products (
 ```
 
 **Faqat muhim logika:**
-- `sessions.duration_sec = NULL` ⇔ **faol sessiya** (taymer yurib turibdi). Yakunlanganda soniya bilan to'ldiriladi.
+- `sessions.end_time IS NULL` ⇔ **faol sessiya**. Bitta stolda faqat bitta faol sessiya (unique partial index).
+- `session_products (session_id, product_id)` unique — mahsulot bir qatorda, miqdor atomar oshiriladi.
+- RPC'lar: `request_access`, `extend_session`, `add_session_product`, `finish_session`, `history_days`.
 - `session_products.price` buyurtma vaqtidagi narxni muzlatadi (keyin narx o'zgarsa ham hisob o'zgarmaydi).
 
 ### 4.2 RLS (Row Level Security) — ko'p tenatlik
@@ -137,6 +148,9 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 **Natija:** A korxona B korxonaning hech narsasini ko'rolmaydi — SQL darajasida himoya, frontend emas. Yagona shart: policy'lar `exists` bilan yozilgani uchun **rekursiyaga tushmasligi** kerak (zanjir acyclic).
 
 **Realtime ham RLS bilan filtrlanadi** — faqat o'z ma'lumotlari yangilanishini eshitadi.
+
+**Ruxsat darvozasi** — har jadvalda `access_gate` RESTRICTIVE policy: `has_access()` = bloklanmagan VA
+(`approved` YOKI `pending` + sinov muddati tugamagan). Frontendni chetlab o'tsa ham ma'lumot yopiq.
 
 ---
 
@@ -175,6 +189,12 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - **Reload'da tiklanish**: faol sessiyalar DB'dan qayta yuklanadi va taymer davom etadi.
 - **Vibratsiya**: countdown tugasa `navigator.vibrate`.
 
+### 5.5.1 Ruxsat (bir martalik to'lov)
+- Ro'yxatdan o'tish → `user_access` ga `pending` so'rov (trigger) → admin panel «So'rovlar» bo'limida ko'rinadi.
+- Sinov muddati davomida ilova ishlaydi, Asosiy oynada «Sinov muddati: N kun qoldi» banneri.
+- Muddat tugasa / rad etilsa — «Admin tasdig'i kutilmoqda» / «Ruxsat berilmagan» oynasi (Qayta tekshirish, Chiqish).
+- Admin «Ruxsat berish» → umrbod; oyna realtime yoki 30 soniyalik tekshiruv bilan o'zi yo'qoladi.
+
 ### 5.6 Realtime
 - Boshqa qurilma (xuddi shu hisob bilan) o'zgartirsa — interfeys avtomatik yangilanadi.
 
@@ -211,6 +231,7 @@ Dizayn: `backdrop-filter: blur(18px)`, gradient shaffof fon, yaltiroq chegaralar
 - **Qidiruv**: email bo'yicha filtr.
 - **Jadval**: email, ID (qisqa), ro'yxatdan o'tgan vaqt, oxirgi kirish (Asia/Tashkent, `DD.MM.YYYY HH:MM`), holat (Faol/Bloklangan/Tasdiqlanmagan), biznes ma'lumot (zona · stol · mahsulot).
 - **Amallar:**
+  - **Ruxsat berish / Rad etish / Qayta sinov** — mijoz ruxsati (So'rovlar bo'limida ham).
   - **Bloklash**: `banned_until = now() + 100 yil` → kirish yopiladi.
   - **Yechish**: `banned_until = null`.
   - **Parol tiklash**: `encrypted_password = crypt('yangi', gen_salt('bf'))` — yangi parol o'rnatish.
@@ -316,7 +337,10 @@ setsid bash -c 'exec node server.mjs' > /tmp/zona-admin-server.log 2>&1 < /dev/n
 
 ## 10. Test strategiyasi
 
-**Headless Chrome CDP** (`/tmp/zona-tests/cdp.mjs`):
+**Avtomatik E2E** — `tests/e2e/` (lokal Postgres + Supabase emulyatori + Playwright), `bash tests/e2e/run.sh`:
+DB darajasi (30), asosiy ilova (28), admin panel (30) testlari. Batafsil: `tests/e2e/README.md`.
+
+Eski qo'lda testlar — **Headless Chrome CDP** (`/tmp/zona-tests/cdp.mjs`):
 ```bash
 node cdp.mjs <profil-papka> <url> <test-script.mjs>
 ```
@@ -339,6 +363,7 @@ node cdp.mjs <profil-papka> <url> <test-script.mjs>
 1. **GoTrue "Database error querying schema"** — SQL bilan user yaratganda `confirmation_token` kabi ustunlar **NULL bo'lmasligi** kerak (`''` bo'lishi shart), aks holda signIn 500 beradi. **Xulosa: user'lar faqat signup/GoTrue orqali yaratiladi, raw SQL bilan emas.**
 2. **`pkill -f "pattern"`** — o'z shellini ham o'ldiradi (buyruq satridagi matn ham mos keladi). **Doim PID bilan kill qiling.**
 3. **CDP + `location.reload()`** — eval vaqtida reload CDP javobini buzadi; testni 2 bosqichga bo'lish kerak.
+4a. **`@keyframes` media query ichida bo'lsa** — tor ekranda animatsiya yo'q, `animationend` kelmaydi (telefonda oynalar yopilmas edi). Keyframes doim global.
 4. **`display: flex` `[hidden]` ni yengadi** — CSS'da `display` yozilsa, `hidden` atributi ishlamay qoladi (modal/login ekrani doim ko'rinib qolgan xato). Yechim: `#id[hidden] { display: none; }`.
 5. **`data-del` → `dataset.del`** (not `.dataset.sec`) — atribut nomi dataset kalitiga aylanganda tirelar tushadi.
 6. **Parollarni ko'rsatish mumkin emas** (bcrypt hash) — faqat tiklash.
@@ -357,7 +382,8 @@ node cdp.mjs <profil-papka> <url> <test-script.mjs>
 - [ ] Zona egasiga SMS/email bildirishnoma
 - [ ] Online joylashtirish (VPS + domain + HTTPS)
 - [ ] Audit log: admin amallari tarixi
-- [ ] PWA (mobil qurilmalarga o'rnatish)
+- [x] PWA (mobil qurilmalarga o'rnatish)
+- [x] Mijozga bir martalik to'lovdan keyin umrbod ruxsat (admin tasdig'i)
 - [ ] Ishchilar (xodim) rollari — faqat stolni boshqaradi, sozlamalarni emas
 
 ---

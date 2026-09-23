@@ -691,9 +691,10 @@ body:has(.view--login:not([hidden])) { overflow: hidden; }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: none; } }
 @media (min-width: 700px) {
   .sheet { border-radius: var(--radius-xl); margin-bottom: 24px; border: 1px solid rgba(0,0,0,.07); animation: popIn .35s var(--ease-spring); }
-  @keyframes popIn { from { transform: scale(.96) translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
-  @keyframes popOut { from { transform: none; opacity: 1; } to { transform: scale(.96) translateY(12px); opacity: 0; } }
 }
+/* keyframes media ichida bo'lmasin — aks holda telefonda popOut yo'q, animationend kelmaydi va oyna yopilmaydi */
+@keyframes popIn { from { transform: scale(.96) translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes popOut { from { transform: none; opacity: 1; } to { transform: scale(.96) translateY(12px); opacity: 0; } }
 
 .sheet-handle { width: 100%; display: flex; justify-content: center; padding: 12px 0 6px; }
 .sheet-handle::before { content: ''; width: 48px; height: 5px; background: var(--text-faint); border-radius: 999px; opacity: .8; }
@@ -1130,3 +1131,25 @@ html[data-theme="dark"] .ring--amber .ring-circle { stroke: #ff9f0a; }
 .hist-sum-total { display: flex; justify-content: space-between; font-size: 15px; padding-top: 10px; margin-top: 8px; border-top: 1px solid var(--hairline); font-weight: 800; font-variant-numeric: tabular-nums; }
 html[data-theme="dark"] .hist-table,
 html[data-theme="dark"] .hist-day { border-color: var(--outline-variant); }
+
+/* ---------- Ruxsat: sinov muddati banneri va kutish oynasi ---------- */
+.trial-banner {
+  display: flex; align-items: center; gap: 8px;
+  margin: 0 16px 12px; padding: 10px 14px; border-radius: 14px;
+  background: rgba(255,159,10,.14); color: #b86e00;
+  font-size: 13px; font-weight: 600; line-height: 1.35;
+}
+[data-theme="dark"] .trial-banner { color: #ffb340; background: rgba(255,159,10,.16); }
+.trial-banner .material-symbols-outlined { font-size: 18px; flex-shrink: 0; }
+.access-email { margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--text-muted); word-break: break-all; }
+#access-overlay .sys-alert-btn + .sys-alert-btn { margin-top: 10px; }
+
+/* ---------- Stol: ta'mirlash belgisi ---------- */
+.repair-toggle {
+  display: flex; align-items: center; gap: 10px; margin: 2px 0 14px; padding: 12px 14px;
+  border-radius: 14px; background: var(--surface-container); cursor: pointer; font-weight: 600; font-size: 14px;
+}
+.repair-toggle input { width: 20px; height: 20px; accent-color: #ff9f0a; margin: 0; }
+.repair-toggle .material-symbols-outlined { font-size: 20px; color: #ff9f0a; }
+.repair-toggle.is-disabled { opacity: .6; cursor: not-allowed; }
+.repair-note { margin: -8px 0 14px; font-size: 12px; color: var(--text-muted); }

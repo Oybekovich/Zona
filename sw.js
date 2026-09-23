@@ -1,10 +1,11 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v3';
+const CACHE_NAME = 'zona-shell-v4';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
   '/style.css',
   '/app.js',
+  '/theme-init.js',
   '/manifest.json',
   '/img/icon-192.png',
   '/img/icon-512.png',
@@ -14,7 +15,8 @@ const SHELL_ASSETS = [
 
 /* CDN fayllari (Supabase JS, Material Symbols) */
 const CDN_ASSETS = [
-  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
+  /* versiya qat'iy — keshda doimiy qolgani uchun '@2' kabi o'zgaruvchan manzil ishlatilmaydi */
+  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block',
 ];
 

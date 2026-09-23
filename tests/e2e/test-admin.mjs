@@ -1,0 +1,118 @@
+// E2E: admin panel (Zona-Admin) + integration with the main app access flow
+import { chromium, newPage, check, summary, q, sleep, APP, ADMIN, db } from './lib.mjs';
+const browser = await chromium.launch();
+const tag = Date.now();
+const XSS = '<img src=x onerror="window.__xss=1">';
+await q('delete from private.admin_login_attempts');
+
+console.log('1) Login brute-force protection (DB-backed)');
+const login = (u, p) => fetch(ADMIN + 'api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: u, password: p }) });
+for (let i = 0; i < 5; i++) await login('testadmin', 'bad' + i);
+check((await login('testadmin', 'testpass123')).status === 429, '5 wrong attempts → locked (429) even with right password');
+await q('delete from private.admin_login_attempts');
+const okRes = await login('testadmin', 'testpass123');
+check(okRes.status === 200, 'correct login after lock cleared');
+check(/default-src 'self'/.test((await fetch(ADMIN)).headers.get('content-security-policy') || ''), 'CSP header on admin pages');
+check((await fetch(ADMIN + 'api/users')).status === 401, 'API requires token');
+
+console.log('2) Client signs up → request appears in admin');
+const email = `client${tag}@t.uz`;
+const { page: app } = await newPage(browser);
+await app.goto(APP); await app.click('#mode-toggle');
+await app.fill('#login-username', email); await app.fill('#login-password', 'secret123'); await app.fill('#login-confirm', 'secret123');
+await app.click('#login-btn'); await app.waitForSelector('#bottom-nav:not([hidden])');
+await app.click('.nav-btn[data-tab=zones]'); await app.click('#add-zone-btn');
+await app.fill('#zone-name', XSS + 'Klub'); await app.click('#save-zone'); await sleep(500);
+const uid = (await q('select id from auth.users where email=$1', [email]))[0].id;
+
+const { page } = await newPage(browser, { viewport: { width: 1280, height: 900 } });
+await page.goto(ADMIN);
+await page.fill('#login-username', 'testadmin'); await page.fill('#login-password', 'testpass123'); await page.click('#login-btn');
+await page.waitForSelector('#view-app:not([hidden])');
+await sleep(800);
+check(await page.evaluate(() => window.__xss !== 1), 'stored XSS from zone name does NOT execute in admin');
+check((await page.textContent('#users-body')).includes('<img'), 'hostile zone name rendered as text');
+check(await page.textContent('#admin-login') === 'testadmin', 'admin login name shown from token (not hardcoded)');
+check(await page.isVisible('#req-count'), 'nav badge shows pending requests');
+await page.click('.nav-btn[data-sec=requests]');
+await sleep(600);
+check((await page.textContent('#req-body')).includes(email), 'new client listed in requests');
+check(/Sinov: 30 kun/.test(await page.textContent('#req-body')), 'shows remaining trial days');
+check(await page.inputValue('#trial-days') === '30', 'trial setting loaded (30)');
+
+console.log('3) Trial expires → client locked → admin approves → client unlocked for life');
+await q(`update user_access set trial_until = now() - interval '1 minute' where user_id=$1`, [uid]);
+await app.evaluate(() => refreshAccess());
+await app.waitForSelector('#access-overlay:not([hidden])');
+check(true, 'client sees "waiting for admin approval"');
+await page.click('#req-reload'); await sleep(500);
+check(/Sinov tugagan/.test(await page.textContent('#req-body')), 'admin sees trial expired');
+await page.click(`#req-body [data-act=approve][data-id="${uid}"]`);
+await page.click('#modal-ok');
+await sleep(800);
+check((await q('select status from user_access where user_id=$1', [uid]))[0].status === 'approved', 'DB: status approved');
+check(!(await page.textContent('#req-body')).includes(email), 'request removed from pending list');
+await app.click('#access-retry');
+await app.waitForSelector('#access-overlay', { state: 'hidden' });
+check(await app.locator('#trial-banner').isHidden(), 'client unlocked, no trial banner (lifetime)');
+await q(`update user_access set trial_until = now() - interval '365 days' where user_id=$1`, [uid]);
+await app.evaluate(() => refreshAccess()); await sleep(400);
+check(await app.locator('#access-overlay').isHidden(), 'approved access does not depend on trial date');
+
+console.log('4) Revoke / re-trial');
+await page.click('.nav-btn[data-sec=users]'); await sleep(500);
+await page.click(`#users-body [data-act=reject][data-id="${uid}"]`); await page.click('#modal-ok'); await sleep(700);
+check((await q('select status from user_access where user_id=$1', [uid]))[0].status === 'rejected', 'revoke → rejected');
+await app.evaluate(() => refreshAccess());
+await app.waitForSelector('#access-overlay:not([hidden])');
+check(/berilmagan/.test(await app.textContent('#access-title')), 'client sees access revoked');
+await page.click(`#users-body [data-act=pending][data-id="${uid}"]`); await page.click('#modal-ok'); await sleep(700);
+const [r] = await q('select status, trial_until > now() + interval \'29 days\' ok from user_access where user_id=$1', [uid]);
+check(r.status === 'pending' && r.ok, 'Qayta sinov → pending with fresh 30-day trial');
+await app.click('#access-retry');
+await app.waitForSelector('#access-overlay', { state: 'hidden' });
+check(await app.evaluate(() => !document.querySelector('#trial-banner').hidden), 'client back in trial mode');
+
+console.log('5) trial_days = 0 → approval required before first use');
+await page.click('.nav-btn[data-sec=requests]'); await sleep(400);
+await page.fill('#trial-days', '0'); await page.click('#trial-save'); await sleep(500);
+check((await q(`select value from app_settings where key='trial_days'`))[0].value === 0, 'setting saved');
+const email2 = `strict${tag}@t.uz`;
+const { page: app2 } = await newPage(browser);
+await app2.goto(APP); await app2.click('#mode-toggle');
+await app2.fill('#login-username', email2); await app2.fill('#login-password', 'secret123'); await app2.fill('#login-confirm', 'secret123');
+await app2.click('#login-btn');
+await app2.waitForSelector('#access-overlay:not([hidden])');
+check(true, 'new client immediately waits for approval');
+await page.fill('#trial-days', '30'); await page.click('#trial-save'); await sleep(300);
+
+console.log('6) Existing admin actions');
+await page.click('.nav-btn[data-sec=users]'); await page.click('#refresh-btn'); await sleep(700);
+const uid2 = (await q('select id from auth.users where email=$1', [email2]))[0].id;
+await page.click(`#users-body [data-act=password][data-id="${uid2}"]`);
+await page.fill('#modal-input', 'newpass456'); await page.click('#modal-ok'); await sleep(600);
+const pw = await (await fetch('http://127.0.0.1:54321/auth/v1/token?grant_type=password', { method: 'POST', body: JSON.stringify({ email: email2, password: 'newpass456' }) })).status;
+check(pw === 200, 'password reset works');
+await page.click(`#users-body [data-act=block][data-id="${uid2}"]`); await page.click('#modal-ok'); await sleep(600);
+check((await q('select banned_until is not null b from auth.users where id=$1', [uid2]))[0].b, 'block works');
+await page.click(`#users-body [data-act=unblock][data-id="${uid2}"]`); await page.click('#modal-ok'); await sleep(600);
+for (const sec of ['zones', 'tables', 'products', 'sessions', 'sp']) {
+  await page.click(`.nav-btn[data-sec=${sec}]`); await sleep(500);
+}
+check(await page.evaluate(() => window.__xss !== 1), 'no XSS in any section');
+await page.click('.nav-btn[data-sec=users]'); await sleep(400);
+await page.click(`#users-body [data-act=delete][data-id="${uid2}"]`); await page.click('#modal-ok'); await sleep(600);
+check((await q('select count(*)::int n from auth.users where id=$1', [uid2]))[0].n === 0, 'delete user works');
+const bad = await fetch(ADMIN + `api/users/${uid2}/approve`, { method: 'POST', headers: { Authorization: 'Bearer ' + (await okRes.json()).token } });
+check(bad.status >= 400, 'action on deleted user returns error, not ok');
+
+console.log('7) Mobile layout sanity');
+await page.setViewportSize({ width: 390, height: 844 });
+await page.click('.nav-btn[data-sec=requests]'); await sleep(300);
+const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+check(overflow <= 1, `no horizontal scroll on phone (${overflow}px)`);
+
+const errs = [...page.errors, ...app.errors, ...app2.errors].filter(e => !/Failed to load resource/.test(e));
+check(errs.length === 0, 'no JS / CSP errors: ' + JSON.stringify(errs.slice(0, 5)));
+await browser.close(); await db.end();
+process.exit(summary() ? 1 : 0);

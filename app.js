@@ -59,6 +59,12 @@ const I18N = {
     'block.title': 'Hisob bloklangan', 'block.text': 'Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo\'qoladi.', 'block.retry': 'Qayta tekshirish',
     'net.title': 'Internet bilan muammo', 'net.text': 'Internet aloqasi yo\'q. Aloqa tiklanganda avtomatik davom etadi.', 'net.retry': 'Qayta urinish',
     'theme.title': 'Ko\'rinish', 'theme.light': 'Kun', 'theme.dark': 'Tun',
+    'err.tableBusy': 'Bu stolda allaqachon faol sessiya bor', 'err.sessionGone': 'Sessiya allaqachon yakunlangan yoki o\'chirilgan',
+    'modal.repair': 'Ta\'mirlashda (vaqtincha ishlamaydi)', 'modal.repairBusy': 'Faol sessiya bor — avval uni yakunlang',
+    'access.trialLeft': 'Sinov muddati: {n} kun qoldi · admin tasdig\'i kutilmoqda',
+    'access.pendingTitle': 'Admin tasdig\'i kutilmoqda', 'access.pendingText': 'So\'rovingiz administratorga yuborildi. To\'lovdan so\'ng admin ruxsat beradi va ilova umrbod ochiladi. Ruxsat berilishi bilan bu oyna avtomatik yo\'qoladi.',
+    'access.rejectedTitle': 'Ruxsat berilmagan', 'access.rejectedText': 'Administrator bu hisobga ruxsat bermagan. Batafsil ma\'lumot uchun administrator bilan bog\'laning.',
+    'access.retry': 'Qayta tekshirish', 'access.logout': 'Chiqish',
     'cur': 'so\'m', 'lang.label': 'Til',
   },
   en: {
@@ -114,6 +120,12 @@ const I18N = {
     'block.title': 'Account blocked', 'block.text': 'Your account has been blocked by the administrator. This window will disappear automatically once the block is lifted.', 'block.retry': 'Check again',
     'net.title': 'Connection problem', 'net.text': 'No internet connection. It will continue automatically once the connection is restored.', 'net.retry': 'Try again',
     'theme.title': 'Appearance', 'theme.light': 'Day', 'theme.dark': 'Night',
+    'err.tableBusy': 'This table already has an active session', 'err.sessionGone': 'The session was already finished or deleted',
+    'modal.repair': 'Under repair (temporarily unavailable)', 'modal.repairBusy': 'Active session — finish it first',
+    'access.trialLeft': 'Trial: {n} days left · waiting for admin approval',
+    'access.pendingTitle': 'Waiting for admin approval', 'access.pendingText': 'Your request has been sent to the administrator. After payment the admin approves it and the app is unlocked for life. This window disappears automatically once approved.',
+    'access.rejectedTitle': 'Access not granted', 'access.rejectedText': 'The administrator has not granted access to this account. Please contact the administrator.',
+    'access.retry': 'Check again', 'access.logout': 'Log out',
     'cur': 'UZS', 'lang.label': 'Language',
   },
   ru: {
@@ -169,6 +181,12 @@ const I18N = {
     'block.title': 'Аккаунт заблокирован', 'block.text': 'Ваш аккаунт заблокирован администратором. Это окно исчезнет автоматически после снятия блокировки.', 'block.retry': 'Проверить снова',
     'net.title': 'Проблема с интернетом', 'net.text': 'Нет подключения к интернету. Работа продолжится автоматически после восстановления связи.', 'net.retry': 'Повторить',
     'theme.title': 'Оформление', 'theme.light': 'День', 'theme.dark': 'Ночь',
+    'err.tableBusy': 'На этом столе уже есть активная сессия', 'err.sessionGone': 'Сессия уже завершена или удалена',
+    'modal.repair': 'На ремонте (временно недоступен)', 'modal.repairBusy': 'Есть активная сессия — сначала завершите её',
+    'access.trialLeft': 'Пробный период: осталось {n} дн. · ожидается подтверждение администратора',
+    'access.pendingTitle': 'Ожидается подтверждение', 'access.pendingText': 'Ваш запрос отправлен администратору. После оплаты администратор подтвердит доступ, и приложение откроется навсегда. Это окно исчезнет автоматически.',
+    'access.rejectedTitle': 'Доступ не предоставлен', 'access.rejectedText': 'Администратор не предоставил доступ этому аккаунту. Свяжитесь с администратором.',
+    'access.retry': 'Проверить снова', 'access.logout': 'Выйти',
     'cur': 'сум', 'lang.label': 'Язык',
   },
 };
@@ -207,7 +225,8 @@ function setLang(l) {
   applyStaticLang();
   const sel = $('#lang-select');
   if (sel) sel.value = l;
-  renderHome(); renderZones(); renderProducts();
+  renderHome(); renderZones(); renderProducts(); renderAccess();
+  if (!$('#view-history').hidden) renderHistory();
   if (currentPanel && sessions[currentPanel]) renderPanel();
   if (startTable) renderStartSheet();
 }
@@ -226,6 +245,14 @@ if (document.fonts && document.fonts.load) {
 const SUPABASE_URL = 'https://cscjdmvchnxpqhnlietl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzY2pkbXZjaG54cHFobmxpZXRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2OTY5NTcsImV4cCI6MjEwMjI3Mjk1N30.r5zmmqDgMQsWHwqYiyzi1GpwnTEX8lG102UPXJ9v03c';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* Qurilma soati noto'g'ri bo'lsa ham taymer to'g'ri ishlashi uchun server vaqti bilan farq */
+let clockSkew = 0;
+const nowMs = () => Date.now() + clockSkew;
+function syncClock(serverIso) {
+  const t = Date.parse(serverIso);
+  if (!isNaN(t)) clockSkew = t - Date.now();
+}
 
 /* ---------------- Ma'lumotlar ---------------- */
 const state = { zones: [] };
@@ -250,15 +277,15 @@ async function apiDeleteZone(z) {
   state.zones = state.zones.filter(x => x.id !== z.id);
   Object.keys(sessions).forEach(tid => { if (!findTable(tid)) delete sessions[tid]; });
 }
-async function apiAddTable(zone, name, tariff, type) {
-  const { data, error } = await sb.from('tables').insert({ zone_id: zone.id, name, tariff, sport: type, sort_order: zone.tables.length }).select().single();
+async function apiAddTable(zone, name, tariff, type, repair) {
+  const { data, error } = await sb.from('tables').insert({ zone_id: zone.id, name, tariff, sport: type, repair, sort_order: zone.tables.length }).select().single();
   if (error) throw error;
   zone.tables.push({ id: String(data.id), name: data.name, tariff: Number(data.tariff), type: data.sport, repair: !!data.repair });
 }
-async function apiUpdateTable(tab, name, tariff, type) {
-  const { error } = await sb.from('tables').update({ name, tariff, sport: type }).eq('id', tab.id);
+async function apiUpdateTable(tab, name, tariff, type, repair) {
+  const { error } = await sb.from('tables').update({ name, tariff, sport: type, repair }).eq('id', tab.id);
   if (error) throw error;
-  tab.name = name; tab.tariff = tariff; tab.type = type;
+  tab.name = name; tab.tariff = tariff; tab.type = type; tab.repair = repair;
 }
 async function apiDeleteTable(tab, zone) {
   const { error } = await sb.from('tables').delete().eq('id', tab.id);
@@ -285,13 +312,13 @@ async function apiDeleteProduct(zone, p) {
 async function apiStartSession(tab, mode, rate, duration) {
   const { data, error } = await sb.from('sessions').insert({ table_id: tab.id, mode, rate, duration_sec: mode === 'countdown' ? duration : null }).select().single();
   if (error) throw error;
+  syncClock(data.start_time);
   sessions[tab.id] = { id: String(data.id), mode, tableId: tab.id, rate, start: Date.parse(data.start_time), duration: data.duration_sec || undefined, products: [] };
 }
 async function apiExtendSession(s, addSec) {
-  const duration = (s.duration || 0) + addSec;
-  const { error } = await sb.from('sessions').update({ duration_sec: duration }).eq('id', s.id);
+  const { data, error } = await sb.rpc('extend_session', { p_session_id: Number(s.id), p_add_sec: addSec });
   if (error) throw error;
-  s.duration = duration;
+  s.duration = data;
 }
 async function apiDeleteSession(s) {
   const { error } = await sb.from('sessions').delete().eq('id', s.id);
@@ -300,60 +327,55 @@ async function apiDeleteSession(s) {
   delete lastStatus[s.tableId];
 }
 async function apiFinishSession(s) {
-  const { error } = await sb.from('sessions').update({ end_time: new Date().toISOString() }).eq('id', s.id);
+  const { error } = await sb.rpc('finish_session', { p_session_id: Number(s.id) });
   if (error) throw error;
   delete sessions[s.tableId];
   delete lastStatus[s.tableId];
 }
-async function apiSetSessionProduct(s, pid, qty) {
-  if (qty <= 0) {
-    const { error } = await sb.from('session_products').delete().eq('session_id', s.id).eq('product_id', pid);
-    if (error) throw error;
-    return;
-  }
-  const { data, error } = await sb.from('session_products').select('id').eq('session_id', s.id).eq('product_id', pid).maybeSingle();
+/* delta: +N qo'shish, -N ayirish. Server atomar hisoblaydi (bir vaqtda bosilsa ham dublikat bo'lmaydi) */
+async function apiAddSessionProduct(s, pid, delta) {
+  const { error } = await sb.rpc('add_session_product', { p_session_id: Number(s.id), p_product_id: Number(pid), p_delta: delta });
   if (error) throw error;
-  if (data) {
-    const { error: e2 } = await sb.from('session_products').update({ quantity: qty }).eq('id', data.id);
-    if (e2) throw e2;
-  } else {
-    const zone = findZone(s.tableId);
-    const price = zone ? productById(zone.id, pid).price : 0;
-    const { error: e3 } = await sb.from('session_products').insert({ session_id: s.id, product_id: pid, quantity: qty, price });
-    if (e3) throw e3;
-  }
+}
+
+/* Supabase xatosini foydalanuvchiga tushunarli matnga aylantirish */
+function errText(err) {
+  const m = (err && (err.message || err.error_description)) || String(err);
+  if (err && err.code === '23505' && /sessions_one_active/.test(m)) return t('err.tableBusy');
+  if (err && err.code === 'P0002') return t('err.sessionGone');
+  if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return t('net.title');
+  return 'Supabase xatosi: ' + m;
 }
 
 /* ---------------- Bazadan yuklash + Realtime ---------------- */
+let loadSeq = 0;
 async function loadData() {
+  const seq = ++loadSeq;
   try {
-    const [{ data: zrows }, { data: srows }, { data: sprows }] = await Promise.all([
+    const [zr, sr] = await Promise.all([
       sb.from('zones')
         .select('id, name, sort_order, tables(id, name, sport, tariff, repair, sort_order), products(id, name, price, icon, sold, sort_order)')
         .order('sort_order', { foreignTable: 'tables' })
         .order('sort_order', { foreignTable: 'products' })
         .order('sort_order'),
-      sb.from('sessions').select('*').is('end_time', null),
-      sb.from('session_products').select('*'),
+      /* faqat faol sessiyalar va ularning mahsulotlari — tarix hajmiga bog'liq emas */
+      sb.from('sessions').select('id, mode, rate, start_time, duration_sec, table_id, session_products(product_id, quantity)').is('end_time', null),
     ]);
-    state.zones = (zrows || []).map(z => ({
+    if (zr.error) throw zr.error;
+    if (sr.error) throw sr.error;
+    if (seq !== loadSeq) return; /* eskirgan javob */
+    state.zones = (zr.data || []).map(z => ({
       id: String(z.id), name: z.name,
       tables: (z.tables || []).map(t => ({ id: String(t.id), name: t.name, tariff: Number(t.tariff), type: t.sport, repair: !!t.repair })),
       products: (z.products || []).map(p => ({ id: String(p.id), name: p.name, price: Number(p.price), icon: p.icon, sold: p.sold })),
     }));
     Object.keys(sessions).forEach(k => delete sessions[k]);
-    const spMap = new Map();
-    (sprows || []).forEach(r => {
-      const k = String(r.session_id);
-      if (!spMap.has(k)) spMap.set(k, []);
-      spMap.get(k).push({ pid: String(r.product_id), qty: r.quantity });
-    });
-    (srows || []).forEach(s => {
+    (sr.data || []).forEach(s => {
       const obj = {
         id: String(s.id), mode: s.mode, tableId: String(s.table_id),
         rate: s.rate != null ? Number(s.rate) : undefined,
         start: Date.parse(s.start_time), duration: s.duration_sec || undefined,
-        products: spMap.get(String(s.id)) || [],
+        products: (s.session_products || []).map(r => ({ pid: String(r.product_id), qty: r.quantity })),
       };
       sessions[obj.tableId] = obj;
       lastStatus[obj.tableId] = statusOf(obj);
@@ -366,14 +388,14 @@ async function loadData() {
       else closeSheet();
     }
   } catch (err) {
-    toast('Supabase xatosi: ' + (err.message || err));
+    toast(errText(err));
   }
 }
 
 let reloadTimer = null;
 function onRemoteChange() {
   clearTimeout(reloadTimer);
-  reloadTimer = setTimeout(loadData, 300);
+  reloadTimer = setTimeout(() => { if (accessInfo && accessInfo.has_access) loadData(); }, 300);
 }
 let dbChannel = null;
 function setupRealtime() {
@@ -384,12 +406,19 @@ function setupRealtime() {
     .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, onRemoteChange)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'sessions' }, onRemoteChange)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'session_products' }, onRemoteChange)
+    /* admin ruxsat bersa/olsa — darhol */
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'user_access' }, () => refreshAccess())
     .subscribe();
 }
+function teardownRealtime() {
+  if (!dbChannel) return;
+  sb.removeChannel(dbChannel);
+  dbChannel = null;
+}
 
-/* Statistika — olib tashlandi */
 
 /* ---------------- Yordamchilar ---------------- */
+const escH = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmtMoney = n => Math.round(n).toLocaleString('en-US') + ' ' + cur();
 const pad = n => String(n).padStart(2, '0');
 
@@ -416,28 +445,31 @@ function fmtDur(sec) {
 }
 const findZone = tid => state.zones.find(z => z.tables.some(t => t.id === tid));
 const findTable = tid => state.zones.flatMap(z => z.tables).find(t => t.id === tid);
-const productById = (zid, pid) => state.zones.find(z => z.id === zid).products.find(p => p.id === pid);
+const productById = (zid, pid) => { const z = state.zones.find(x => x.id === zid); return z ? z.products.find(p => p.id === pid) : undefined; };
 
-function sessionSeconds(s, now = Date.now()) {
+function sessionSeconds(s, now = nowMs()) {
   const elapsed = (now - s.start) / 1000;
   if (s.mode === 'stopwatch') return { elapsed, remaining: null, overtime: 0 };
   const remaining = s.duration - elapsed;
   if (remaining > 0) return { elapsed, remaining, overtime: 0 };
   return { elapsed, remaining: 0, overtime: -remaining };
 }
-function sessionPrice(s, now = Date.now()) {
+function sessionPrice(s, now = nowMs()) {
   const sec = sessionSeconds(s, now);
-  const tariff = s.rate ?? findTable(s.tableId).tariff;
+  const tab = findTable(s.tableId);
+  const tariff = s.rate ?? (tab ? tab.tariff : 0);
   if (s.mode === 'countdown' && sec.remaining > 0) return s.duration / 3600 * tariff;
   return sec.elapsed / 3600 * tariff;
 }
 function productSum(s) {
+  const zone = findZone(s.tableId);
+  if (!zone) return 0;
   return s.products.reduce((sum, e) => {
-    const p = productById(findZone(s.tableId).id, e.pid);
+    const p = productById(zone.id, e.pid);
     return sum + (p ? p.price * e.qty : 0);
   }, 0);
 }
-function statusOf(s, now = Date.now()) {
+function statusOf(s, now = nowMs()) {
   if (s.mode === 'stopwatch') return 'busy';
   const { remaining } = sessionSeconds(s, now);
   if (remaining > 0) return remaining <= 300 ? 'ending' : 'busy';
@@ -467,12 +499,20 @@ function openSheet(html) {
 function closeSheet() { $('#sheet').hidden = true; currentPanel = null; panelEdit = false; panelSearch = ''; startTable = null; }
 function openAlert(html) { $('#alert-body').innerHTML = html; $('#alert').hidden = false; }
 function closeAlert() {
+  const alert = $('#alert');
+  if (alert.hidden) return;
   const box = $('#alert-body');
-  box.classList.add('pop-out');
-  box.addEventListener('animationend', () => {
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
     box.classList.remove('pop-out');
-    $('#alert').hidden = true;
-  }, { once: true });
+    alert.hidden = true;
+  };
+  box.classList.add('pop-out');
+  box.addEventListener('animationend', e => { if (e.target === box) finish(); });
+  /* animatsiya ishlamasa ham (reduced motion, eski brauzer) oyna albatta yopilsin */
+  setTimeout(finish, 260);
 }
 
 $('#sheet').addEventListener('click', e => { if (e.target === $('#sheet')) closeSheet(); });
@@ -595,23 +635,33 @@ loginForm.addEventListener('submit', async e => {
 
 /* ---------------- Auth ---------------- */
 let currentUser = null;
+let appUserId = null; /* ilova qaysi foydalanuvchi uchun ochilgan */
 
 function enterApp() {
+  /* Supabase tab qayta faollashganda ham SIGNED_IN yuboradi — o'sha foydalanuvchi uchun ilovani qayta ochmaymiz */
+  if (currentUser && appUserId === currentUser.id) return;
+  appUserId = currentUser ? currentUser.id : null;
   $('#view-login').hidden = true;
   $('#bottom-nav').hidden = false;
-  const email = (currentUser && currentUser.email) || '';
-  $('#profile-name').textContent = email ? email.split('@')[0] : 'Admin';
-  $('#profile-login').textContent = email || 'admin';
+  renderProfile();
   loginForm.reset();
   resetLoginBtn();
-  loadData();
-  setupRealtime();
   showView('home');
+  refreshAccess(true);
+  setupRealtime();
 }
 
 function exitToLogin() {
+  appUserId = null;
+  accessInfo = null;
   closeSheet(); closeAlert();
+  teardownRealtime();
+  state.zones = [];
+  Object.keys(sessions).forEach(k => delete sessions[k]);
+  histSessions = []; histDays = [];
   $('#blocked-overlay').hidden = true;
+  $('#access-overlay').hidden = true;
+  $('#trial-banner').hidden = true;
   $('#bottom-nav').hidden = true;
   VIEWS.forEach(x => { $(`#view-${x}`).hidden = true; });
   $('#view-login').hidden = false;
@@ -621,14 +671,75 @@ function exitToLogin() {
 }
 
 sb.auth.onAuthStateChange((evt, session) => {
-  if (evt === 'SIGNED_IN') {
-    currentUser = session ? session.user : null;
-    enterApp();
+  if (evt === 'SIGNED_IN' || evt === 'INITIAL_SESSION') {
+    if (!session) return;
+    currentUser = session.user;
+    /* onAuthStateChange ichida Supabase so'rovlarini kutish deadlock beradi — keyingi tickda */
+    setTimeout(enterApp, 0);
+  } else if (evt === 'USER_UPDATED' && session) {
+    currentUser = session.user;
   } else if (evt === 'SIGNED_OUT') {
     currentUser = null;
     exitToLogin();
   }
 });
+
+/* ---------------- Ruxsat (admin tasdig'i) ---------------- */
+let accessInfo = null;
+
+function daysLeft(iso) {
+  const ms = Date.parse(iso) - nowMs();
+  return Math.max(0, Math.ceil(ms / 86400000));
+}
+
+function renderAccess() {
+  const a = accessInfo;
+  const overlay = $('#access-overlay');
+  const banner = $('#trial-banner');
+  if (!a || !currentUser) { overlay.hidden = true; banner.hidden = true; return; }
+  if (a.banned) { overlay.hidden = true; banner.hidden = true; showBlocked(true); return; }
+  showBlocked(false);
+  if (a.has_access) {
+    overlay.hidden = true;
+    if (a.status === 'pending' && a.trial_until) {
+      banner.hidden = false;
+      $('#trial-banner-text').textContent = t('access.trialLeft').replace('{n}', daysLeft(a.trial_until));
+    } else banner.hidden = true;
+    return;
+  }
+  banner.hidden = true;
+  const rejected = a.status === 'rejected';
+  $('#access-ic').textContent = rejected ? 'block' : 'hourglass_top';
+  $('#access-ic-wrap').className = 'sys-alert-ic ' + (rejected ? 'sys-alert-ic--danger' : 'sys-alert-ic--warn');
+  $('#access-title').textContent = t(rejected ? 'access.rejectedTitle' : 'access.pendingTitle');
+  $('#access-text').textContent = t(rejected ? 'access.rejectedText' : 'access.pendingText');
+  $('#access-email').textContent = currentUser.email || '';
+  overlay.hidden = false;
+}
+
+/* Ruxsat holatini serverdan olish. Birinchi kirishda so'rov shu yerda (yoki signup trigger'ida) yaratiladi. */
+let accessBusy = false;
+async function refreshAccess(forceLoad = false) {
+  if (!currentUser || accessBusy) return;
+  accessBusy = true;
+  try {
+    const { data, error } = await sb.rpc('request_access');
+    if (error) {
+      /* foydalanuvchi o'chirilgan (FK xatosi) yoki sessiya yaroqsiz — chiqarib yuboramiz */
+      if (error.code === '23503' || error.code === '42501' || error.status === 401 || error.status === 403) {
+        await sb.auth.signOut();
+      }
+      return;
+    }
+    if (!data) return;
+    if (data.server_time) syncClock(data.server_time);
+    const had = accessInfo && accessInfo.has_access;
+    accessInfo = data;
+    renderAccess();
+    if (data.has_access && (forceLoad || !had)) loadData();
+  } catch { /* tarmoq xatosi — keyingi urinishda */ }
+  finally { accessBusy = false; }
+}
 
 /* ---------------- Navigatsiya ---------------- */
 const VIEWS = ['home', 'zones', 'history', 'products', 'profile'];
@@ -667,7 +778,7 @@ function cardFor(tab) {
         <div class="${coverCls}"></div>
         <div class="card-body">
           <div class="card-info">
-            <span class="table-name">${tab.name}</span>
+            <span class="table-name">${escH(tab.name)}</span>
             <span class="free-hint">${t('repair.hint')}</span>
           </div>
         </div>
@@ -679,7 +790,7 @@ function cardFor(tab) {
       <div class="table-card card-free${cardCls}" data-action="start" data-tid="${tab.id}">
         <div class="${coverCls}"></div>
         <div class="card-body">
-          <span class="table-name table-name--lg">${tab.name}</span>
+          <span class="table-name table-name--lg">${escH(tab.name)}</span>
         </div>
       </div>`;
   }
@@ -693,7 +804,7 @@ function cardFor(tab) {
       <div class="${coverCls}"></div>
       <div class="card-body">
         <div class="card-info">
-          <span class="table-name">${tab.name}</span>
+          <span class="table-name">${escH(tab.name)}</span>
           <span class="card-price" data-price="${tab.id}">${fmtMoney(sessionPrice(s))}</span>
         </div>
         <div class="timer-wrap">
@@ -730,7 +841,7 @@ function renderHome() {
     if (!state.zones.some(z => z.id === homeZoneId)) homeZoneId = state.zones[0].id;
     tabs.hidden = false;
     tabs.innerHTML = state.zones.map(z =>
-      `<button class="seg-btn ${z.id === homeZoneId ? 'active' : ''}" data-htab="${z.id}">${z.name}</button>`).join('');
+      `<button class="seg-btn ${z.id === homeZoneId ? 'active' : ''}" data-htab="${z.id}">${escH(z.name)}</button>`).join('');
     $$('#home-zone-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
       homeZoneId = b.dataset.htab;
       renderHome();
@@ -793,7 +904,7 @@ function renderStartSheet() {
     <div class="sheet-head">
       <div>
         <div class="sheet-title">${t('start.title')}</div>
-        <div class="sheet-sub">${tab.name} · ${zone.name}</div>
+        <div class="sheet-sub">${escH(tab.name)} · ${escH(zone.name)}</div>
       </div>
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
@@ -853,6 +964,9 @@ function renderStartSheet() {
     }
     rateInput.classList.remove('input-error');
     errEl.textContent = '';
+    const btn = $('#start-confirm');
+    if (btn.disabled) return;
+    btn.disabled = true;
     try {
       await apiStartSession(tab, startMode, rate, startMode === 'countdown' ? startDuration : undefined);
       lastStatus[tab.id] = statusOf(sessions[tab.id]);
@@ -861,7 +975,9 @@ function renderStartSheet() {
       renderHome(); renderZones();
       toast(t('toast.sessionStarted'));
     } catch (err) {
-      toast('Supabase xatosi: ' + (err.message || err));
+      btn.disabled = false;
+      toast(errText(err));
+      if (err && err.code === '23505') { closeSheet(); loadData(); }
     }
   });
 }
@@ -873,7 +989,6 @@ function openPanel(tab) {
   renderPanel();
 }
 
-const PRODUCT_ICONS = {};
 
 function renderPanel() {
   const s = sessions[currentPanel];
@@ -906,7 +1021,7 @@ function renderPanel() {
     if (!p) return '';
     return `
       <div class="order-row">
-        <div class="order-name">${p.name}
+        <div class="order-name">${escH(p.name)}
           <span class="sub">${e.qty} x ${fmtMoney(p.price)}</span>
         </div>
         <div class="order-amount">${fmtMoney(p.price * e.qty)}</div>
@@ -926,8 +1041,8 @@ function renderPanel() {
     <div class="sheet-handle"></div>
     <div class="sheet-head">
       <div>
-        <div class="sheet-title">${tab.name}</div>
-        <div class="sheet-sub">${zone.name} · ${fmtMoney(tab.tariff)} ${t('panel.perHour')}</div>
+        <div class="sheet-title">${escH(tab.name)}</div>
+        <div class="sheet-sub">${escH(zone.name)} · ${fmtMoney(tab.tariff)} ${t('panel.perHour')}</div>
       </div>
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
@@ -954,7 +1069,7 @@ function renderPanel() {
         <div class="sheet-section-title">${t('panel.addProduct')}</div>
         <div class="search-box">
           <span class="material-symbols-outlined">search</span>
-          <input id="prod-search" type="text" class="search-input" placeholder="${t('panel.searchPh')}" autocomplete="off" value="${panelSearch}">
+          <input id="prod-search" type="text" class="search-input" placeholder="${t('panel.searchPh')}" autocomplete="off" value="${escH(panelSearch)}">
         </div>
         <div class="prod-pick-list" id="prod-search-results">${panelSearchHTML(zone)}</div>
       </div>
@@ -990,10 +1105,15 @@ function renderPanel() {
   $$('[data-inc]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.inc, 1); renderPanel(); }));
   $$('[data-dec]').forEach(b => b.addEventListener('click', () => { addToSession(currentPanel, b.dataset.dec, -1); renderPanel(); }));
   $$('[data-remove]').forEach(b => b.addEventListener('click', () => { removeFromSession(currentPanel, b.dataset.remove); renderPanel(); }));
-  $$('[data-extend]').forEach(b => b.addEventListener('click', () => {
+  $$('[data-extend]').forEach(b => b.addEventListener('click', async () => {
     const s2 = sessions[currentPanel];
-    if (s2 && s2.mode === 'countdown') s2.duration += +b.dataset.extend;
+    if (!s2 || s2.mode !== 'countdown') return;
+    const add = +b.dataset.extend;
+    s2.duration += add;
     renderPanel();
+    try { await apiExtendSession(s2, add); }
+    catch (err) { s2.duration -= add; toast(errText(err)); loadData(); }
+    if (currentPanel === s2.tableId && sessions[currentPanel]) renderPanel();
   }));
   $('#finish-btn').addEventListener('click', finishConfirm);
   $('#cancel-btn').addEventListener('click', cancelConfirm);
@@ -1003,24 +1123,24 @@ async function addToSession(tid, pid, delta = 1) {
   const s = sessions[tid];
   if (!s) return;
   const e = s.products.find(x => x.pid === pid);
-  let qty = 0;
+  if (!e && delta <= 0) return;
   if (e) {
-    qty = e.qty + delta;
-    if (qty <= 0) s.products = s.products.filter(x => x.pid !== pid);
-    else e.qty = qty;
-  } else if (delta > 0) {
+    e.qty += delta;
+    if (e.qty <= 0) s.products = s.products.filter(x => x !== e);
+  } else {
     s.products.push({ pid, qty: delta });
-    qty = delta;
   }
-  try { await apiSetSessionProduct(s, pid, qty); }
-  catch (err) { toast('Supabase xatosi: ' + (err.message || err)); loadData(); }
+  try { await apiAddSessionProduct(s, pid, delta); }
+  catch (err) { toast(errText(err)); loadData(); }
 }
 async function removeFromSession(tid, pid) {
   const s = sessions[tid];
   if (!s) return;
-  s.products = s.products.filter(x => x.pid !== pid);
-  try { await apiSetSessionProduct(s, pid, 0); }
-  catch (err) { toast('Supabase xatosi: ' + (err.message || err)); loadData(); }
+  const e = s.products.find(x => x.pid === pid);
+  if (!e) return;
+  s.products = s.products.filter(x => x !== e);
+  try { await apiAddSessionProduct(s, pid, -e.qty); }
+  catch (err) { toast(errText(err)); loadData(); }
 }
 
 function panelSearchHTML(zone) {
@@ -1031,8 +1151,8 @@ function panelSearchHTML(zone) {
   if (!list.length) return '<div class="prod-pick-empty">' + t('panel.noProduct') + '</div>';
   return list.map(p => `
     <button class="prod-pick" data-pick="${p.id}">
-      <span class="quick-icon"><span class="material-symbols-outlined">${p.icon || 'local_bar'}</span></span>
-      <span class="pp-name">${p.name}</span>
+      <span class="quick-icon"><span class="material-symbols-outlined">${escH(p.icon || 'local_bar')}</span></span>
+      <span class="pp-name">${escH(p.name)}</span>
       <span class="pp-price">${fmtMoney(p.price)}</span>
     </button>`).join('');
 }
@@ -1048,7 +1168,7 @@ function openProductDialog(p) {
   dialogQty = 1;
   openAlert(`
     <button class="alert-close" id="qty-close"><span class="material-symbols-outlined">close</span></button>
-    <div class="alert-title">${p.name}</div>
+    <div class="alert-title">${escH(p.name)}</div>
     <div class="alert-sub">${fmtMoney(p.price)} ${t('panel.dona')}</div>
     <div class="qty-stepper">
       <button class="qty-btn" id="qty-dec">−</button>
@@ -1095,10 +1215,18 @@ function finishConfirm() {
     </div>
   `);
   $('#abort-finish').addEventListener('click', closeAlert);
-  $('#ok-finish').addEventListener('click', async () => {
-    const sum = timePrice + prod;
-    try { await apiFinishSession(sessions[currentPanel]); }
-    catch (err) { toast('Supabase xatosi: ' + (err.message || err)); return; }
+  $('#ok-finish').addEventListener('click', async e => {
+    const s2 = sessions[currentPanel];
+    if (!s2 || e.currentTarget.disabled) return;
+    e.currentTarget.disabled = true;
+    const sum = sessionPrice(s2) + productSum(s2);
+    try { await apiFinishSession(s2); }
+    catch (err) {
+      toast(errText(err));
+      closeAlert();
+      if (err && err.code === 'P0002') { closeSheet(); loadData(); }
+      return;
+    }
     closeAlert(); closeSheet();
     renderHome(); renderZones(); loadHistory();
     toast(`${t('toast.sessionEnded')} — ${fmtMoney(sum)}`);
@@ -1117,9 +1245,12 @@ function cancelConfirm() {
     </div>
   `);
   $('#abort-cancel').addEventListener('click', closeAlert);
-  $('#ok-cancel').addEventListener('click', async () => {
-    try { await apiDeleteSession(sessions[currentPanel]); }
-    catch (err) { toast('Supabase xatosi: ' + (err.message || err)); return; }
+  $('#ok-cancel').addEventListener('click', async e => {
+    const s2 = sessions[currentPanel];
+    if (!s2 || e.currentTarget.disabled) return;
+    e.currentTarget.disabled = true;
+    try { await apiDeleteSession(s2); }
+    catch (err) { toast(errText(err)); closeAlert(); return; }
     closeAlert(); closeSheet();
     renderHome(); renderZones();
     toast(t('toast.sessionCancelled'));
@@ -1127,7 +1258,7 @@ function cancelConfirm() {
 }
 
 /* ---------------- ZONALAR ---------------- */
-let openZoneId = 'z1';
+let openZoneId = null;
 
 function zoneStatus(tab) {
   return sessions[tab.id]
@@ -1144,7 +1275,7 @@ function renderZones() {
   if (!state.zones.some(z => z.id === openZoneId)) openZoneId = state.zones[0].id;
 
   $('#zone-tabs').innerHTML = state.zones.map(z =>
-    `<button class="seg-btn ${z.id === openZoneId ? 'active' : ''}" data-ztab="${z.id}">${z.name}</button>`).join('');
+    `<button class="seg-btn ${z.id === openZoneId ? 'active' : ''}" data-ztab="${z.id}">${escH(z.name)}</button>`).join('');
   $$('#zone-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
     openZoneId = b.dataset.ztab;
     renderZones();
@@ -1154,7 +1285,7 @@ function renderZones() {
   $('#zones-table-list').innerHTML = `
     <div class="zone-block" style="margin-top:14px">
       <div class="zone-head">
-        <span class="zone-name">${zone.name}</span>
+        <span class="zone-name">${escH(zone.name)}</span>
         <span class="zone-count">${zone.tables.length} ${t('zones.tables')}</span>
         <button class="icon-btn" data-edit-zone="${zone.id}" title="${t('panel.edit')}"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
       </div>
@@ -1164,7 +1295,7 @@ function renderZones() {
           return `
             <div class="table-row">
               <span class="status-dot ${s.cls}"></span>
-              <span class="table-row-name">${tab.name}</span>
+              <span class="table-row-name">${escH(tab.name)}</span>
               <span class="status-text ${s.cls}">${s.txt}</span>
               <button class="icon-btn" data-edit-table="${tab.id}" title="${t('panel.edit')}" style="width:36px;height:36px"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
             </div>`;
@@ -1203,7 +1334,7 @@ function openZoneModal(z) {
     <div class="sheet-content">
       <div class="field">
         <label>${t('modal.zoneName')}</label>
-        <input id="zone-name" value="${isEdit ? z.name : ''}" placeholder="${t('modal.zonePh')}">
+        <input id="zone-name" value="${isEdit ? escH(z.name) : ''}" placeholder="${t('modal.zonePh')}">
         <span class="field-error"></span>
       </div>
       <button class="btn btn--primary btn--block" id="save-zone">${t('modal.save')}</button>
@@ -1211,20 +1342,23 @@ function openZoneModal(z) {
     </div>
   `);
   const input = $('#zone-name');
-  $('#save-zone').addEventListener('click', async () => {
+  $('#save-zone').addEventListener('click', async e => {
     const name = input.value.trim();
     if (!name) { input.classList.add('input-error'); input.nextElementSibling.textContent = t('err.required'); return; }
+    const btn = e.currentTarget;
+    if (btn.disabled) return;
+    btn.disabled = true;
     try {
       if (isEdit) await apiUpdateZone(z, name);
       else await apiAddZone(name);
       closeSheet(); renderHome(); renderZones(); renderProducts();
       toast(t('common.saved'));
-    } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
+    } catch (err) { btn.disabled = false; toast(errText(err)); }
   });
   if (isEdit) $('#del-zone').addEventListener('click', () => {
     const active = zoneHasActiveSession(z);
     openAlert(`
-      <div class="alert-title">'${z.name}'${t('confirm.deleteTitle')}</div>
+      <div class="alert-title">'${escH(z.name)}'${t('confirm.deleteTitle')}</div>
       <p class="alert-text">${t('confirm.irreversible')}</p>
       ${active ? `<div class="alert-warn-box alert-warn-box--danger">${t('confirm.zoneActive')}</div>` : ''}
       <div class="alert-btns">
@@ -1240,7 +1374,7 @@ function openZoneModal(z) {
         closeAlert(); closeSheet();
         renderHome(); renderZones(); renderProducts();
         toast(t('common.deleted'));
-      } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
+      } catch (err) { toast(errText(err)); }
     });
   });
 }
@@ -1249,6 +1383,9 @@ function openTableModal(tab, presetZoneId) {
   const isEdit = !!tab;
   const zone = tab ? findZone(tab.id) : state.zones.find(x => x.id === presetZoneId) || state.zones[0];
   let tableType = isEdit ? (tab.type || 'billiard') : 'billiard';
+  /* turini almashtirganda kiritilgan qiymatlar yo'qolmasin */
+  const draft = { name: isEdit ? tab.name : '', tariff: isEdit ? fmtIn(tab.tariff) : '', repair: isEdit ? !!tab.repair : false };
+  const busy = isEdit && !!sessions[tab.id];
 
   const render = () => {
     openSheet(`
@@ -1262,23 +1399,32 @@ function openTableModal(tab, presetZoneId) {
           <button class="seg-btn ${tableType === 'billiard' ? 'active' : ''}" data-type="billiard">Billiard</button>
           <button class="seg-btn ${tableType === 'tennis' ? 'active' : ''}" data-type="tennis">Tennis</button>
         </div>
-        <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${zone.name}</div>
+        <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${escH(zone.name)}</div>
         <div class="field">
           <label>${t('modal.tableName')}</label>
-          <input id="table-name" value="${isEdit ? tab.name : ''}" placeholder="${t('modal.tablePh')}">
+          <input id="table-name" value="${escH(draft.name)}" placeholder="${t('modal.tablePh')}">
           <span class="field-error"></span>
         </div>
         <div class="field">
           <label>${t('modal.tariff')} (${cur()})</label>
-          <input id="table-tariff" type="text" inputmode="numeric" value="${isEdit ? fmtIn(tab.tariff) : ''}" placeholder="${t('modal.tariffPh')}">
+          <input id="table-tariff" type="text" inputmode="numeric" value="${escH(draft.tariff)}" placeholder="${t('modal.tariffPh')}">
           <span class="field-error"></span>
         </div>
+        <label class="repair-toggle${busy ? ' is-disabled' : ''}">
+          <input type="checkbox" id="table-repair" ${draft.repair ? 'checked' : ''} ${busy && !draft.repair ? 'disabled' : ''}>
+          <span class="material-symbols-outlined">build</span>
+          <span>${t('modal.repair')}</span>
+        </label>
+        ${busy && !draft.repair ? `<div class="repair-note">${t('modal.repairBusy')}</div>` : ''}
         <button class="btn btn--primary btn--block" id="save-table">${t('modal.save')}</button>
         ${isEdit ? `<button class="btn btn--danger-ghost btn--block" id="del-table" style="margin-top:10px">${t('modal.deleteTable')}</button>` : ''}
       </div>
     `);
 
     $$('#type-seg .seg-btn').forEach(b => b.addEventListener('click', () => {
+      draft.name = $('#table-name').value;
+      draft.tariff = $('#table-tariff').value;
+      draft.repair = $('#table-repair').checked;
       tableType = b.dataset.type;
       render();
     }));
@@ -1291,9 +1437,10 @@ function bindTableForm(tab, zone, isEdit, getType) {
   const nameInput = $('#table-name');
   const tariffInput = $('#table-tariff');
   bindMoneyInput(tariffInput);
-  $('#save-table').addEventListener('click', async () => {
+  $('#save-table').addEventListener('click', async e => {
     const name = nameInput.value.trim();
     const tariff = parseIn(tariffInput.value);
+    const repair = $('#table-repair').checked;
     let ok = true;
     if (!name) { nameInput.classList.add('input-error'); nameInput.nextElementSibling.textContent = t('err.required'); ok = false; }
     else nameInput.classList.remove('input-error');
@@ -1301,17 +1448,20 @@ function bindTableForm(tab, zone, isEdit, getType) {
       tariffInput.classList.add('input-error'); tariffInput.nextElementSibling.textContent = t('err.number'); ok = false;
     } else tariffInput.classList.remove('input-error');
     if (!ok) return;
+    const btn = e.currentTarget;
+    if (btn.disabled) return;
+    btn.disabled = true;
     try {
-      if (isEdit) await apiUpdateTable(tab, name, tariff, getType());
-      else await apiAddTable(zone, name, tariff, getType());
+      if (isEdit) await apiUpdateTable(tab, name, tariff, getType(), repair);
+      else await apiAddTable(zone, name, tariff, getType(), repair);
       closeSheet(); renderHome(); renderZones();
       toast(t('common.saved'));
-    } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
+    } catch (err) { btn.disabled = false; toast(errText(err)); }
   });
   if (isEdit) $('#del-table').addEventListener('click', () => {
     const active = !!sessions[tab.id];
     openAlert(`
-      <div class="alert-title">'${tab.name}'${t('confirm.deleteTitle')}</div>
+      <div class="alert-title">'${escH(tab.name)}'${t('confirm.deleteTitle')}</div>
       <p class="alert-text">${t('confirm.irreversible')}</p>
       ${active ? `<div class="alert-warn-box alert-warn-box--danger">${t('confirm.tableActive')}</div>` : ''}
       <div class="alert-btns">
@@ -1326,7 +1476,7 @@ function bindTableForm(tab, zone, isEdit, getType) {
         closeAlert(); closeSheet();
         renderHome(); renderZones();
         toast(t('common.deleted'));
-      } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
+      } catch (err) { toast(errText(err)); }
     });
   });
 }
@@ -1342,7 +1492,7 @@ function renderProducts() {
   }
   if (!state.zones.some(z => z.id === productZoneId)) productZoneId = state.zones[0].id;
   $('#prod-tabs').innerHTML = state.zones.map(z =>
-    `<button class="seg-btn ${z.id === productZoneId ? 'active' : ''}" data-pzone="${z.id}">${z.name}</button>`).join('');
+    `<button class="seg-btn ${z.id === productZoneId ? 'active' : ''}" data-pzone="${z.id}">${escH(z.name)}</button>`).join('');
   $$('#prod-tabs .seg-btn').forEach(b => b.addEventListener('click', () => {
     productZoneId = b.dataset.pzone;
     renderProducts();
@@ -1351,7 +1501,7 @@ function renderProducts() {
   const zone = state.zones.find(z => z.id === productZoneId);
   $('#products-list').innerHTML = zone.products.map(p => `
     <li class="list-row product-row">
-      <span class="list-row-left"><span class="material-symbols-outlined">${p.icon || 'local_bar'}</span> <span class="product-name">${p.name}</span></span>
+      <span class="list-row-left"><span class="material-symbols-outlined">${escH(p.icon || 'local_bar')}</span> <span class="product-name">${escH(p.name)}</span></span>
       <span class="product-price">${fmtMoney(p.price)}</span>
       <button class="icon-btn" data-edit-product="${p.id}" title="${t('panel.edit')}"><span class="material-symbols-outlined" style="font-size:20px">edit</span></button>
     </li>`).join('') || '<li class="empty-state" style="padding:30px"><p>' + t('products.none') + '</p></li>';
@@ -1377,10 +1527,10 @@ function openProductModal(zone, p) {
       <button class="sheet-close"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div class="sheet-content">
-      <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${zone.name}</div>
+      <div class="sheet-sub" style="margin:-6px 0 14px;color:var(--text-muted)">${escH(zone.name)}</div>
       <div class="field">
         <label>${t('modal.prodName')}</label>
-        <input id="prod-name" value="${isEdit ? p.name : ''}" placeholder="${t('modal.prodNamePh')}">
+        <input id="prod-name" value="${isEdit ? escH(p.name) : ''}" placeholder="${t('modal.prodNamePh')}">
         <span class="field-error"></span>
       </div>
       <div class="field">
@@ -1395,7 +1545,7 @@ function openProductModal(zone, p) {
   const nameInput = $('#prod-name');
   const priceInput = $('#prod-price');
   bindMoneyInput(priceInput);
-  $('#save-prod').addEventListener('click', async () => {
+  $('#save-prod').addEventListener('click', async e => {
     const name = nameInput.value.trim();
     const price = parseIn(priceInput.value);
     let ok = true;
@@ -1405,16 +1555,19 @@ function openProductModal(zone, p) {
       priceInput.classList.add('input-error'); priceInput.nextElementSibling.textContent = t('err.number'); ok = false;
     } else priceInput.classList.remove('input-error');
     if (!ok) return;
+    const btn = e.currentTarget;
+    if (btn.disabled) return;
+    btn.disabled = true;
     try {
       if (isEdit) await apiUpdateProduct(p, name, price);
       else await apiAddProduct(zone, name, price);
       closeSheet(); renderProducts();
       toast(t('common.saved'));
-    } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
+    } catch (err) { btn.disabled = false; toast(errText(err)); }
   });
   if (isEdit) $('#del-prod').addEventListener('click', () => {
     openAlert(`
-      <div class="alert-title">'${p.name}'${t('confirm.deleteTitle')}</div>
+      <div class="alert-title">'${escH(p.name)}'${t('confirm.deleteTitle')}</div>
       <p class="alert-text">${t('confirm.irreversible')}</p>
       <div class="alert-btns">
         <button class="btn btn--ghost" id="cancel-del">${t('common.cancel')}</button>
@@ -1427,7 +1580,7 @@ function openProductModal(zone, p) {
         await apiDeleteProduct(zone, p);
         closeAlert(); closeSheet(); renderProducts();
         toast(t('common.deleted'));
-      } catch (err) { toast('Supabase xatosi: ' + (err.message || err)); }
+      } catch (err) { toast(errText(err)); }
     });
   });
 }
@@ -1439,13 +1592,12 @@ function openProfileModal() {
     <div class="alert-fields">
       <div class="field">
         <label>${t('profile.name')}</label>
-        <input id="profile-name-input" value="${$('#profile-name').textContent}">
+        <input id="profile-name-input" maxlength="60" value="${escH($('#profile-name').textContent)}">
         <span class="field-error"></span>
       </div>
       <div class="field">
-        <label>${t('profile.login')}</label>
-        <input id="profile-login-input" value="${$('#profile-login').textContent}">
-        <span class="field-error"></span>
+        <label>${t('login.username')}</label>
+        <input id="profile-login-input" value="${escH((currentUser && currentUser.email) || '')}" disabled>
       </div>
     </div>
     <div class="alert-btns">
@@ -1454,20 +1606,30 @@ function openProfileModal() {
     </div>
   `);
   const nameInput = $('#profile-name-input');
-  const loginInput = $('#profile-login-input');
   $('#cancel-profile').addEventListener('click', closeAlert);
-  $('#save-profile').addEventListener('click', () => {
+  $('#save-profile').addEventListener('click', async e => {
     const name = nameInput.value.trim();
-    const login = loginInput.value.trim();
-    if (!name || !login) {
-      toast(t('profile.nameLoginReq'));
+    if (!name) {
+      nameInput.classList.add('input-error');
+      nameInput.nextElementSibling.textContent = t('err.required');
       return;
     }
-    $('#profile-name').textContent = name;
-    $('#profile-login').textContent = login;
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    const { data, error } = await sb.auth.updateUser({ data: { name } });
+    if (error) { btn.disabled = false; toast(errText(error)); return; }
+    if (data && data.user) currentUser = data.user;
+    renderProfile();
     closeAlert();
     toast(t('common.saved'));
   });
+}
+
+function renderProfile() {
+  const email = (currentUser && currentUser.email) || '';
+  const name = (currentUser && currentUser.user_metadata && currentUser.user_metadata.name) || email.split('@')[0];
+  $('#profile-name').textContent = name || '—';
+  $('#profile-login').textContent = email;
 }
 
 $('#edit-profile-btn').addEventListener('click', openProfileModal);
@@ -1488,19 +1650,20 @@ $('#logout-btn').addEventListener('click', () => {
 });
 
 /* ---------------- TARIX ---------------- */
-const escH = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const MONTH_NAMES = {
   uz: ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'],
   en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
 };
-let histSessions = [];
+let histSessions = []; /* bugungi yakunlangan sessiyalar (batafsil) */
+let histDays = [];     /* o'tgan kunlar jami (serverda hisoblanadi) */
 let histDay = '';
 
 const dayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const monthKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 const hm = d => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 const dayLabel = d => `${d.getDate()} ${MONTH_NAMES[currentLang][d.getMonth()]} ${d.getFullYear()}`;
+const parseDay = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
 
 function finSummary(s) {
   const start = new Date(s.start_time);
@@ -1517,54 +1680,56 @@ function finSummary(s) {
   return { timePrice, prod, total: timePrice + prod };
 }
 
+let histBusy = false;
 async function loadHistory() {
-  if (!currentUser) return;
-  const { data, error } = await sb.from('sessions')
-    .select('id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff), session_products(quantity, price, products(price))')
-    .not('end_time', 'is', null)
-    .order('end_time', { ascending: false });
-  if (error) { toast('Supabase xatosi: ' + (error.message || error)); return; }
-  histSessions = data || [];
-  histDay = dayKey(new Date());
-  renderHistory();
-}
-
-function groupByDay(list) {
-  const map = new Map();
-  for (const s of list) {
-    const k = dayKey(new Date(s.end_time));
-    if (!map.has(k)) map.set(k, { key: k, date: new Date(s.end_time), time: 0, prod: 0, sessions: [] });
-    const g = map.get(k);
-    const sum = finSummary(s);
-    g.time += sum.timePrice;
-    g.prod += sum.prod;
-    g.sessions.push({ s, sum });
-  }
-  return [...map.values()].map(g => ({ ...g, total: g.time + g.prod }));
+  if (!currentUser || !(accessInfo && accessInfo.has_access) || histBusy) return;
+  histBusy = true;
+  try {
+    const now = new Date();
+    const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'UTC';
+    const [today, days] = await Promise.all([
+      sb.from('sessions')
+        .select('id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff), session_products(quantity, price, products(price))')
+        .gte('end_time', dayStart.toISOString())
+        .order('end_time', { ascending: false }),
+      sb.rpc('history_days', { p_tz: tz }),
+    ]);
+    if (today.error) throw today.error;
+    if (days.error) throw days.error;
+    histSessions = today.data || [];
+    const todayKey = dayKey(now);
+    histDays = (days.data || []).filter(d => d.day !== todayKey).map(d => ({
+      key: d.day, date: parseDay(d.day), time: Number(d.time_sum) || 0, prod: Number(d.prod_sum) || 0,
+      total: (Number(d.time_sum) || 0) + (Number(d.prod_sum) || 0),
+    }));
+    histDay = todayKey;
+    renderHistory();
+  } catch (err) {
+    toast(errText(err));
+  } finally { histBusy = false; }
 }
 
 function renderHistory() {
   const body = $('#history-body');
-  if (!histSessions.length) {
+  if (!histSessions.length && !histDays.length) {
     body.innerHTML = '<div class="empty-state"><p>' + t('history.empty') + '</p></div>';
     return;
   }
   const now = new Date();
-  const today = dayKey(now);
-  const todaySessions = histSessions.filter(s => dayKey(new Date(s.end_time)) === today);
-  const past = histSessions.filter(s => dayKey(new Date(s.end_time)) !== today);
+  const todaySessions = histSessions;
 
   let html = '';
   html += `<div class="hist-section-title">${t('history.today')} — ${dayLabel(now)}</div>`;
   if (todaySessions.length) html += renderToday(todaySessions);
   else html += '<div class="empty-state" style="padding:20px"><p>' + t('history.empty') + '</p></div>';
 
-  if (past.length) {
+  if (histDays.length) {
     const byMonth = new Map();
-    for (const s of past) {
-      const mk = monthKey(new Date(s.end_time));
+    for (const d of histDays) {
+      const mk = monthKey(d.date);
       if (!byMonth.has(mk)) byMonth.set(mk, []);
-      byMonth.get(mk).push(s);
+      byMonth.get(mk).push(d);
     }
     const curMk = monthKey(now);
     [...byMonth.keys()].sort().reverse().forEach(mk => {
@@ -1572,7 +1737,7 @@ function renderHistory() {
       const open = mk === curMk;
       html += `<button class="hist-month ${open ? 'open' : ''}" data-mk="${mk}">${MONTH_NAMES[currentLang][m - 1]} ${y}</button>`;
       html += `<div class="hist-month-body" ${open ? '' : 'hidden'}>`;
-      groupByDay(byMonth.get(mk)).forEach(d => {
+      byMonth.get(mk).sort((a, b) => b.key.localeCompare(a.key)).forEach(d => {
         html += `<button class="hist-day" data-dk="${d.key}"><span>${dayLabel(d.date)}</span><b>${fmtMoney(d.total)}</b></button>`;
         html += `<div class="hist-day-body" hidden>
           <div class="hist-day-sum">
@@ -1660,7 +1825,7 @@ function updateRings(now) {
 }
 
 function tick() {
-  const now = Date.now();
+  const now = nowMs();
   let needRender = false;
 
   Object.keys(sessions).forEach(tid => {
@@ -1709,19 +1874,8 @@ const netOverlay = $('#net-overlay');
 function showBlocked(v) { blockedOverlay.hidden = !v; }
 function showNet(v) { netOverlay.hidden = !v; }
 
-/* Admin bloklashi tekshiruvi: 30 sekundda bir + ilova ochilganda */
-async function checkBlockStatus() {
-  if (!currentUser) { showBlocked(false); return; }
-  try {
-    const { data, error } = await sb.auth.getUser();
-    if (error) {
-      if (error.code === 'fetch_error' || !error.status) return;
-      showBlocked(true);
-      return;
-    }
-    showBlocked(!!(data && data.user && data.user.banned_until));
-  } catch { /* tarmoq xatosi — blok emas */ }
-}
+/* Blok / ruxsat holati: 30 sekundda bir + ilova ochilganda (realtime bo'lsa darhol) */
+const checkBlockStatus = () => refreshAccess();
 
 /* Internet aloqasi nazorati: istalgan javob keldi = internet bor,
    faqat tarmoq xatosi (reject) = yo'q. no-cors — CORS/status kodlari muhim emas */
@@ -1738,12 +1892,14 @@ async function probeNet() {
   if (online === lastOnline) return;
   lastOnline = online;
   showNet(!online);
-  if (online && currentUser) loadData();
+  if (online && currentUser) refreshAccess(true);
 }
 
 window.addEventListener('offline', () => { lastOnline = false; showNet(true); });
 window.addEventListener('online', () => probeNet());
 $('#blocked-retry').addEventListener('click', checkBlockStatus);
+$('#access-retry').addEventListener('click', () => refreshAccess());
+$('#access-logout').addEventListener('click', () => sb.auth.signOut());
 $('#net-retry').addEventListener('click', probeNet);
 setInterval(checkBlockStatus, 30000);
 setInterval(probeNet, 8000);
@@ -1768,6 +1924,12 @@ probeNet();
       enterApp();
     }
   } catch (err) {
-    toast('Supabase xatosi: ' + (err.message || err));
+    toast(errText(err));
   }
 })();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
