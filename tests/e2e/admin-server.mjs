@@ -12,6 +12,8 @@ process.env.HMAC_SECRET ||= 'test-hmac-secret-0123456789';
 process.env.SUPABASE_PROJECT_REF ||= 'localref';
 process.env.SUPABASE_ACCESS_TOKEN ||= 'sbp_test';
 process.env.PUSH_HOOK_SECRET ||= 'test-push-secret';
+/* token 10 kundan keyin tugaydi — panelda ogohlantirish chiqishi kerak */
+process.env.SUPABASE_TOKEN_EXPIRES ||= new Date(Date.now() + 10 * 86400000).toISOString().slice(0, 10);
 const dir = process.env.ADMIN_DIR || new URL('../../../Zona-Admin', import.meta.url).pathname;
 if (!process.env.VAPID_PUBLIC_KEY) {
   const { generateVapidKeys } = await import(dir + '/push.mjs');

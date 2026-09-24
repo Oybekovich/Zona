@@ -60,6 +60,8 @@ await page.click('#user-tabs [data-filter=pending]'); await sleep(200);
 check(/Sinov: 7 kun/.test(await page.textContent('#users-list')), 'shows remaining trial days');
 await page.click('.nav-btn[data-sec=settings]'); await sleep(500);
 check(await page.inputValue('#trial-days') === '7', 'trial setting loaded (7)');
+const tokTxt = await page.textContent('#token-status');
+check(/tugashiga (10|11) kun qoldi/.test(tokTxt) && await page.isVisible('#token-alert'), 'Supabase token: days left shown + warning banner (≤14 days) — ' + tokTxt.trim());
 await page.click('.nav-btn[data-sec=users]'); await sleep(500);
 
 console.log('3) Trial expires → client locked → admin approves → client unlocked for life');
