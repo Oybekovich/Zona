@@ -1,5 +1,5 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v15';
+const CACHE_NAME = 'zona-shell-v16';
 const SHELL_ASSETS = [
   '/',
   '/index.html',

@@ -1248,10 +1248,8 @@ html[data-theme="light"] .toast { box-shadow: 0 16px 36px -12px rgba(60, 20, 20,
 /* ---------------- Telefon (<760px) ---------------- */
 @media (max-width: 759px) {
   .view--login { grid-template-columns: minmax(0, 1fr); }
-  .login-art { min-height: 300px; height: 300px; border-right: 0; border-bottom: 1px solid var(--line); }
-  .art-stage { top: 60%; scale: .5; }
-  .login-brand { top: 24px; left: 20px; }
-  .login-hero { display: none; }
+  /* telefonda: 3D stol, logo va sarlavha ko'rsatilmaydi — uslublar va forma darhol */
+  .login-art { display: none; }
   .login-side { padding: 72px 20px 48px; align-items: flex-start; }
   .login-themes { top: 20px; right: 20px; }
   .login-theme-name { display: none; }
