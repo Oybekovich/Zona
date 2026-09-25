@@ -1590,6 +1590,12 @@ let startMode = 'stopwatch';
 let startDuration = 3600;
 let startRateDraft = null;
 const DURATION_PRESETS = [1800, 3600, 5400, 7200, 10800];
+/* Taymer: eng kami 5 daqiqa; 30 daqiqagacha 5 daqiqalik, undan keyin 15 daqiqalik qadam */
+const MIN_DURATION = 300, MAX_DURATION = 172800;
+const stepDuration = (d, dir) => {
+  const next = dir > 0 ? d + (d < 1800 ? 300 : 900) : d - (d <= 1800 ? 300 : 900);
+  return Math.min(MAX_DURATION, Math.max(MIN_DURATION, next));
+};
 const presetLabel = sec => sec % 3600 === 0 ? `${sec / 3600} ${t('time.hour')}`
   : sec > 3600 && sec % 1800 === 0 ? `${(sec / 3600).toLocaleString(currentLang === 'en' ? 'en-US' : 'ru-RU')} ${t('time.hour')}`
   : `${sec / 60} ${t('start.minutes')}`;
@@ -1631,9 +1637,9 @@ function renderStartSheet() {
       ${startMode === 'countdown' ? `
         <div class="eyebrow sec-label">${t('start.duration')}</div>
         <div class="duration-box">
-          <button class="step-btn" data-step="-900" aria-label="−15 ${t('start.minutes')}">${msIcon('remove')}</button>
+          <button class="step-btn" data-step="-1" aria-label="−${startDuration <= 1800 ? 5 : 15} ${t('start.minutes')}" ${startDuration <= MIN_DURATION ? 'disabled' : ''}>${msIcon('remove')}</button>
           <div class="duration-val">${fmtDur(startDuration)}</div>
-          <button class="step-btn" data-step="900" aria-label="+15 ${t('start.minutes')}">${msIcon('add')}</button>
+          <button class="step-btn" data-step="1" aria-label="+${startDuration < 1800 ? 5 : 15} ${t('start.minutes')}">${msIcon('add')}</button>
         </div>
         <div class="presets">
           ${DURATION_PRESETS.map(p => `<button class="preset ${p === startDuration ? 'active' : ''}" data-preset="${p}">${presetLabel(p)}</button>`).join('')}
@@ -1664,7 +1670,7 @@ function renderStartSheet() {
   const rerender = () => { startRateDraft = rateInput.value; renderStartSheet(); };
   $$('#mode-seg [data-mode]').forEach(b => b.addEventListener('click', () => { startMode = b.dataset.mode; rerender(); }));
   $$('#sheet-body [data-step]').forEach(b => b.addEventListener('click', () => {
-    startDuration = Math.min(172800, Math.max(900, startDuration + +b.dataset.step));
+    startDuration = stepDuration(startDuration, +b.dataset.step);
     rerender();
   }));
   $$('#sheet-body [data-preset]').forEach(b => b.addEventListener('click', () => { startDuration = +b.dataset.preset; rerender(); }));

@@ -71,6 +71,11 @@ check((await page.textContent('#table-grid')).includes('<img'), 'hostile name sh
 console.log('3) Countdown session: extend persists, products atomic');
 await page.click('.table-card[data-action=start]');
 await page.click('#mode-seg [data-mode=countdown]');
+for (let i = 0; i < 7; i++) await page.click('[data-step="-1"]'); // 1 soat → 45 → 30 → 25 → 20 → 15 → 10 → 5 daqiqa
+check(await page.textContent('#sheet-body .duration-val') === '5 daqiqa' && await page.isDisabled('[data-step="-1"]'), 'timer minimum is 5 minutes (minus disabled)');
+await page.click('[data-step="1"]');
+check(await page.textContent('#sheet-body .duration-val') === '10 daqiqa', 'below 30 min the step is 5 minutes');
+await page.click('[data-preset="3600"]');
 await page.click('#start-confirm');
 await sleep(600);
 await page.click('.table-card[data-action=panel]');

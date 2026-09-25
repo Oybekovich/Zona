@@ -1068,7 +1068,8 @@ html[data-theme="light"] .map-plane { box-shadow: 0 60px 100px -40px rgba(60, 20
 .mode-card.active .mode-check { opacity: 1; }
 .duration-box { display: flex; align-items: center; gap: 14px; padding: 10px; border-radius: var(--rs); background: var(--bg); border: 1px solid var(--line); }
 .step-btn { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--surf3); border: 1px solid var(--line); transition: border-color .2s; flex-shrink: 0; }
-.step-btn:hover { border-color: var(--acc); }
+.step-btn:hover:not(:disabled) { border-color: var(--acc); }
+.step-btn:disabled { opacity: .35; }
 .step-btn .material-symbols-outlined { font-size: 22px; }
 .duration-val { flex: 1; text-align: center; font-family: var(--fd); font-weight: 600; font-size: 30px; line-height: 1; }
 .presets { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }

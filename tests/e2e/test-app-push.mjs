@@ -112,6 +112,13 @@ await q(`update sessions set over_notified_at = null where id = $1`, [sA]);
 check((await collect()).length === 0, 'long-expired session (>10 min) is not notified (no spam after downtime)');
 await q(`update sessions set end_time = now() where id = $1`, [sA]);
 
+const [{ id: s5 }] = await q(`insert into sessions (table_id, mode, rate, start_time, duration_sec) values ($1, 'countdown', 30000, now() - interval '1 minute', 300) returning id`, [tA]);
+check((await collect()).length === 0, '5-minute timer: no "5 minutes left" right after start');
+await q(`update sessions set start_time = now() - interval '6 minutes' where id = $1`, [s5]);
+ev = await collect();
+check(ev.length === 1 && ev[0].type === 'over' && ev[0].session_id === s5, '5-minute timer: "time is up" still sent');
+await q(`update sessions set end_time = now() where id = $1`, [s5]);
+
 console.log('3) Trial ending + access granted');
 await q(`update user_access set status = 'pending', trial_until = now() + interval '20 hours', trial_warned_at = null where user_id = $1`, [A]);
 ev = await collect();

@@ -547,7 +547,7 @@ begin
       from public.sessions s
       join public.tables t on t.id = s.table_id
       join public.zones z on z.id = t.zone_id
-     where s.end_time is null and s.mode = 'countdown' and s.duration_sec is not null
+     where s.end_time is null and s.mode = 'countdown' and s.duration_sec > 300 -- 5 daqiqalik taymerga "5 daqiqa qoldi" kerak emas
        and s.warned_at is null and s.over_notified_at is null
        and s.start_time + make_interval(secs => s.duration_sec) > now()
        and s.start_time + make_interval(secs => s.duration_sec) <= now() + interval '5 minutes'
