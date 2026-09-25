@@ -1155,11 +1155,11 @@ html[data-theme="light"] .map-plane { box-shadow: 0 60px 100px -40px rgba(60, 20
 
 /* ---------------- Modal oynalar ---------------- */
 .overlay--center {
-  position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 24px; overflow-y: auto;
+  position: fixed; inset: 0; z-index: 60; display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 24px; overflow-y: auto;
   background: var(--scrim); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: zmFade .25s both;
 }
 .sys-overlay { z-index: 70; }
-.alert-box { width: 440px; max-width: 100%; animation: zmPop .45s cubic-bezier(.2, 1.2, .3, 1) both; }
+.alert-box { width: 440px; max-width: 100%; min-width: 0; animation: zmPop .45s cubic-bezier(.2, 1.2, .3, 1) both; }
 .alert-box.pop-out { animation: zmPopOut .22s ease-in both; }
 .modal-card {
   position: relative; overflow: hidden; padding: 36px 30px 28px; border-radius: var(--r); text-align: center;
@@ -1329,8 +1329,15 @@ html[data-theme="light"] .toast { box-shadow: 0 16px 36px -12px rgba(60, 20, 20,
   .dial-time { font-size: 42px; }
 
   .toasts, body.in-app .toasts { left: 50%; bottom: calc(100px + env(safe-area-inset-bottom)); }
-  .receipt { padding: 28px 22px 38px; }
-  .modal-card { padding: 30px 22px 24px; }
+  .overlay--center { padding: 16px; }
+  .receipt { padding: 26px 20px 36px; }
+  .receipt-head .alert-title { font-size: 24px; }
+  .receipt-row b { min-width: 0; text-align: right; white-space: normal; }
+  .receipt-total span:last-child { font-size: 26px; }
+  .modal-card { padding: 30px 20px 24px; }
+  .alert-ic { width: 58px; height: 58px; }
+  .alert-title { font-size: 24px; }
+  .done-sum { font-size: 34px; }
 }
 @media (min-width: 760px) and (max-width: 899px) {
   .toasts, body.in-app .toasts { left: 50%; bottom: calc(100px + env(safe-area-inset-bottom)); }
