@@ -135,6 +135,8 @@ html[data-theme="violet"] { --st-busy: #d23a3a; }
 @keyframes zmRr { 0% { top: 50%; } 12.5% { top: 62%; } 25% { top: 75%; } 37.5% { top: 70%; } 50% { top: 30%; } 62.5% { top: 48%; } 75% { top: 10%; } 87.5% { top: 28%; } 100% { top: 50%; } }
 @keyframes zmRise { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes zmDown { from { transform: none; } to { transform: translateY(100%); } }
+@keyframes zmSwap { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes zmPick { 0% { transform: scaleY(.9); } 60% { transform: scaleY(1.05); } 100% { transform: none; } }
 @keyframes zmDot { 0% { box-shadow: 0 0 0 0 var(--pc); } 70%, 100% { box-shadow: 0 0 0 9px transparent; } }
 
 /* ---------------- Asos ---------------- */
@@ -604,6 +606,7 @@ body:not(.in-app) .main { display: none; }
 .zone-tab.active { background: var(--gold); border-color: transparent; color: var(--accInk); box-shadow: 0 10px 24px -10px var(--acc); }
 .zone-tab.active .cnt { background: rgba(0, 0, 0, .16); color: var(--accInk); }
 .chips { display: flex; gap: 8px; }
+.chips-ind { display: none; }
 .chip {
   height: 40px; padding: 0 8px 0 16px; border-radius: 999px; white-space: nowrap;
   display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;
@@ -855,7 +858,7 @@ html[data-theme="light"] .map-plane { box-shadow: 0 60px 100px -40px rgba(60, 20
 .hist-hero-val .big { font-family: var(--fd); font-weight: 600; font-size: clamp(46px, 5.4vw, 78px); line-height: .95; letter-spacing: -.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .hist-hero-val .cur { font-size: 18px; color: var(--text2); font-weight: 600; }
 .split { margin-top: 28px; display: flex; height: 10px; gap: 3px; }
-.split .a { border-radius: 6px; background: var(--gold); box-shadow: 0 0 16px -2px var(--acc); transition: width .6s; }
+.split .a { border-radius: 6px; background: var(--gold); box-shadow: 0 0 16px -2px var(--acc); transition: width .7s var(--ease); }
 .split .b { flex: 1; border-radius: 6px; background: color-mix(in srgb, var(--acc2) 28%, var(--surf3)); }
 .mini-stats { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
 .mini-stat { padding: 14px 16px; border-radius: var(--rs); background: var(--bg); border: 1px solid var(--line); min-width: 0; }
@@ -880,8 +883,14 @@ html[data-theme="light"] .map-plane { box-shadow: 0 60px 100px -40px rgba(60, 20
 .view.entering .bar-col { animation: zmGrow .9s var(--ease) both; animation-delay: calc(var(--i, 0) * .07s); }
 .bar.is-sel .bar-col { background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 75%, white), color-mix(in srgb, var(--acc) 35%, var(--surf3))); box-shadow: 0 0 28px -6px var(--acc); }
 .bar.is-today .bar-col { background: var(--gold); box-shadow: 0 0 28px -6px var(--acc); }
-.bar-lbl { font-size: 12px; font-weight: 700; color: var(--text3); }
+.bar-lbl { font-size: 12px; font-weight: 700; color: var(--text3); transition: color .3s; }
 .bar.is-sel .bar-lbl { color: var(--text); }
+.bar.pick .bar-col { animation: zmPick .45s var(--ease); }
+/* Tanlangan kun almashganda: matn suzib chiqadi, ro'yxat silliq almashadi */
+.swap { animation: zmSwap .4s var(--ease) both; }
+#hist-list { transition: opacity .16s, transform .16s; }
+#hist-list.swap-out { opacity: 0; transform: translateY(6px); }
+#hist-list.swap-in > * { animation: zmUp .5s var(--ease) both; animation-delay: calc(var(--i, 0) * .045s); }
 .bars-foot { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 13.5px; }
 .bars-foot span { color: var(--text2); }
 .bars-foot b { font-variant-numeric: tabular-nums; }
@@ -1277,7 +1286,18 @@ html[data-theme="light"] .toast { box-shadow: 0 16px 36px -12px rgba(60, 20, 20,
 
   .legend, .toolbar-fill { display: none; }
   .toolbar { gap: 10px; margin-bottom: 18px; }
-  .chips { overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+  /* Mobil: filtr — bitta qutidagi toggle (segment) */
+  .chips {
+    position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; padding: 4px; gap: 0;
+    border-radius: 16px; background: var(--surf); border: 1px solid var(--line);
+  }
+  .chips-ind {
+    display: block; position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 3); border-radius: 12px;
+    background: var(--text); box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .6);
+    transform: translateX(calc(var(--seg, 0) * 100%)); transition: transform .35s var(--ease);
+  }
+  .chip { position: relative; z-index: 1; justify-content: center; height: 42px; padding: 0 8px; gap: 8px; border: 0; border-radius: 12px; background: transparent; min-width: 0; }
+  .chip.active { background: transparent; border-color: transparent; }
   .grid { gap: 16px; }
   .tc { height: 306px; }
   .tc-vis { width: min(62%, 230px); }
@@ -1354,7 +1374,7 @@ html[data-theme="light"] .toast { box-shadow: 0 16px 36px -12px rgba(60, 20, 20,
 }
 @media (max-width: 380px) {
   .nav-btn { font-size: 9.5px; }
-  .chip { padding: 0 6px 0 12px; gap: 6px; }
+  .chip { padding: 0 4px; gap: 5px; font-size: 12.5px; }
   .prod-grid { gap: 10px; }
 }
 

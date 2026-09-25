@@ -13,7 +13,7 @@
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=98">
+<link rel="stylesheet" href="style.css?v=99">
 <script src="theme-init.js?v=2"></script>
 </head>
 <body>
@@ -248,7 +248,8 @@
 
       <div class="toolbar anim" id="home-toolbar">
         <div class="zone-tabs" id="home-zone-tabs"></div>
-        <div class="chips" id="filter-chips">
+        <div class="chips" id="filter-chips" style="--seg:0">
+          <span class="chips-ind" aria-hidden="true"></span>
           <button class="chip active" data-filter="all"><span data-i18n="filter.all">Barchasi</span><b id="cnt-all">0</b></button>
           <button class="chip" data-filter="free"><span data-i18n="filter.free">Bo'sh</span><b id="cnt-free">0</b></button>
           <button class="chip" data-filter="busy"><span data-i18n="filter.busy">Band</span><b id="cnt-busy">0</b></button>
@@ -436,6 +437,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js"></script>
-<script src="app.js?v=65"></script>
+<script src="app.js?v=66"></script>
 </body>
 </html>

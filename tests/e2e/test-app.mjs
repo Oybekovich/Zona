@@ -139,6 +139,21 @@ await page.click('.nav-btn[data-tab=history]');
 await sleep(1500);
 const monthsTotal = await page.evaluate(() => histDays.reduce((a, d) => a + d.total, 0));
 check(Math.round(monthsTotal) === 1100 * (3600 + 1000), `history totals include all 1100 past sessions (${Math.round(monthsTotal)})`);
+const todayHero = await page.evaluate(() => Number($('#hist-today').dataset.v));
+const yKey = await page.evaluate(() => { const n = new Date(); return dayKey(new Date(n.getFullYear(), n.getMonth(), n.getDate() - 1)); });
+await page.click(`.bar[data-bar="${yKey}"]`);
+await page.waitForFunction(() => $$('#hist-list .hist-row').length === 1 && !$('#hist-list').classList.contains('swap-out'), null, { timeout: 5000 });
+await sleep(900);
+const ySel = await page.evaluate(() => ({
+  hero: $('#hist-today').textContent.replace(/\D/g, ''), count: $('#hist-ms-count').textContent, rows: $$('#hist-list .hist-row').length,
+  title: $('#hist-sec-title').textContent, sel: $('.bar.is-sel').dataset.bar,
+}));
+check(ySel.hero === '4600' && ySel.count === '1' && ySel.rows === 1 && ySel.sel === yKey && !/Bugungi/.test(ySel.title),
+  `selecting yesterday updates hero, stats and session list (${JSON.stringify(ySel)})`);
+await page.click('.bar.is-today');
+await sleep(900);
+check(await page.evaluate(() => Number($('#hist-today').textContent.replace(/\D/g, ''))) === Math.round(todayHero) && /Bugungi/.test(await page.textContent('#hist-sec-title')),
+  'selecting today again restores today numbers');
 
 console.log('7) Trial expiry → locked; admin approval → unlocked (lifetime)');
 await q(`update user_access set trial_until = now() - interval '1 minute' where user_id=$1`, [uid]);

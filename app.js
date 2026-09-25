@@ -96,6 +96,7 @@ const I18N = {
     'products.newTile': 'Yangi mahsulot', 'products.top': 'Top', 'panel.menu': 'Menyu', 'panel.open': 'Ochiq',
     'done.title': 'Sessiya yakunlandi', 'done.note': 'Chek tarixga qo\'shildi', 'finish.rate': 'Tarif',
     'history.dayCount': '{n} kun', 'history.split': 'Stollar {a} · Mahsulotlar {b}',
+    'history.dayRevenue': 'Kun tushumi', 'history.noDay': 'Bu kunda yakunlangan sessiya yo\'q', 'history.loading': 'Yuklanmoqda…',
     'alarm.ending': '{t}: 5 daqiqa qoldi', 'alarm.over': '{t}: vaqt tugadi',
     'push.title': 'Telefonga bildirishnomalar', 'push.enable': 'Yoqish', 'push.accessBtn': 'Tasdiqlanganda xabar olish',
     'push.banner': 'Telefonga bildirishnomalarni yoqing — ilova yopiq bo\'lsa ham "5 daqiqa qoldi" va "vaqt tugadi" xabarlari keladi.',
@@ -197,6 +198,7 @@ const I18N = {
     'products.newTile': 'New product', 'products.top': 'Top', 'panel.menu': 'Menu', 'panel.open': 'Open',
     'done.title': 'Session finished', 'done.note': 'Receipt added to history', 'finish.rate': 'Rate',
     'history.dayCount': '{n} days', 'history.split': 'Tables {a} · Products {b}',
+    'history.dayRevenue': 'Day revenue', 'history.noDay': 'No finished sessions on this day', 'history.loading': 'Loading…',
     'alarm.ending': '{t}: 5 minutes left', 'alarm.over': '{t}: time is up',
     'push.title': 'Phone notifications', 'push.enable': 'Enable', 'push.accessBtn': 'Notify me when approved',
     'push.banner': 'Turn on phone notifications — get "5 minutes left" and "time is up" alerts even when the app is closed.',
@@ -298,6 +300,7 @@ const I18N = {
     'products.newTile': 'Новый товар', 'products.top': 'Топ', 'panel.menu': 'Меню', 'panel.open': 'Открыто',
     'done.title': 'Сессия завершена', 'done.note': 'Чек добавлен в историю', 'finish.rate': 'Тариф',
     'history.dayCount': 'Дней: {n}', 'history.split': 'Столы {a} · Товары {b}',
+    'history.dayRevenue': 'Выручка за день', 'history.noDay': 'В этот день завершённых сеансов нет', 'history.loading': 'Загрузка…',
     'alarm.ending': '{t}: осталось 5 минут', 'alarm.over': '{t}: время вышло',
     'push.title': 'Уведомления на телефон', 'push.enable': 'Включить', 'push.accessBtn': 'Сообщить о подтверждении',
     'push.banner': 'Включите уведомления — «осталось 5 минут» и «время вышло» придут, даже если приложение закрыто.',
@@ -1038,7 +1041,7 @@ function exitToLogin() {
   teardownRealtime();
   state.zones = [];
   Object.keys(sessions).forEach(k => delete sessions[k]);
-  histSessions = []; histDays = [];
+  histSessions = []; histDays = []; histDayCache.clear(); histBarKey = '';
   $('#blocked-overlay').hidden = true;
   $('#access-overlay').hidden = true;
   $('#trial-banner').hidden = true;
@@ -1147,7 +1150,7 @@ function showView(v) {
   }
   if (v === 'home') { renderHome(); if (changed) countUp('#stat-today', todayTotal()); }
   if (v === 'zones') renderZones();
-  if (v === 'history') { renderHistory(); loadHistory(); if (changed) countUp('#hist-today', todayTotal()); }
+  if (v === 'history') { renderHistory(); loadHistory(); if (changed) countUp('#hist-today', histSel().total); }
   if (v === 'products') renderProducts();
 }
 
@@ -1463,7 +1466,9 @@ $('#home-zone-tabs').addEventListener('click', e => {
 $('#filter-chips').addEventListener('click', e => {
   const chip = e.target.closest('.chip');
   if (!chip) return;
-  $$('#filter-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
+  const chips = $$('#filter-chips .chip');
+  chips.forEach(c => c.classList.toggle('active', c === chip));
+  $('#filter-chips').style.setProperty('--seg', [...chips].indexOf(chip));
   activeFilter = chip.dataset.filter;
   renderHome();
 });
@@ -2391,6 +2396,9 @@ let histSessions = []; /* bugungi yakunlangan sessiyalar (batafsil) */
 let histDays = [];     /* o'tgan kunlar jami (serverda hisoblanadi) */
 let histDay = '';
 let histBarKey = '';   /* diagrammada tanlangan kun */
+const histDayCache = new Map(); /* o'tgan kun → yakunlangan sessiyalar (kun tanlanganda yuklanadi) */
+const histDayLoading = new Set();
+const HIST_SELECT = 'id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff, sport), session_products(quantity, price, products(price))';
 
 function finSummary(s) {
   const start = new Date(s.start_time);
@@ -2421,7 +2429,7 @@ async function loadHistory() {
     const withDays = !$('#view-history').hidden;
     const [today, days] = await Promise.all([
       sb.from('sessions')
-        .select('id, mode, rate, start_time, end_time, duration_sec, table_id, tables(name, tariff, sport), session_products(quantity, price, products(price))')
+        .select(HIST_SELECT)
         .gte('end_time', dayStart.toISOString())
         .order('end_time', { ascending: false }),
       withDays ? sb.rpc('history_days', { p_tz: tz }) : Promise.resolve({ data: null, error: null }),
@@ -2430,10 +2438,17 @@ async function loadHistory() {
     if (days.error) throw days.error;
     histSessions = today.data || [];
     const todayKey = dayKey(now);
-    if (days.data) histDays = days.data.filter(d => d.day !== todayKey).map(d => ({
-      key: d.day, date: parseDay(d.day), time: Number(d.time_sum) || 0, prod: Number(d.prod_sum) || 0,
-      total: (Number(d.time_sum) || 0) + (Number(d.prod_sum) || 0),
-    }));
+    if (days.data) {
+      histDays = days.data.filter(d => d.day !== todayKey).map(d => ({
+        key: d.day, date: parseDay(d.day), time: Number(d.time_sum) || 0, prod: Number(d.prod_sum) || 0,
+        total: (Number(d.time_sum) || 0) + (Number(d.prod_sum) || 0), sessions: Number(d.sessions) || 0,
+      }));
+      /* kun jamlari o'zgargan bo'lsa — o'sha kun ro'yxatini qayta yuklaymiz */
+      for (const [k, list] of histDayCache) {
+        const d = histDays.find(x => x.key === k);
+        if ((d ? d.sessions : 0) !== list.length) histDayCache.delete(k);
+      }
+    }
     histDay = todayKey;
     renderTodayStat();
     if (!$('#view-history').hidden) renderHistory();
@@ -2445,33 +2460,101 @@ async function loadHistory() {
   }
 }
 
+/* Tanlangan o'tgan kunning sessiyalari (bir marta yuklanadi, keshlanadi) */
+async function loadHistDay(key) {
+  if (!currentUser || histDayCache.has(key) || histDayLoading.has(key)) return;
+  histDayLoading.add(key);
+  try {
+    const d0 = parseDay(key);
+    const d1 = new Date(d0.getFullYear(), d0.getMonth(), d0.getDate() + 1);
+    const { data, error } = await sb.from('sessions')
+      .select(HIST_SELECT)
+      .gte('end_time', d0.toISOString())
+      .lt('end_time', d1.toISOString())
+      .order('end_time', { ascending: false });
+    if (error) throw error;
+    histDayCache.set(key, data || []);
+    if (histBarKey === key && !$('#view-history').hidden) {
+      if ($('#hist-list')) swapHistList(); else renderHistory();
+    }
+  } catch (err) {
+    toastErr(errText(err));
+  } finally {
+    histDayLoading.delete(key);
+  }
+}
+
 const mlnShort = v => v >= 1e6 ? (v / 1e6).toFixed(1).replace('.', currentLang === 'en' ? '.' : ',') + (currentLang === 'ru' ? ' млн' : currentLang === 'en' ? 'M' : ' mln')
   : v >= 1e3 ? Math.round(v / 1e3) + (currentLang === 'ru' ? ' тыс' : 'k') : fmtNum(v);
 
-/* So'nggi 7 kun: bugun — oltin ustun; tanlangan kun qiymati tepada */
-function weekChartHTML(todayTotal) {
+/* So'nggi 7 kun (eskidan yangiga), bugun — oxirgi */
+function histWeek() {
   const now = new Date();
   const days = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
     const key = dayKey(d);
-    const total = i === 0 ? todayTotal : ((histDays.find(x => x.key === key) || {}).total || 0);
+    const total = i === 0 ? todayTotal() : ((histDays.find(x => x.key === key) || {}).total || 0);
     days.push({ d, key, total, today: i === 0 });
   }
+  return days;
+}
+
+/* Diagrammada tanlangan kun: yuqoridagi karta va pastdagi ro'yxat shu kunga moslashadi */
+function histSel() {
+  const week = histWeek();
+  if (!week.some(x => x.key === histBarKey)) histBarKey = week[6].key;
+  const key = histBarKey, date = parseDay(key);
+  if (key === week[6].key) {
+    const sums = histSessions.map(finSummary);
+    const time = sums.reduce((a, x) => a + x.timePrice, 0);
+    const prod = sums.reduce((a, x) => a + x.prod, 0);
+    return { key, date, today: true, time, prod, total: time + prod, count: histSessions.length, list: histSessions, sums, week };
+  }
+  const agg = histDays.find(x => x.key === key);
+  const list = histDayCache.get(key) ?? (agg ? null : []);
+  return {
+    key, date, today: false, time: agg ? agg.time : 0, prod: agg ? agg.prod : 0, total: agg ? agg.total : 0,
+    count: agg ? agg.sessions : 0, list, sums: list ? list.map(finSummary) : [], week,
+  };
+}
+const histHeroTitle = d => d.today ? `${t('stats.today')} · ${dayMonth(d.date)}`
+  : `${t('history.dayRevenue')} · ${WEEKDAYS[currentLang][d.date.getDay()]}, ${dayMonth(d.date)}`;
+const histChartSel = d => d.today ? t('history.today') : `${WEEKDAYS[currentLang][d.date.getDay()]}, ${dayMonth(d.date)}`;
+const histSecTitle = d => d.today ? t('history.todaySessions')
+  : `${t('history.sessions')} · ${WEEKDAYS_SHORT[currentLang][d.date.getDay()]}, ${dayMonth(d.date)}`;
+const histPct = d => d.total ? (d.time / d.total * 100).toFixed(1) + '%' : '50%';
+const fmtInt = n => String(Math.round(n || 0));
+
+function histListHTML(d) {
+  if (d.list === null) return `<div class="list-empty">${t('history.loading')}</div>`;
+  if (!d.list.length) return `<div class="list-empty">${t(d.today ? 'history.noToday' : 'history.noDay')}</div>`;
+  return d.list.map((s, i) => {
+    const f = d.sums[i];
+    return `
+      <div class="hist-row" style="--i:${Math.min(i, 12)}">
+        ${miniT(s.tables?.sport)}
+        <div class="row-text"><b>${escH(s.tables?.name || '—')}</b><small>${hm(new Date(s.start_time))} – ${hm(new Date(s.end_time))} · ${fmtDur(f.elapsed)}</small></div>
+        <div class="prod-cell">${f.prod ? `<span class="prod-pill">${msIcon('local_bar')}${fmtMoney(f.prod)}</span>` : ''}</div>
+        <span class="total">${fmtMoney(f.total)}</span>
+      </div>`;
+  }).join('');
+}
+
+function weekChartHTML(d) {
+  const days = d.week;
   const max = Math.max(...days.map(x => x.total), 1);
-  if (!days.some(x => x.key === histBarKey)) histBarKey = days[6].key;
-  const sel = days.find(x => x.key === histBarKey);
   const sum = days.reduce((a, x) => a + x.total, 0);
   return `
     <div class="card chart-card anim">
       <div class="chart-head">
-        <div><div class="eyebrow">${t('history.week')}</div><div class="chart-sel">${sel.today ? t('history.today') : `${WEEKDAYS[currentLang][sel.d.getDay()]}, ${dayMonth(sel.d)}`}</div></div>
-        <div class="chart-val">${fmtMoney(sel.total)}</div>
+        <div><div class="eyebrow">${t('history.week')}</div><div class="chart-sel" id="hist-chart-sel">${histChartSel(d)}</div></div>
+        <div class="chart-val" id="hist-chart-val" data-v="${d.total}">${fmtMoney(d.total)}</div>
       </div>
       <div class="bars" role="list">
         ${days.map((x, i) => `
-          <button class="bar ${x.today ? 'is-today' : ''} ${x.key === histBarKey ? 'is-sel' : ''}" data-bar="${x.key}" role="listitem" style="--i:${i}"
-            aria-label="${dayLabel(x.d)}: ${fmtMoney(x.total)}">
+          <button class="bar ${x.today ? 'is-today' : ''} ${x.key === d.key ? 'is-sel' : ''}" data-bar="${x.key}" role="listitem" style="--i:${i}"
+            aria-label="${dayLabel(x.d)}: ${fmtMoney(x.total)}" aria-pressed="${x.key === d.key}">
             <span class="bar-val">${mlnShort(x.total)}</span>
             <span class="bar-col" style="height:${Math.max(8, Math.round(x.total / max * 170))}px"></span>
             <span class="bar-lbl">${x.today ? t('history.today') : WEEKDAYS_SHORT[currentLang][x.d.getDay()]}</span>
@@ -2484,46 +2567,27 @@ function weekChartHTML(todayTotal) {
 let histOpenMonth = null; /* ochiq oy (standart — eng so'nggi) */
 function renderHistory() {
   const body = $('#history-body');
-  const now = new Date();
-  const sums = histSessions.map(finSummary);
-  const tTime = sums.reduce((a, x) => a + x.timePrice, 0);
-  const tProd = sums.reduce((a, x) => a + x.prod, 0);
-  const tTotal = tTime + tProd;
-  const tPct = tTotal ? (tTime / tTotal * 100).toFixed(1) + '%' : '50%';
+  const d = histSel();
 
   let html = `
     <div class="hist-top">
       <div class="card hist-hero anim">
         <div class="stat-topline"></div>
         <div class="ring ring--1"></div><div class="ring ring--2"></div><div class="ring-glow"></div>
-        <div class="eyebrow">${t('stats.today')} · ${dayMonth(now)}</div>
-        <div class="hist-hero-val"><span class="big shimmer" id="hist-today">${fmtNum(tTotal)}</span><span class="cur">${cur()}</span></div>
-        <div class="split"><div class="a" style="width:${tPct}"></div><div class="b"></div></div>
+        <div class="eyebrow" id="hist-eyebrow">${histHeroTitle(d)}</div>
+        <div class="hist-hero-val"><span class="big shimmer" id="hist-today" data-v="${d.total}">${fmtNum(d.total)}</span><span class="cur">${cur()}</span></div>
+        <div class="split"><div class="a" id="hist-split-a" style="width:${histPct(d)}"></div><div class="b"></div></div>
         <div class="mini-stats">
-          <div class="mini-stat"><div class="mini-stat-l"><i></i>${t('history.tablesTotal')}</div><b>${fmtMoney(tTime)}</b></div>
-          <div class="mini-stat"><div class="mini-stat-l"><i class="b"></i>${t('history.productsTotal')}</div><b>${fmtMoney(tProd)}</b></div>
-          <div class="mini-stat"><div class="mini-stat-l">${msIcon('receipt_long')}${t('history.sessions')}</div><b>${histSessions.length}</b></div>
+          <div class="mini-stat"><div class="mini-stat-l"><i></i>${t('history.tablesTotal')}</div><b id="hist-ms-time" data-v="${d.time}">${fmtMoney(d.time)}</b></div>
+          <div class="mini-stat"><div class="mini-stat-l"><i class="b"></i>${t('history.productsTotal')}</div><b id="hist-ms-prod" data-v="${d.prod}">${fmtMoney(d.prod)}</b></div>
+          <div class="mini-stat"><div class="mini-stat-l">${msIcon('receipt_long')}${t('history.sessions')}</div><b id="hist-ms-count" data-v="${d.count}">${d.count}</b></div>
         </div>
       </div>
-      ${weekChartHTML(tTotal)}
+      ${weekChartHTML(d)}
     </div>`;
 
-  html += `<div class="sec-head"><h2 class="h2">${t('history.todaySessions')}</h2><span>${histSessions.length ? histSessions.length : ''}</span></div><div class="list">`;
-  if (histSessions.length) {
-    html += histSessions.map((s, i) => {
-      const f = sums[i];
-      return `
-        <div class="hist-row">
-          ${miniT(s.tables?.sport)}
-          <div class="row-text"><b>${escH(s.tables?.name || '—')}</b><small>${hm(new Date(s.start_time))} – ${hm(new Date(s.end_time))} · ${fmtDur(f.elapsed)}</small></div>
-          <div class="prod-cell">${f.prod ? `<span class="prod-pill">${msIcon('local_bar')}${fmtMoney(f.prod)}</span>` : ''}</div>
-          <span class="total">${fmtMoney(f.total)}</span>
-        </div>`;
-    }).join('');
-  } else {
-    html += `<div class="list-empty">${t('history.noToday')}</div>`;
-  }
-  html += '</div>';
+  html += `<div class="sec-head"><h2 class="h2" id="hist-sec-title">${histSecTitle(d)}</h2><span id="hist-sec-count">${d.count || ''}</span></div>
+    <div class="list" id="hist-list">${histListHTML(d)}</div>`;
 
   if (histDays.length) {
     const byMonth = new Map();
@@ -2561,12 +2625,81 @@ function renderHistory() {
     html += '</div>';
   }
   body.innerHTML = html;
-  if (countRaf['#hist-today']) countTarget['#hist-today'] = tTotal;
+  if (countRaf['#hist-today']) countTarget['#hist-today'] = d.total;
+  if (d.list === null) loadHistDay(d.key);
+}
+
+/* Raqam eski qiymatdan yangisiga silliq o'tadi */
+const tweenRaf = new WeakMap();
+function tweenNum(el, to, fmt = fmtNum, dur = 650) {
+  if (!el) return;
+  const from = el._cur ?? (Number(el.dataset.v) || 0);
+  el.dataset.v = to;
+  cancelAnimationFrame(tweenRaf.get(el));
+  if (reduceMotion() || from === to) { el._cur = to; el.textContent = fmt(to); return; }
+  const t0 = performance.now();
+  const step = now => {
+    const p = Math.min(1, (now - t0) / dur);
+    el._cur = from + (to - from) * (1 - Math.pow(1 - p, 3));
+    el.textContent = fmt(el._cur);
+    if (p < 1) tweenRaf.set(el, requestAnimationFrame(step));
+  };
+  tweenRaf.set(el, requestAnimationFrame(step));
+}
+/* Matn qisqa "suzib" almashadi */
+function swapText(el, text) {
+  if (!el || el.textContent === text) return;
+  el.textContent = text;
+  el.classList.remove('swap');
+  void el.offsetWidth;
+  el.classList.add('swap');
+}
+let histSwapT = 0;
+function swapHistList() {
+  const el = $('#hist-list');
+  if (!el) return;
+  clearTimeout(histSwapT);
+  if (reduceMotion()) { el.innerHTML = histListHTML(histSel()); return; }
+  el.classList.remove('swap-in');
+  el.classList.add('swap-out');
+  histSwapT = setTimeout(() => {
+    const cur = $('#hist-list');
+    if (!cur) return;
+    cur.innerHTML = histListHTML(histSel());
+    cur.classList.remove('swap-out');
+    void cur.offsetWidth;
+    cur.classList.add('swap-in');
+  }, 160);
+}
+
+/* Kun tanlanganda — sahifani qayta chizmasdan, animatsiya bilan yangilash */
+function showHistDay() {
+  if (!$('#hist-list')) { renderHistory(); return; }
+  const d = histSel();
+  $$('#history-body .bar').forEach(b => {
+    const on = b.dataset.bar === d.key;
+    if (on && !b.classList.contains('is-sel')) { b.classList.remove('pick'); void b.offsetWidth; b.classList.add('pick'); }
+    b.classList.toggle('is-sel', on);
+    b.setAttribute('aria-pressed', on);
+  });
+  swapText($('#hist-chart-sel'), histChartSel(d));
+  tweenNum($('#hist-chart-val'), d.total, fmtMoney);
+  swapText($('#hist-eyebrow'), histHeroTitle(d));
+  if (countRaf['#hist-today']) { cancelAnimationFrame(countRaf['#hist-today']); delete countRaf['#hist-today']; }
+  tweenNum($('#hist-today'), d.total, fmtNum, 800);
+  $('#hist-split-a').style.width = histPct(d);
+  tweenNum($('#hist-ms-time'), d.time, fmtMoney);
+  tweenNum($('#hist-ms-prod'), d.prod, fmtMoney);
+  tweenNum($('#hist-ms-count'), d.count, fmtInt);
+  swapText($('#hist-sec-title'), histSecTitle(d));
+  $('#hist-sec-count').textContent = d.count || '';
+  swapHistList();
+  if (d.list === null) loadHistDay(d.key);
 }
 
 $('#history-body').addEventListener('click', e => {
   const bar = e.target.closest('[data-bar]');
-  if (bar) { histBarKey = bar.dataset.bar; renderHistory(); return; }
+  if (bar) { if (bar.dataset.bar !== histBarKey) { histBarKey = bar.dataset.bar; showHistDay(); } return; }
   const mb = e.target.closest('.hist-month');
   if (mb) { histOpenMonth = histOpenMonth === mb.dataset.mk ? '' : mb.dataset.mk; renderHistory(); }
 });
