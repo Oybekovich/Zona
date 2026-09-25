@@ -7,29 +7,69 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="img/icon-192.png">
-<meta name="theme-color" content="#0e1013">
+<meta name="theme-color" content="#070404">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=82">
-<script src="theme-init.js"></script>
+<link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=90">
+<script src="theme-init.js?v=2"></script>
 </head>
 <body>
 
 <div id="app">
 
-  <!-- ================= LOGIN ================= -->
+  <!-- ================= KIRISH ================= -->
   <section id="view-login" class="view view--login">
-    <div class="login-wrap">
-      <div class="login-brand">
-        <div class="brand-mark brand-mark--lg"><span class="material-symbols-outlined">sports_esports</span></div>
-        <h1 class="login-title">Zone Manager</h1>
-        <p class="login-subtitle" data-i18n="login.subtitle">Zonangizni boshqaring</p>
+    <div class="login-art" id="login-art">
+      <div class="lamp-cord"></div>
+      <div class="lamp-shade"></div>
+      <div class="lamp-bulb"></div>
+      <div class="lamp-light"></div>
+      <div class="art-stage">
+        <div class="art-table" id="art-table">
+          <div class="art-shadow"></div>
+          <div class="art-rail"></div>
+          <div class="art-felt"></div>
+          <i class="art-pocket" style="left:14px;top:14px"></i>
+          <i class="art-pocket" style="left:283px;top:8px"></i>
+          <i class="art-pocket" style="right:14px;top:14px"></i>
+          <i class="art-pocket" style="left:14px;bottom:14px"></i>
+          <i class="art-pocket" style="left:283px;bottom:8px"></i>
+          <i class="art-pocket" style="right:14px;bottom:14px"></i>
+          <div class="art-cue"></div>
+          <div class="art-ball" style="left:318px;top:172px"><i class="ball ball--white"></i></div>
+          <div class="art-ball" style="left:420px;top:122px"><i class="ball ball--eight"><span>8</span></i></div>
+          <div class="art-ball" style="left:474px;top:206px"><i class="ball ball--acc"></i></div>
+          <div class="art-ball" style="left:396px;top:240px"><i class="ball ball--red"></i></div>
+        </div>
       </div>
+      <div class="login-brand">
+        <div class="coin">Z</div>
+        <div>
+          <div class="brand-name">Zone Manager</div>
+          <div class="eyebrow" data-i18n="brand.tag">Boshqaruv tizimi</div>
+        </div>
+      </div>
+      <div class="login-hero">
+        <div class="eyebrow">Billiard · Stol tennisi · Bar</div>
+        <h1 class="login-headline"><span data-i18n="login.headA">Zonangizni</span> <span class="shimmer login-headline-em" data-i18n="login.headB">boshqaring</span></h1>
+        <p class="login-lead" data-i18n="login.lead">Stollar, vaqt, bar va tushum — bitta oynada, real vaqtda. Vaqt tugaganda ovozli signal beradi.</p>
+      </div>
+    </div>
 
-      <div class="login-card">
-        <h2 class="login-mode-title" id="login-mode-title" data-i18n="login.btn">Kirish</h2>
-        <form id="login-form" class="login-form" novalidate>
+    <div class="login-side">
+      <div class="login-themes">
+        <span class="login-theme-name" id="login-theme-name"></span>
+        <div class="swatches" id="login-swatches"></div>
+      </div>
+      <form id="login-form" class="login-form" novalidate>
+        <div class="eyebrow" data-i18n="login.welcome">Xush kelibsiz</div>
+        <h2 class="login-title" id="login-mode-title" data-i18n="login.btn">Kirish</h2>
+        <p class="login-sub" id="login-mode-sub" data-i18n="login.subLogin">Hisobingizga kiring va zonani boshqaring</p>
+
+        <div class="login-fields">
           <div class="field">
             <label for="login-username" data-i18n="login.username">Email</label>
             <div class="input-wrap">
@@ -62,211 +102,263 @@
             </div>
             <span class="field-error" id="err-confirm"></span>
           </div>
-
-          <div class="login-error" id="login-error" data-i18n="login.error" role="alert" hidden>Email yoki parol noto'g'ri</div>
-
-          <button type="submit" class="btn btn--primary btn--block btn--lg" id="login-btn" aria-label="Kirish">
-            <span class="btn-label" data-i18n="login.btn">Kirish</span>
-            <span class="spinner" hidden></span>
-          </button>
-
-          <div class="divider"><span data-i18n="login.or">yoki</span></div>
-
-          <button type="button" class="btn btn--soft btn--block btn--lg" id="mode-toggle">
-            <span class="material-symbols-outlined" id="mode-toggle-ic">person_add</span>
-            <span data-i18n="login.signupBtn" id="mode-toggle-label">Ro'yxatdan o'tish</span>
-          </button>
-        </form>
-      </div>
-
-      <div class="security-footer">
-        <span class="material-symbols-outlined">verified_user</span>
-        <span data-i18n="login.secure">Xavfsiz va himoyalangan tizim</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= STOLLAR (Home) ================= -->
-  <section id="view-home" class="view" hidden>
-    <header class="app-header">
-      <div class="app-header-text">
-        <h1 data-i18n="home.title">Stollar</h1>
-        <p class="app-header-sub" id="home-date"></p>
-      </div>
-      <button class="icon-btn" id="search-toggle" aria-label="Qidirish" title="Qidirish">
-        <span class="material-symbols-outlined">search</span>
-      </button>
-    </header>
-
-    <div class="search-bar" id="search-bar" hidden>
-      <span class="material-symbols-outlined">search</span>
-      <input id="search-input" type="search" placeholder="Stol nomi..." data-i18n-ph="search.tablePh" autocomplete="off">
-      <button class="icon-btn icon-btn--sm" id="search-clear" aria-label="Tozalash"><span class="material-symbols-outlined">close</span></button>
-    </div>
-
-    <div class="trial-banner" id="trial-banner" hidden>
-      <span class="material-symbols-outlined">hourglass_top</span>
-      <span id="trial-banner-text"></span>
-    </div>
-
-    <div class="stats" id="home-stats">
-      <div class="stat">
-        <span class="stat-label"><span class="material-symbols-outlined">table_restaurant</span><span data-i18n="stats.busy">Band stollar</span></span>
-        <span class="stat-value" id="stat-busy">0 / 0</span>
-      </div>
-      <div class="stat stat--accent">
-        <span class="stat-label"><span class="material-symbols-outlined">timer</span><span data-i18n="stats.live">Joriy hisob</span></span>
-        <span class="stat-value" id="stat-live">0</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label"><span class="material-symbols-outlined">payments</span><span data-i18n="stats.today">Bugungi tushum</span></span>
-        <span class="stat-value" id="stat-today">0</span>
-      </div>
-    </div>
-
-    <div class="toolbar">
-      <div class="segmented segmented--scroll" id="home-zone-tabs" hidden></div>
-      <div class="chips" id="filter-chips">
-        <button class="chip active" data-filter="all"><span data-i18n="filter.all">Barchasi</span> <b id="cnt-all">0</b></button>
-        <button class="chip" data-filter="free"><span data-i18n="filter.free">Bo'sh</span> <b id="cnt-free">0</b></button>
-        <button class="chip" data-filter="busy"><span data-i18n="filter.busy">Band</span> <b id="cnt-busy">0</b></button>
-      </div>
-    </div>
-
-    <div id="home-empty" class="empty-state" hidden>
-      <span class="empty-icon"><span class="material-symbols-outlined">table_restaurant</span></span>
-      <p class="empty-title" data-i18n="home.empty">Hali stol qo'shilmagan</p>
-      <p class="empty-text" data-i18n="home.emptyText">Zona va stollarni qo'shing — keyin shu yerdan sessiyalarni boshqarasiz.</p>
-      <button class="btn btn--primary" id="first-table-btn"><span class="material-symbols-outlined">add</span><span data-i18n="home.firstTable">Birinchi stolni qo'shish</span></button>
-    </div>
-
-    <div class="empty-state empty-state--sm" id="home-nomatch" hidden>
-      <p class="empty-text" data-i18n="home.noMatch">Mos stol topilmadi</p>
-    </div>
-
-    <main class="grid" id="table-grid"></main>
-  </section>
-
-  <!-- ================= ZONALAR ================= -->
-  <section id="view-zones" class="view" hidden>
-    <header class="app-header">
-      <div class="app-header-text">
-        <h1 data-i18n="zones.title">Zonalar</h1>
-        <p class="app-header-sub" data-i18n="zones.sub">Zonalar, stollar va tariflar</p>
-      </div>
-      <button class="btn btn--primary btn--sm" id="add-zone-btn"><span class="material-symbols-outlined">add</span><span data-i18n="zones.add">Zona qo'shish</span></button>
-    </header>
-    <div id="zones-table-list" class="stack"></div>
-  </section>
-
-  <!-- ================= TARIX ================= -->
-  <section id="view-history" class="view" hidden>
-    <header class="app-header">
-      <div class="app-header-text">
-        <h1 data-i18n="history.title">Tarix</h1>
-        <p class="app-header-sub" data-i18n="history.sub">Tushum va yakunlangan sessiyalar</p>
-      </div>
-    </header>
-    <div id="history-body"></div>
-  </section>
-
-  <!-- ================= MAHSULOTLAR ================= -->
-  <section id="view-products" class="view" hidden>
-    <header class="app-header">
-      <div class="app-header-text">
-        <h1 data-i18n="products.title">Mahsulotlar</h1>
-        <p class="app-header-sub" data-i18n="products.sub">Bar va oshxona menyusi</p>
-      </div>
-      <button class="btn btn--primary btn--sm" id="add-product-btn"><span class="material-symbols-outlined">add</span><span data-i18n="products.add">Mahsulot qo'shish</span></button>
-    </header>
-    <div class="toolbar"><div class="segmented segmented--scroll" id="prod-tabs"></div></div>
-    <ul class="list-card" id="products-list"></ul>
-  </section>
-
-  <!-- ================= PROFIL ================= -->
-  <section id="view-profile" class="view" hidden>
-    <header class="app-header">
-      <div class="app-header-text">
-        <h1 data-i18n="profile.title">Profil</h1>
-      </div>
-    </header>
-    <div class="profile-card">
-      <div class="profile-avatar" id="profile-avatar">A</div>
-      <div class="profile-info">
-        <p class="profile-name" id="profile-name">Admin</p>
-        <p class="profile-login" id="profile-login">admin</p>
-        <span class="pill pill--accent" data-i18n="profile.role">Egasi</span>
-      </div>
-      <button class="icon-btn" id="edit-profile-btn" title="Tahrirlash" aria-label="Tahrirlash">
-        <span class="material-symbols-outlined">edit</span>
-      </button>
-    </div>
-
-    <p class="section-title" data-i18n="profile.settings">Sozlamalar</p>
-    <div class="list-card">
-      <div class="list-row">
-        <span class="row-ic"><span class="material-symbols-outlined">translate</span></span>
-        <span class="row-text" data-i18n="lang.label">Til</span>
-        <select id="lang-select" class="select" aria-label="Til">
-          <option value="uz">O'zbekcha</option>
-          <option value="en">English</option>
-          <option value="ru">Русский</option>
-        </select>
-      </div>
-      <div class="list-row">
-        <span class="row-ic"><span class="material-symbols-outlined">contrast</span></span>
-        <span class="row-text" data-i18n="theme.title">Ko'rinish</span>
-        <div class="segmented segmented--sm" id="theme-seg">
-          <button class="seg-btn" data-theme="light" title="Kun"><span class="material-symbols-outlined">light_mode</span><span data-i18n="theme.light">Kun</span></button>
-          <button class="seg-btn" data-theme="dark" title="Tun"><span class="material-symbols-outlined">dark_mode</span><span data-i18n="theme.dark">Tun</span></button>
         </div>
-      </div>
-    </div>
 
-    <div class="list-card">
-      <button class="list-row list-row--danger" id="logout-btn">
-        <span class="row-ic"><span class="material-symbols-outlined">logout</span></span>
-        <span class="row-text" data-i18n="profile.logout">Chiqish</span>
-        <span class="material-symbols-outlined row-chevron">chevron_right</span>
-      </button>
+        <div class="login-error" id="login-error" data-i18n="login.error" role="alert" hidden>Email yoki parol noto'g'ri</div>
+
+        <button type="submit" class="btn btn--gold btn--block btn--xl" id="login-btn" aria-label="Kirish">
+          <span class="shine"></span>
+          <span class="spinner" hidden></span>
+          <span class="btn-label" data-i18n="login.btn">Kirish</span>
+        </button>
+
+        <div class="divider"><span data-i18n="login.or">yoki</span></div>
+
+        <button type="button" class="btn btn--soft btn--block btn--lg" id="mode-toggle">
+          <span class="material-symbols-outlined" id="mode-toggle-ic">person_add</span>
+          <span data-i18n="login.signupBtn" id="mode-toggle-label">Ro'yxatdan o'tish</span>
+        </button>
+
+        <div class="security-footer">
+          <span class="material-symbols-outlined">verified_user</span>
+          <span data-i18n="login.secure">Xavfsiz va himoyalangan tizim</span>
+        </div>
+      </form>
     </div>
-    <p class="app-version">Zone Manager</p>
   </section>
 
-  <!-- ================= NAVIGATSIYA (telefonda pastda, kompyuterda chapda) ================= -->
-  <nav class="bottom-nav" id="bottom-nav" hidden>
+  <!-- ================= NAVIGATSIYA (kompyuterda chap panel, telefonda pastda) ================= -->
+  <nav class="nav" id="bottom-nav" hidden>
     <div class="nav-brand">
-      <div class="brand-mark"><span class="material-symbols-outlined">sports_esports</span></div>
-      <div class="nav-brand-text"><b>Zone Manager</b><span id="nav-user"></span></div>
+      <div class="coin">Z</div>
+      <div>
+        <div class="brand-name">Zone Manager</div>
+        <div class="eyebrow" data-i18n="brand.tag">Boshqaruv tizimi</div>
+      </div>
     </div>
-    <button class="nav-btn active" data-tab="home">
-      <span class="nav-ic"><span class="material-symbols-outlined">home</span></span>
-      <span class="nav-label" data-i18n="nav.home">Stollar</span>
-    </button>
-    <button class="nav-btn" data-tab="zones">
-      <span class="nav-ic"><span class="material-symbols-outlined">grid_view</span></span>
-      <span class="nav-label" data-i18n="nav.zones">Zonalar</span>
-    </button>
-    <button class="nav-btn" data-tab="history">
-      <span class="nav-ic"><span class="material-symbols-outlined">history</span></span>
-      <span class="nav-label" data-i18n="nav.history">Tarix</span>
-    </button>
-    <button class="nav-btn" data-tab="products">
-      <span class="nav-ic"><span class="material-symbols-outlined">local_bar</span></span>
-      <span class="nav-label" data-i18n="nav.products">Mahsulotlar</span>
-    </button>
-    <button class="nav-btn" data-tab="profile">
-      <span class="nav-ic"><span class="material-symbols-outlined">person</span></span>
-      <span class="nav-label" data-i18n="nav.profile">Profil</span>
-    </button>
+    <div class="nav-list">
+      <span class="nav-indicator" id="nav-indicator"></span>
+      <button class="nav-btn active" data-tab="home">
+        <span class="material-symbols-outlined nav-ic">table_restaurant</span>
+        <span class="nav-label" data-i18n="nav.home">Stollar</span>
+        <span class="nav-badge" id="nav-busy" hidden></span>
+      </button>
+      <button class="nav-btn" data-tab="zones">
+        <span class="material-symbols-outlined nav-ic">grid_view</span>
+        <span class="nav-label" data-i18n="nav.zones">Zonalar</span>
+      </button>
+      <button class="nav-btn" data-tab="history">
+        <span class="material-symbols-outlined nav-ic">monitoring</span>
+        <span class="nav-label" data-i18n="nav.history">Tarix</span>
+      </button>
+      <button class="nav-btn" data-tab="products">
+        <span class="material-symbols-outlined nav-ic">local_bar</span>
+        <span class="nav-label nav-label--long" data-i18n="nav.products">Mahsulotlar</span>
+        <span class="nav-label nav-label--short" data-i18n="nav.menu">Menyu</span>
+      </button>
+      <button class="nav-btn" data-tab="profile">
+        <span class="material-symbols-outlined nav-ic">person</span>
+        <span class="nav-label" data-i18n="nav.profile">Profil</span>
+      </button>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-live">
+      <div class="nav-live-glow"></div>
+      <div class="eyebrow eyebrow--dot"><i class="pulse-dot"></i><span data-i18n="stats.live">Joriy hisob</span></div>
+      <div class="nav-live-sum shimmer" id="nav-live">0</div>
+      <div class="nav-live-note" id="nav-active"></div>
+    </div>
+    <div class="nav-theme">
+      <div>
+        <div class="eyebrow" data-i18n="theme.style">Uslub</div>
+        <div class="nav-theme-name" id="nav-theme-name"></div>
+      </div>
+      <div class="swatches swatches--sm" id="nav-swatches"></div>
+    </div>
+    <div class="nav-user">
+      <div class="avatar-ring"><div class="avatar" id="nav-avatar">A</div></div>
+      <div class="nav-user-text">
+        <div class="nav-user-name" id="nav-user-name">Admin</div>
+        <div class="nav-user-mail" id="nav-user"></div>
+      </div>
+      <button class="nav-logout" id="nav-logout" title="Chiqish" aria-label="Chiqish"><span class="material-symbols-outlined">logout</span></button>
+    </div>
   </nav>
 
-  <!-- ================= SHEET (telefonda pastdan, kompyuterda o'ngdan) ================= -->
+  <main class="main" id="main">
+    <div class="main-glow"></div>
+
+    <!-- ================= STOLLAR ================= -->
+    <section id="view-home" class="view" hidden>
+      <header class="page-head">
+        <div class="page-title">
+          <div class="eyebrow" id="home-date"></div>
+          <h1 data-i18n="home.title">Stollar</h1>
+        </div>
+        <div class="page-ctrl">
+          <label class="search">
+            <span class="material-symbols-outlined">search</span>
+            <input id="search-input" type="search" placeholder="Stol qidirish…" data-i18n-ph="search.tablePh" autocomplete="off" aria-label="Qidirish">
+          </label>
+          <button class="round-btn" id="sound-toggle" title="Ovozli signal" aria-label="Ovozli signal"><span class="material-symbols-outlined" id="sound-ic">volume_up</span></button>
+          <div class="view-toggle" id="view-toggle">
+            <button data-view="grid" class="active"><span class="material-symbols-outlined">view_module</span><span data-i18n="view.grid">Kartalar</span></button>
+            <button data-view="map"><span class="material-symbols-outlined">map</span><span data-i18n="view.map">Zal xaritasi</span></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="trial-banner" id="trial-banner" hidden>
+        <span class="material-symbols-outlined">hourglass_top</span>
+        <span id="trial-banner-text"></span>
+      </div>
+
+      <div class="stats" id="home-stats">
+        <div class="stat stat--live anim">
+          <div class="stat-topline"></div>
+          <div class="stat-glow"></div>
+          <div class="orbit orbit--a"><i></i></div>
+          <div class="orbit orbit--b"></div>
+          <div class="eyebrow eyebrow--dot"><i class="pulse-dot"></i><span data-i18n="stats.liveNow">Joriy hisob · jonli</span></div>
+          <div class="stat-live-row"><span class="stat-live-num shimmer" id="stat-live">0</span><span class="stat-cur" data-i18n="cur">so'm</span></div>
+          <div class="stat-note" id="stat-live-note"></div>
+        </div>
+        <div class="stat anim">
+          <div class="eyebrow" data-i18n="stats.busy">Band stollar</div>
+          <div class="stat-row"><span class="stat-num" id="stat-busy">0</span><span class="stat-of" id="stat-total">/ 0</span></div>
+          <div class="busy-dots" id="busy-dots"></div>
+          <div class="stat-note" id="stat-free-note"></div>
+        </div>
+        <div class="stat anim">
+          <div class="eyebrow" data-i18n="stats.today">Bugungi tushum</div>
+          <div class="stat-row"><span class="stat-num stat-num--money" id="stat-today">0</span><span class="stat-cur" data-i18n="cur">so'm</span></div>
+          <div class="stat-foot">
+            <span class="stat-note" id="stat-today-note"></span>
+            <button class="link-btn" data-nav="history"><span data-i18n="nav.history">Tarix</span><span class="material-symbols-outlined">arrow_forward</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar anim" id="home-toolbar">
+        <div class="zone-tabs" id="home-zone-tabs"></div>
+        <div class="chips" id="filter-chips">
+          <button class="chip active" data-filter="all"><span data-i18n="filter.all">Barchasi</span><b id="cnt-all">0</b></button>
+          <button class="chip" data-filter="free"><span data-i18n="filter.free">Bo'sh</span><b id="cnt-free">0</b></button>
+          <button class="chip" data-filter="busy"><span data-i18n="filter.busy">Band</span><b id="cnt-busy">0</b></button>
+        </div>
+        <div class="toolbar-fill"></div>
+        <div class="legend">
+          <span><i class="lg lg--free"></i><span data-i18n="filter.free">Bo'sh</span></span>
+          <span><i class="lg lg--busy"></i><span data-i18n="panel.active">Faol</span></span>
+          <span><i class="lg lg--ending"></i><span data-i18n="legend.ending">5 daq qoldi</span></span>
+          <span><i class="lg lg--over"></i><span data-i18n="panel.timeOver">Vaqt tugadi</span></span>
+        </div>
+      </div>
+
+      <div id="home-empty" class="empty-state" hidden>
+        <span class="empty-icon"><span class="material-symbols-outlined">table_restaurant</span></span>
+        <p class="empty-title" data-i18n="home.empty">Hali stol qo'shilmagan</p>
+        <p class="empty-text" data-i18n="home.emptyText">Zona va stollarni qo'shing — keyin shu yerdan sessiyalarni boshqarasiz.</p>
+        <button class="btn btn--gold" id="first-table-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="home.firstTable">Birinchi stolni qo'shish</span></button>
+      </div>
+
+      <div class="empty-state empty-state--sm" id="home-nomatch" hidden>
+        <p class="empty-text" data-i18n="home.noMatch">Mos stol topilmadi</p>
+      </div>
+
+      <div class="grid" id="table-grid"></div>
+      <div class="map-wrap" id="table-map" hidden></div>
+    </section>
+
+    <!-- ================= ZONALAR ================= -->
+    <section id="view-zones" class="view" hidden>
+      <header class="page-head">
+        <div class="page-title">
+          <div class="eyebrow" data-i18n="zones.sub">Zonalar, stollar va tariflar</div>
+          <h1 data-i18n="zones.title">Zonalar</h1>
+        </div>
+        <button class="btn btn--gold btn--head" id="add-zone-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="zones.add">Zona qo'shish</span></button>
+      </header>
+      <div id="zones-table-list" class="zone-grid"></div>
+    </section>
+
+    <!-- ================= TARIX ================= -->
+    <section id="view-history" class="view" hidden>
+      <header class="page-head">
+        <div class="page-title">
+          <div class="eyebrow" data-i18n="history.sub">Tushum va yakunlangan sessiyalar</div>
+          <h1 data-i18n="history.title">Tarix</h1>
+        </div>
+      </header>
+      <div id="history-body"></div>
+    </section>
+
+    <!-- ================= MAHSULOTLAR ================= -->
+    <section id="view-products" class="view" hidden>
+      <header class="page-head">
+        <div class="page-title">
+          <div class="eyebrow" data-i18n="products.sub">Bar va oshxona menyusi</div>
+          <h1 data-i18n="products.title">Mahsulotlar</h1>
+        </div>
+        <button class="btn btn--gold btn--head" id="add-product-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="products.add">Mahsulot qo'shish</span></button>
+      </header>
+      <div class="zone-tabs zone-tabs--block" id="prod-tabs"></div>
+      <div class="prod-grid" id="products-list"></div>
+    </section>
+
+    <!-- ================= PROFIL ================= -->
+    <section id="view-profile" class="view" hidden>
+      <header class="page-head">
+        <div class="page-title">
+          <div class="eyebrow" data-i18n="profile.sub">Hisob va sozlamalar</div>
+          <h1 data-i18n="profile.title">Profil</h1>
+        </div>
+      </header>
+      <div class="profile-grid">
+        <div class="card profile-card anim">
+          <div class="profile-glow"></div>
+          <div class="profile-ava">
+            <div class="profile-ring"></div>
+            <div class="profile-avatar" id="profile-avatar">A</div>
+          </div>
+          <div class="profile-name" id="profile-name">Admin</div>
+          <div class="profile-login" id="profile-login"></div>
+          <div class="role-pill"><span class="material-symbols-outlined ms-fill">workspace_premium</span><span data-i18n="profile.role">Egasi</span></div>
+          <button class="btn btn--soft btn--block profile-edit" id="edit-profile-btn"><span class="material-symbols-outlined">edit</span><span data-i18n="profile.edit">Profilni tahrirlash</span></button>
+          <button class="btn btn--danger-soft btn--block profile-logout" id="logout-btn"><span class="material-symbols-outlined">logout</span><span data-i18n="profile.logoutFull">Tizimdan chiqish</span></button>
+        </div>
+        <div class="profile-side">
+          <div class="card card--pad anim">
+            <div class="card-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><span class="card-meta" id="theme-count"></span></div>
+            <div class="theme-grid" id="theme-grid"></div>
+          </div>
+          <div class="card setting-row anim">
+            <span class="setting-ic"><span class="material-symbols-outlined">notifications_active</span></span>
+            <div class="setting-text"><div class="setting-title" data-i18n="sound.title">Vaqt tugaganda ovozli signal</div><div class="setting-sub" data-i18n="sound.sub">5 daqiqa qolganda qisqa signal, vaqt tugaganda qo'ng'iroq chalinadi.</div></div>
+            <button class="btn btn--ghost btn--sm" id="sound-test"><span class="material-symbols-outlined">play_arrow</span><span data-i18n="sound.test">Sinab ko'rish</span></button>
+            <button class="switch" id="sound-switch" role="switch" aria-checked="true" aria-label="Ovozli signal"><i></i></button>
+          </div>
+          <div class="card setting-row anim">
+            <span class="setting-ic"><span class="material-symbols-outlined">translate</span></span>
+            <div class="setting-text"><div class="setting-title" data-i18n="lang.label">Til</div><div class="setting-sub" data-i18n="lang.sub">Interfeys tili</div></div>
+            <div class="seg" id="lang-seg">
+              <button data-lang="uz">O'zbekcha</button>
+              <button data-lang="en">English</button>
+              <button data-lang="ru">Русский</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="app-version">Zone Manager</p>
+    </section>
+  </main>
+
+  <!-- ================= SHEET (kompyuterda o'ngdan, telefonda pastdan) ================= -->
   <div class="overlay" id="sheet" hidden>
-    <div class="sheet" id="sheet-body" role="dialog" aria-modal="true"></div>
+    <aside class="sheet" id="sheet-body" role="dialog" aria-modal="true"></aside>
   </div>
 
-  <!-- ================= ALERT ================= -->
+  <!-- ================= MODAL ================= -->
   <div class="overlay overlay--center" id="alert" hidden>
     <div class="alert-box" id="alert-body" role="alertdialog" aria-modal="true"></div>
   </div>
@@ -274,44 +366,50 @@
   <!-- ================= TIZIM: HISOB BLOKLANGAN ================= -->
   <div class="overlay overlay--center sys-overlay" id="blocked-overlay" hidden>
     <div class="alert-box sys-alert" role="alertdialog">
-      <div class="sys-alert-ic sys-alert-ic--danger"><span class="material-symbols-outlined">lock</span></div>
-      <h2 class="alert-title" data-i18n="block.title">Hisob bloklangan</h2>
-      <p class="alert-text" data-i18n="block.text">Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo'qoladi.</p>
-      <button class="btn btn--primary btn--block sys-alert-btn" id="blocked-retry">
-        <span class="material-symbols-outlined">refresh</span>
-        <span data-i18n="block.retry">Qayta tekshirish</span>
-      </button>
+      <div class="modal-card modal-card--danger">
+        <div class="alert-ic alert-ic--danger"><span class="material-symbols-outlined">lock</span></div>
+        <h2 class="alert-title" data-i18n="block.title">Hisob bloklangan</h2>
+        <p class="alert-text" data-i18n="block.text">Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo'qoladi.</p>
+        <button class="btn btn--gold btn--block sys-alert-btn" id="blocked-retry">
+          <span class="material-symbols-outlined">refresh</span>
+          <span data-i18n="block.retry">Qayta tekshirish</span>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- ================= TIZIM: ADMIN TASDIG'I ================= -->
   <div class="overlay overlay--center sys-overlay" id="access-overlay" hidden>
     <div class="alert-box sys-alert" role="alertdialog">
-      <div class="sys-alert-ic sys-alert-ic--warn" id="access-ic-wrap"><span class="material-symbols-outlined" id="access-ic">hourglass_top</span></div>
-      <h2 class="alert-title" id="access-title">Admin tasdig'i kutilmoqda</h2>
-      <p class="alert-text" id="access-text"></p>
-      <p class="access-email" id="access-email"></p>
-      <button class="btn btn--primary btn--block sys-alert-btn" id="access-retry">
-        <span class="material-symbols-outlined">refresh</span>
-        <span data-i18n="access.retry">Qayta tekshirish</span>
-      </button>
-      <button class="btn btn--ghost btn--block sys-alert-btn" id="access-logout">
-        <span class="material-symbols-outlined">logout</span>
-        <span data-i18n="access.logout">Chiqish</span>
-      </button>
+      <div class="modal-card">
+        <div class="alert-ic alert-ic--warn" id="access-ic-wrap"><span class="material-symbols-outlined" id="access-ic">hourglass_top</span></div>
+        <h2 class="alert-title" id="access-title">Admin tasdig'i kutilmoqda</h2>
+        <p class="alert-text" id="access-text"></p>
+        <p class="access-email" id="access-email"></p>
+        <button class="btn btn--gold btn--block sys-alert-btn" id="access-retry">
+          <span class="material-symbols-outlined">refresh</span>
+          <span data-i18n="access.retry">Qayta tekshirish</span>
+        </button>
+        <button class="btn btn--ghost btn--block sys-alert-btn" id="access-logout">
+          <span class="material-symbols-outlined">logout</span>
+          <span data-i18n="access.logout">Chiqish</span>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- ================= TIZIM: INTERNET ================= -->
   <div class="overlay overlay--center sys-overlay" id="net-overlay" hidden>
     <div class="alert-box sys-alert" role="alertdialog">
-      <div class="sys-alert-ic sys-alert-ic--warn"><span class="material-symbols-outlined">wifi_off</span></div>
-      <h2 class="alert-title" data-i18n="net.title">Internet bilan muammo</h2>
-      <p class="alert-text" data-i18n="net.text">Internet aloqasi yo'q. Aloqa tiklanganda avtomatik davom etadi.</p>
-      <button class="btn btn--primary btn--block sys-alert-btn" id="net-retry">
-        <span class="material-symbols-outlined">refresh</span>
-        <span data-i18n="net.retry">Qayta urinish</span>
-      </button>
+      <div class="modal-card">
+        <div class="alert-ic alert-ic--warn"><span class="material-symbols-outlined">wifi_off</span></div>
+        <h2 class="alert-title" data-i18n="net.title">Internet bilan muammo</h2>
+        <p class="alert-text" data-i18n="net.text">Internet aloqasi yo'q. Aloqa tiklanganda avtomatik davom etadi.</p>
+        <button class="btn btn--gold btn--block sys-alert-btn" id="net-retry">
+          <span class="material-symbols-outlined">refresh</span>
+          <span data-i18n="net.retry">Qayta urinish</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -321,6 +419,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js"></script>
-<script src="app.js?v=51"></script>
+<script src="app.js?v=60"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v9';
+const CACHE_NAME = 'zona-shell-v10';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -9,9 +9,12 @@ const SHELL_ASSETS = [
   '/manifest.json',
   '/img/icon-192.png',
   '/img/icon-512.png',
-  '/img/billiard.jpeg',
-  '/img/table-tennis.jpg',
   '/fonts/material-symbols-outlined.woff2',
+  '/fonts/manrope-latin.woff2',
+  '/fonts/manrope-latin-ext.woff2',
+  '/fonts/manrope-cyrillic.woff2',
+  '/fonts/sora-latin.woff2',
+  '/fonts/sora-latin-ext.woff2',
 ];
 
 /* CDN fayllari (Supabase JS). Ikon shrifti lokal — /fonts */
