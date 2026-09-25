@@ -1250,6 +1250,7 @@ html[data-theme="light"] .toast { box-shadow: 0 16px 36px -12px rgba(60, 20, 20,
   .view--login { grid-template-columns: minmax(0, 1fr); }
   /* telefonda: 3D stol, logo va sarlavha ko'rsatilmaydi — uslublar va forma darhol */
   .login-art { display: none; }
+  .login-form > .eyebrow, .login-title, .login-sub { text-align: center; }
   .login-side { padding: 72px 20px 48px; align-items: flex-start; }
   .login-themes { top: 20px; right: 20px; }
   .login-theme-name { display: none; }
