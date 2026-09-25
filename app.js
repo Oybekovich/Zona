@@ -1195,7 +1195,6 @@ function renderMap(zone, list) {
   const tabs = zone.tables;
   const pos = layoutSlots(tabs.length);
   const sc = tabs.length > 15 ? .62 : tabs.length > 8 ? .78 : 1;
-  const first = state.zones[0] && state.zones[0].id === zone.id;
   const items = tabs.map((tab, i) => {
     const s = sessions[tab.id];
     const st = tileState(s);
@@ -1215,7 +1214,6 @@ function renderMap(zone, list) {
     <div class="map" id="map-box">
       <div class="map-lamp"></div>
       <div class="map-plane" id="map-plane" style="${escH(keep)}">
-        ${first ? `<div class="map-bar"><div class="billboard" style="--bz:46px"><div class="map-tag">BAR</div></div></div>` : ''}
         <div class="map-door"></div>
         ${items}
       </div>

@@ -613,6 +613,8 @@ body:not(.in-app) .main { display: none; }
 
 /* ---------------- Stol kartalari ---------------- */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(290px, 100%), 1fr)); gap: 22px; }
+/* Kompyuterda — qatorda aniq 3 ta stol */
+@media (min-width: 1200px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .st-free { --sc: var(--st-free); }
 .st-busy { --sc: var(--st-busy); }
 .st-ending { --sc: var(--st-ending); }
@@ -750,20 +752,12 @@ body:not(.in-app) .main { display: none; }
     linear-gradient(180deg, var(--surf2), var(--surf));
 }
 html[data-theme="light"] .map-plane { box-shadow: 0 60px 100px -40px rgba(60, 20, 20, .45); }
-.map-bar {
-  position: absolute; right: 3%; top: 10%; width: 8%; height: 80%; border-radius: 12px; transform-style: preserve-3d;
-  background: linear-gradient(90deg, #4a3020, #2b1b10); box-shadow: 0 10px 0 #140b05, 0 30px 40px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .12);
-}
 .map-door { position: absolute; left: 40%; bottom: -1px; width: 20%; height: 5px; border-radius: 6px 6px 0 0; background: var(--acc); box-shadow: 0 0 22px var(--acc); opacity: .7; }
 .billboard {
   position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d;
   transform: translateZ(var(--bz, 74px)) rotateZ(calc(var(--rz, 0deg) * -1)) rotateX(calc(var(--rx, 50deg) * -1));
 }
 .billboard > * { position: absolute; left: 0; bottom: 0; transform: translateX(-50%); white-space: nowrap; }
-.map-tag {
-  padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--bg) 80%, transparent);
-  border: 1px solid var(--line2); color: var(--acc2); font-size: 11px; font-weight: 800; letter-spacing: .22em;
-}
 .map-t { position: absolute; transform-style: preserve-3d; cursor: pointer; transition: transform .35s var(--ease), opacity .3s; }
 .map-t:hover { transform: translateZ(18px); }
 .map-t.dim { opacity: .3; }
