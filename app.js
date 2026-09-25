@@ -1085,7 +1085,7 @@ function tableVis(type, active, size = '', seed = '') {
   const marks = k === 'tennis' ? '<i class="mt-net"></i><i class="mt-line"></i>' : [1, 2, 3, 4, 5, 6].map(n => `<i class="mt-pk p${n}"></i>`).join('');
   let fx = '';
   if (active && k === 'billiard') {
-    fx = `<div class="balls" data-zbox="${size === 'sm' ? 7 : 10}">${[1, 2, 3, 4, 5].map(n => `<i class="b${n}" data-zb></i>`).join('')}</div>`;
+    fx = `<div class="balls" data-zbox="${size === 'sm' ? 7 : 9}">${[1, 2, 3, 4, 5].map(n => `<i class="b${n}" data-zb></i>`).join('')}</div>`;
   } else if (active) {
     fx = `<div class="rally" style="--rd:${seedDelay(seed)}"><div class="paddle paddle--l"><i class="grip"></i><i class="head"></i></div><div class="paddle paddle--r"><i class="grip"></i><i class="head"></i></div><div class="pong"><i></i></div></div>`;
   }
