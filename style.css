@@ -529,6 +529,16 @@ body:not(.in-app) .main { display: none; }
   color: var(--warn); font-size: 13.5px; font-weight: 700;
 }
 
+.push-banner {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; padding: 14px 16px; border-radius: var(--r);
+  background: linear-gradient(90deg, var(--accSoft), transparent); border: 1px solid var(--line2);
+}
+.push-banner-ic { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; background: var(--accSoft); color: var(--acc2); border: 1px solid var(--line2); }
+.push-banner-text { flex: 1 1 220px; min-width: 0; font-size: 13.5px; color: var(--text2); line-height: 1.45; }
+.push-banner-x { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: var(--text3); flex-shrink: 0; }
+.push-banner-x:hover { background: var(--surf3); color: var(--text); }
+@media (max-width: 759px) { .push-banner .btn { flex: 1; } }
+
 /* Kirish animatsiyasi — faqat bo'lim ochilganda (qayta chizishda takrorlanmaydi) */
 .view.entering .anim { animation: zmUp .7s var(--ease) both; }
 .view.entering .anim:nth-child(2) { animation-delay: .07s; }

@@ -97,6 +97,15 @@ const I18N = {
     'done.title': 'Sessiya yakunlandi', 'done.note': 'Chek tarixga qo\'shildi', 'finish.rate': 'Tarif',
     'history.dayCount': '{n} kun', 'history.split': 'Stollar {a} · Mahsulotlar {b}',
     'alarm.ending': '{t}: 5 daqiqa qoldi', 'alarm.over': '{t}: vaqt tugadi',
+    'push.title': 'Telefonga bildirishnomalar', 'push.enable': 'Yoqish', 'push.accessBtn': 'Tasdiqlanganda xabar olish',
+    'push.banner': 'Telefonga bildirishnomalarni yoqing — ilova yopiq bo\'lsa ham "5 daqiqa qoldi" va "vaqt tugadi" xabarlari keladi.',
+    'push.subOn': 'Yoqilgan: 5 daqiqa qolganda, vaqt tugaganda (stol, zona, vaqt va summa bilan), admin ruxsat berganda va sinov muddati tugashidan 1 kun oldin.',
+    'push.subOff': 'Ilova yopiq yoki telefon qulflangan bo\'lsa ham xabar keladi: 5 daqiqa qoldi, vaqt tugadi, ruxsat berildi, sinov muddati tugayapti.',
+    'push.subDenied': 'Bildirishnomalar brauzerda bloklangan. Sayt sozlamalarida (qulf belgisi → Bildirishnomalar) ruxsat bering.',
+    'push.subUnsupported': 'Bu brauzer bildirishnomalarni qo\'llamaydi. Chrome, Edge, Firefox yoki Safari\'dan foydalaning.',
+    'push.subIos': 'iPhone/iPad\'da: Safari\'da "Ulashish" → "Bosh ekranga qo\'shish", so\'ng ilovani bosh ekrandan ochib, shu yerda yoqing.',
+    'push.on': 'Bildirishnomalar yoqildi', 'push.off': 'Bildirishnomalar o\'chirildi', 'push.denied': 'Bildirishnomalarga ruxsat berilmadi',
+    'push.error': 'Bildirishnomani yoqib bo\'lmadi', 'push.testTitle': '⏳ Stol 01: 5 daqiqa qoldi', 'push.testBody': 'Sinov: bildirishnomalar shunday ko\'rinishda keladi.',
   },
   en: {
     'login.subtitle': 'Manage your zone', 'login.username': 'Email', 'login.usernamePh': 'Enter your email',
@@ -189,6 +198,15 @@ const I18N = {
     'done.title': 'Session finished', 'done.note': 'Receipt added to history', 'finish.rate': 'Rate',
     'history.dayCount': '{n} days', 'history.split': 'Tables {a} · Products {b}',
     'alarm.ending': '{t}: 5 minutes left', 'alarm.over': '{t}: time is up',
+    'push.title': 'Phone notifications', 'push.enable': 'Enable', 'push.accessBtn': 'Notify me when approved',
+    'push.banner': 'Turn on phone notifications — get "5 minutes left" and "time is up" alerts even when the app is closed.',
+    'push.subOn': 'On: 5 minutes before the end, when time is up (with table, zone, time and amount), when the admin grants access and 1 day before the trial ends.',
+    'push.subOff': 'Alerts arrive even when the app is closed or the phone is locked: 5 minutes left, time is up, access granted, trial ending.',
+    'push.subDenied': 'Notifications are blocked in the browser. Allow them in site settings (lock icon → Notifications).',
+    'push.subUnsupported': 'This browser does not support notifications. Use Chrome, Edge, Firefox or Safari.',
+    'push.subIos': 'On iPhone/iPad: in Safari tap Share → "Add to Home Screen", open the app from the Home Screen and enable it here.',
+    'push.on': 'Notifications enabled', 'push.off': 'Notifications disabled', 'push.denied': 'Notification permission was not granted',
+    'push.error': 'Could not enable notifications', 'push.testTitle': '⏳ Table 01: 5 minutes left', 'push.testBody': 'Test: this is how notifications will look.',
   },
   ru: {
     'login.subtitle': 'Управляйте своей зоной', 'login.username': 'Email', 'login.usernamePh': 'Введите email',
@@ -281,6 +299,15 @@ const I18N = {
     'done.title': 'Сессия завершена', 'done.note': 'Чек добавлен в историю', 'finish.rate': 'Тариф',
     'history.dayCount': 'Дней: {n}', 'history.split': 'Столы {a} · Товары {b}',
     'alarm.ending': '{t}: осталось 5 минут', 'alarm.over': '{t}: время вышло',
+    'push.title': 'Уведомления на телефон', 'push.enable': 'Включить', 'push.accessBtn': 'Сообщить о подтверждении',
+    'push.banner': 'Включите уведомления — «осталось 5 минут» и «время вышло» придут, даже если приложение закрыто.',
+    'push.subOn': 'Включено: за 5 минут до конца, когда время вышло (стол, зона, время и сумма), при открытии доступа и за 1 день до конца пробного периода.',
+    'push.subOff': 'Уведомления приходят, даже если приложение закрыто или телефон заблокирован: осталось 5 минут, время вышло, доступ открыт, пробный период заканчивается.',
+    'push.subDenied': 'Уведомления заблокированы в браузере. Разрешите их в настройках сайта (значок замка → Уведомления).',
+    'push.subUnsupported': 'Этот браузер не поддерживает уведомления. Используйте Chrome, Edge, Firefox или Safari.',
+    'push.subIos': 'На iPhone/iPad: в Safari «Поделиться» → «На экран Домой», откройте приложение с экрана Домой и включите здесь.',
+    'push.on': 'Уведомления включены', 'push.off': 'Уведомления выключены', 'push.denied': 'Разрешение на уведомления не получено',
+    'push.error': 'Не удалось включить уведомления', 'push.testTitle': '⏳ Стол 01: осталось 5 минут', 'push.testBody': 'Тест: так будут выглядеть уведомления.',
   },
 };
 let currentLang = localStorage.getItem('zona-lang') || 'uz';
@@ -359,7 +386,8 @@ function setLang(l) {
   applyStaticLang();
   setAuthMode(authMode);
   $$('#lang-seg [data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
-  renderThemePickers(); updateSoundUI();
+  renderThemePickers(); updateSoundUI(); updatePushUI();
+  if (currentUser) syncPush();
   renderHome(); renderZones(); renderProducts(); renderAccess();
   if (!$('#view-history').hidden) renderHistory();
   if (currentPanel && sessions[currentPanel]) renderPanel();
@@ -425,6 +453,109 @@ document.addEventListener('pointerdown', () => { if (soundEnabled) ensureAudio()
 $('#sound-toggle').addEventListener('click', () => setSound(!soundEnabled));
 $('#sound-switch').addEventListener('click', () => setSound(!soundEnabled));
 $('#sound-test').addEventListener('click', () => soundAlarm(true));
+
+/* ---------------- Telefonga bildirishnomalar (Web Push) ----------------
+   Obuna Supabase'da saqlanadi (RPC); xabarlarni server yuboradi: pg_cron (5 daqiqa qoldi / vaqt tugadi /
+   sinov tugayapti) va admin ruxsat bergandagi trigger → admin server → push service → shu qurilma. */
+const VAPID_PUBLIC_KEY = window.__ZONA_VAPID_KEY || 'BH1Nv0_oxL0Uq445iL_yWloeYSSl0fUSxl0dJpu5SioUu67MZP0EFBDVtZhbJYSiAvtJnD39eluPS1DqjB7xm14';
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const pushSupported = () => !!VAPID_PUBLIC_KEY && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+const b64uBytes = s => { const b = atob((s + '='.repeat((4 - s.length % 4) % 4)).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(b, c => c.charCodeAt(0)); };
+let pushOn = false;
+
+async function currentPushSub() {
+  if (!pushSupported()) return null;
+  const reg = await navigator.serviceWorker.getRegistration();
+  return reg ? reg.pushManager.getSubscription() : null;
+}
+async function savePushSub(sub) {
+  const j = sub.toJSON();
+  const { error } = await sb.rpc('save_push_subscription', {
+    p_endpoint: j.endpoint, p_p256dh: j.keys.p256dh, p_auth: j.keys.auth, p_lang: currentLang,
+    p_tz: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Tashkent', p_ua: navigator.userAgent.slice(0, 300),
+  });
+  if (error) throw error;
+}
+function updatePushUI() {
+  const sub = $('#push-sub'), sw = $('#push-switch');
+  let text;
+  if (!pushSupported()) text = t(isIOS && !isStandalone() ? 'push.subIos' : 'push.subUnsupported');
+  else if (Notification.permission === 'denied') text = t('push.subDenied');
+  else text = t(pushOn ? 'push.subOn' : 'push.subOff');
+  sub.textContent = text;
+  sw.setAttribute('aria-checked', String(pushOn));
+  sw.disabled = !pushSupported() || Notification.permission === 'denied';
+  $('#push-test').hidden = !pushOn;
+  const canAsk = pushSupported() && !pushOn && Notification.permission !== 'denied';
+  let dismissed = false;
+  try { dismissed = localStorage.getItem('zona-push-dismiss') === '1'; } catch { /* xotira yopiq */ }
+  $('#push-banner').hidden = !canAsk || dismissed || !currentUser;
+  $('#access-push').hidden = !canAsk;
+}
+/* Ilova ochilganda / til o'zgarganda: mavjud obunani joriy hisobga bog'lab qo'yadi (til, vaqt zonasi) */
+async function syncPush() {
+  try {
+    const sub = await currentPushSub();
+    pushOn = !!(sub && Notification.permission === 'granted');
+    if (pushOn && currentUser) await savePushSub(sub);
+  } catch { /* tarmoq xatosi — keyingi safar */ }
+  updatePushUI();
+}
+async function enablePush() {
+  if (!pushSupported()) { toast(t(isIOS && !isStandalone() ? 'push.subIos' : 'push.subUnsupported'), 'info', 'var(--warn)'); return; }
+  try {
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') { toast(t('push.denied'), 'notifications_off', 'var(--warn)'); updatePushUI(); return; }
+    const reg = await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    const key = b64uBytes(VAPID_PUBLIC_KEY);
+    /* kalit almashgan bo'lsa — eski obunani yangilaymiz */
+    if (sub && sub.options && sub.options.applicationServerKey) {
+      const old = new Uint8Array(sub.options.applicationServerKey);
+      if (old.length !== key.length || old.some((v, i) => v !== key[i])) { await sub.unsubscribe(); sub = null; }
+    }
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+    await savePushSub(sub);
+    pushOn = true;
+    toast(t('push.on'), 'notifications_active');
+  } catch (err) {
+    toastErr(`${t('push.error')}: ${err && err.message ? err.message : err}`);
+  }
+  updatePushUI();
+}
+async function disablePush() {
+  try {
+    const sub = await currentPushSub();
+    if (sub) {
+      await sb.rpc('delete_push_subscription', { p_endpoint: sub.endpoint });
+      await sub.unsubscribe();
+    }
+    pushOn = false;
+    toast(t('push.off'), 'notifications_off');
+  } catch (err) { toastErr(errText(err)); }
+  updatePushUI();
+}
+/* Chiqishda: bu qurilma endi shu hisob xabarlarini olmasin (brauzer obunasi qoladi — qayta kirganda tiklanadi) */
+async function detachPush() {
+  try {
+    const sub = await currentPushSub();
+    if (sub) await sb.rpc('delete_push_subscription', { p_endpoint: sub.endpoint });
+  } catch { /* baribir chiqamiz */ }
+}
+$('#push-switch').addEventListener('click', () => (pushOn ? disablePush() : enablePush()));
+$('#push-banner-on').addEventListener('click', enablePush);
+$('#access-push').addEventListener('click', enablePush);
+$('#push-banner-x').addEventListener('click', () => {
+  try { localStorage.setItem('zona-push-dismiss', '1'); } catch { /* xotira yopiq */ }
+  $('#push-banner').hidden = true;
+});
+$('#push-test').addEventListener('click', async () => {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    await reg.showNotification(t('push.testTitle'), { body: t('push.testBody'), icon: '/img/icon-192.png', badge: '/img/favicon.png', tag: 'zona-test' });
+  } catch (err) { toastErr(String(err && err.message || err)); }
+});
 
 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -893,9 +1024,11 @@ function enterApp() {
   renderProfile();
   loginForm.reset();
   resetLoginBtn();
+  updatePushUI(); /* banner darhol (kartalar chizilishidan oldin) — keyin sakrab chiqmasin */
   showView('home');
   refreshAccess(true);
   setupRealtime();
+  syncPush();
 }
 
 function exitToLogin() {
@@ -911,6 +1044,7 @@ function exitToLogin() {
   $('#trial-banner').hidden = true;
   $('#bottom-nav').hidden = true;
   document.body.classList.remove('in-app');
+  $('#push-banner').hidden = true;
   VIEWS.forEach(x => { $(`#view-${x}`).hidden = true; });
   $('#view-login').hidden = false;
   $('#login-error').hidden = true;
@@ -2239,6 +2373,7 @@ function logoutConfirm() {
   $('#abort-logout').addEventListener('click', closeAlert);
   $('#ok-logout').addEventListener('click', async () => {
     closeAlert(); closeSheet();
+    await detachPush();
     await sb.auth.signOut();
   });
 }
@@ -2530,7 +2665,7 @@ window.addEventListener('offline', () => { lastOnline = false; showNet(true); })
 window.addEventListener('online', () => probeNet());
 $('#blocked-retry').addEventListener('click', checkBlockStatus);
 $('#access-retry').addEventListener('click', () => refreshAccess());
-$('#access-logout').addEventListener('click', () => sb.auth.signOut());
+$('#access-logout').addEventListener('click', async () => { await detachPush(); sb.auth.signOut(); });
 $('#net-retry').addEventListener('click', probeNet);
 setInterval(checkBlockStatus, 30000);
 setInterval(probeNet, 8000);
@@ -2542,6 +2677,7 @@ document.addEventListener('visibilitychange', () => {
 applyStaticLang();
 applyTheme();
 updateSoundUI();
+updatePushUI();
 document.documentElement.lang = currentLang;
 $$('#lang-seg [data-lang]').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
 renderHome();

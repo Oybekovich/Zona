@@ -45,6 +45,9 @@ create table if not exists public.sessions (
   created_at timestamptz not null default now()
 );
 alter table public.sessions add column if not exists end_time timestamptz;
+-- ilova bildirishnomalari yuborilgan vaqt (takror yubormaslik uchun)
+alter table public.sessions add column if not exists warned_at timestamptz;
+alter table public.sessions add column if not exists over_notified_at timestamptz;
 
 create table if not exists public.session_products (
   id bigint generated always as identity primary key,
@@ -205,8 +208,10 @@ begin
   if p_add_sec is null or p_add_sec < 60 or p_add_sec > 86400 then
     raise exception 'invalid duration' using errcode = '22023';
   end if;
+  -- vaqt qo'shildi — "5 daqiqa qoldi" / "vaqt tugadi" bildirishnomalari qaytadan yuborilishi mumkin
   update public.sessions
-     set duration_sec = coalesce(duration_sec, 0) + p_add_sec
+     set duration_sec = coalesce(duration_sec, 0) + p_add_sec,
+         warned_at = null, over_notified_at = null
    where id = p_session_id and end_time is null and mode = 'countdown'
   returning duration_sec into d;
   if d is null then
@@ -454,6 +459,226 @@ create trigger on_access_request_notify
   after insert on public.user_access
   for each row when (new.status = 'pending')
   execute function public.notify_admin_new_request();
+
+/* ================= ILOVA BILDIRISHNOMALARI (mijoz telefoniga Web Push) ================= */
+-- Hodisalar: 5 daqiqa qoldi, vaqt tugadi (pg_cron har 30 soniyada), admin ruxsat berdi (trigger),
+-- sinov muddati tugashiga 1 kun qoldi (pg_cron). DB hodisa ma'lumotini pg_net orqali admin serverga
+-- (/api/push/app-notify) yuboradi; matnni foydalanuvchi tilida o'sha yerda tuziladi va push jo'natiladi.
+
+create table if not exists public.app_push_subscriptions (
+  endpoint text primary key,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  p256dh text not null,
+  auth text not null,
+  lang text not null default 'uz',
+  tz text not null default 'Asia/Tashkent',
+  user_agent text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists app_push_subscriptions_owner_idx on public.app_push_subscriptions (owner_id);
+alter table public.app_push_subscriptions enable row level security;
+drop policy if exists app_push_own_select on public.app_push_subscriptions;
+create policy app_push_own_select on public.app_push_subscriptions
+  for select to authenticated using (owner_id = auth.uid());
+-- yozish faqat RPC orqali (egasi har doim auth.uid())
+revoke insert, update, delete on public.app_push_subscriptions from anon, authenticated;
+
+alter table public.user_access add column if not exists trial_warned_at timestamptz;
+alter table private.push_config add column if not exists app_url text not null default '';
+
+create or replace function public.save_push_subscription(p_endpoint text, p_p256dh text, p_auth text, p_lang text default 'uz', p_tz text default 'Asia/Tashkent', p_ua text default null)
+returns void
+language plpgsql security definer
+set search_path = ''
+as $$
+declare v_tz text := coalesce(nullif(p_tz, ''), 'Asia/Tashkent');
+begin
+  if auth.uid() is null then
+    raise exception 'not authenticated' using errcode = '42501';
+  end if;
+  if p_endpoint is null or p_endpoint !~ '^https?://' or length(p_endpoint) > 1000
+     or coalesce(p_p256dh, '') !~ '^[A-Za-z0-9_-]{40,200}$' or coalesce(p_auth, '') !~ '^[A-Za-z0-9_-]{10,100}$' then
+    raise exception 'invalid subscription' using errcode = '22023';
+  end if;
+  if not exists (select 1 from pg_catalog.pg_timezone_names where name = v_tz) then
+    v_tz := 'Asia/Tashkent';
+  end if;
+  insert into public.app_push_subscriptions as s (endpoint, owner_id, p256dh, auth, lang, tz, user_agent)
+  values (p_endpoint, auth.uid(), p_p256dh, p_auth,
+          case when p_lang in ('uz', 'en', 'ru') then p_lang else 'uz' end, v_tz, left(p_ua, 300))
+  on conflict (endpoint) do update
+    set owner_id = excluded.owner_id, p256dh = excluded.p256dh, auth = excluded.auth,
+        lang = excluded.lang, tz = excluded.tz, user_agent = excluded.user_agent, updated_at = now();
+  -- bitta hisobga ko'pi bilan 10 ta qurilma
+  delete from public.app_push_subscriptions
+   where owner_id = auth.uid()
+     and endpoint not in (select endpoint from public.app_push_subscriptions
+                           where owner_id = auth.uid() order by updated_at desc limit 10);
+end;
+$$;
+
+create or replace function public.delete_push_subscription(p_endpoint text)
+returns void
+language sql security definer
+set search_path = ''
+as $$
+  delete from public.app_push_subscriptions where endpoint = p_endpoint and owner_id = auth.uid();
+$$;
+
+revoke all on function public.save_push_subscription(text, text, text, text, text, text) from public, anon;
+revoke all on function public.delete_push_subscription(text) from public, anon;
+grant execute on function public.save_push_subscription(text, text, text, text, text, text) to authenticated;
+grant execute on function public.delete_push_subscription(text) to authenticated;
+
+-- Yuboriladigan hodisalarni yig'adi va "yuborildi" deb belgilaydi (faqat qurilmasi obuna bo'lgan egalar uchun).
+-- Eski hodisalar (10 daqiqadan oldin tugagan) yuborilmaydi — cron to'xtab qolgan bo'lsa ham spam bo'lmaydi.
+create or replace function private.app_push_collect()
+returns jsonb
+language plpgsql security definer
+set search_path = ''
+as $$
+declare ev jsonb := '[]'::jsonb; part jsonb;
+begin
+  with due as (
+    select s.id, z.owner_id, t.name as tname, z.name as zname, s.start_time,
+           s.start_time + make_interval(secs => s.duration_sec) as ends_at, s.duration_sec,
+           coalesce(s.rate, t.tariff) as rate
+      from public.sessions s
+      join public.tables t on t.id = s.table_id
+      join public.zones z on z.id = t.zone_id
+     where s.end_time is null and s.mode = 'countdown' and s.duration_sec is not null
+       and s.warned_at is null and s.over_notified_at is null
+       and s.start_time + make_interval(secs => s.duration_sec) > now()
+       and s.start_time + make_interval(secs => s.duration_sec) <= now() + interval '5 minutes'
+       and exists (select 1 from public.app_push_subscriptions p where p.owner_id = z.owner_id)
+       for update of s skip locked
+  ), marked as (
+    update public.sessions s set warned_at = now() from due where s.id = due.id returning due.*
+  )
+  select coalesce(jsonb_agg(jsonb_build_object(
+           'type', 'ending', 'owner_id', m.owner_id, 'session_id', m.id, 'table', m.tname, 'zone', m.zname,
+           'start', m.start_time, 'ends_at', m.ends_at, 'duration_sec', m.duration_sec, 'rate', m.rate,
+           'products', (select coalesce(sum(sp.quantity * coalesce(sp.price, p.price)), 0)
+                          from public.session_products sp join public.products p on p.id = sp.product_id
+                         where sp.session_id = m.id))), '[]'::jsonb)
+    into part from marked m;
+  ev := ev || part;
+
+  with due as (
+    select s.id, z.owner_id, t.name as tname, z.name as zname, s.start_time,
+           s.start_time + make_interval(secs => s.duration_sec) as ends_at, s.duration_sec,
+           coalesce(s.rate, t.tariff) as rate
+      from public.sessions s
+      join public.tables t on t.id = s.table_id
+      join public.zones z on z.id = t.zone_id
+     where s.end_time is null and s.mode = 'countdown' and s.duration_sec is not null
+       and s.over_notified_at is null
+       and s.start_time + make_interval(secs => s.duration_sec) <= now()
+       and s.start_time + make_interval(secs => s.duration_sec) > now() - interval '10 minutes'
+       and exists (select 1 from public.app_push_subscriptions p where p.owner_id = z.owner_id)
+       for update of s skip locked
+  ), marked as (
+    update public.sessions s set over_notified_at = now(), warned_at = coalesce(s.warned_at, now())
+      from due where s.id = due.id returning due.*
+  )
+  select coalesce(jsonb_agg(jsonb_build_object(
+           'type', 'over', 'owner_id', m.owner_id, 'session_id', m.id, 'table', m.tname, 'zone', m.zname,
+           'start', m.start_time, 'ends_at', m.ends_at, 'duration_sec', m.duration_sec, 'rate', m.rate,
+           'products', (select coalesce(sum(sp.quantity * coalesce(sp.price, p.price)), 0)
+                          from public.session_products sp join public.products p on p.id = sp.product_id
+                         where sp.session_id = m.id))), '[]'::jsonb)
+    into part from marked m;
+  ev := ev || part;
+
+  with marked as (
+    update public.user_access a set trial_warned_at = now()
+     where a.status = 'pending' and a.trial_warned_at is null
+       and a.trial_until > now() and a.trial_until <= now() + interval '1 day'
+       and exists (select 1 from public.app_push_subscriptions p where p.owner_id = a.user_id)
+    returning a.user_id, a.trial_until
+  )
+  select coalesce(jsonb_agg(jsonb_build_object('type', 'trial_ending', 'owner_id', m.user_id, 'trial_until', m.trial_until)), '[]'::jsonb)
+    into part from marked m;
+  ev := ev || part;
+  return ev;
+end;
+$$;
+revoke all on function private.app_push_collect() from public, anon, authenticated;
+
+create or replace function private.app_push_send(p_events jsonb)
+returns void
+language plpgsql security definer
+set search_path = ''
+as $$
+declare cfg record;
+begin
+  if p_events is null or jsonb_array_length(p_events) = 0 then
+    return;
+  end if;
+  select c.app_url, c.secret into cfg from private.push_config c where c.id = 1;
+  if cfg.app_url is null or cfg.app_url = '' then
+    return;
+  end if;
+  begin
+    perform net.http_post(
+      url := cfg.app_url,
+      body := jsonb_build_object('events', p_events),
+      headers := jsonb_build_object('Content-Type', 'application/json', 'x-push-secret', cfg.secret),
+      timeout_milliseconds := 8000
+    );
+  exception when others then
+    raise log 'app_push_send: %', sqlerrm;
+  end;
+end;
+$$;
+revoke all on function private.app_push_send(jsonb) from public, anon, authenticated;
+
+-- pg_cron har 30 soniyada chaqiradi. Manzil sozlanmagan bo'lsa hech narsa belgilamaydi.
+create or replace function private.app_push_tick()
+returns void
+language plpgsql security definer
+set search_path = ''
+as $$
+begin
+  if coalesce((select c.app_url from private.push_config c where c.id = 1), '') = '' then
+    return;
+  end if;
+  perform private.app_push_send(private.app_push_collect());
+end;
+$$;
+revoke all on function private.app_push_tick() from public, anon, authenticated;
+
+-- Admin ruxsat berdi (sinov boshlandi yoki umrbod tasdiqlandi) — darhol
+create or replace function public.notify_user_access_granted()
+returns trigger
+language plpgsql security definer
+set search_path = ''
+as $$
+begin
+  if exists (select 1 from public.app_push_subscriptions p where p.owner_id = new.user_id)
+     and ((new.status = 'approved' and old.status is distinct from 'approved')
+       or (new.status = 'pending' and old.trial_until is null and new.trial_until is not null and new.trial_until > now())) then
+    perform private.app_push_send(jsonb_build_array(jsonb_build_object(
+      'type', 'access', 'owner_id', new.user_id, 'status', new.status, 'trial_until', new.trial_until)));
+  end if;
+  return new;
+end;
+$$;
+revoke all on function public.notify_user_access_granted() from public, anon, authenticated;
+
+drop trigger if exists on_access_granted_notify on public.user_access;
+create trigger on_access_granted_notify
+  after update on public.user_access
+  for each row execute function public.notify_user_access_granted();
+
+do $$
+begin
+  create extension if not exists pg_cron;
+  perform cron.schedule('zona-app-push', '30 seconds', 'select private.app_push_tick()');
+exception when others then
+  raise notice 'pg_cron mavjud emas — ilova bildirishnomalari jadvali o''chiq (lokal muhit)';
+end $$;
 
 /* ================= REALTIME ================= */
 

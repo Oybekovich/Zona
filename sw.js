@@ -1,5 +1,5 @@
 /* Zone Manager — Service Worker (minimal offline) */
-const CACHE_NAME = 'zona-shell-v14';
+const CACHE_NAME = 'zona-shell-v15';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -95,4 +95,29 @@ self.addEventListener('fetch', event => {
       });
     })
   );
+});
+
+/* ---------- Bildirishnomalar (Web Push): 5 daqiqa qoldi, vaqt tugadi, ruxsat, sinov muddati ---------- */
+self.addEventListener('push', event => {
+  let d = {};
+  try { d = event.data ? event.data.json() : {}; } catch { d = { body: event.data ? event.data.text() : '' }; }
+  event.waitUntil(self.registration.showNotification(d.title || 'Zone Manager', {
+    body: d.body || '',
+    icon: '/img/icon-192.png',
+    badge: '/img/favicon.png',
+    tag: d.tag || 'zona',
+    renotify: true,
+    requireInteraction: !!d.requireInteraction,
+    vibrate: d.kind === 'over' ? [300, 120, 300, 120, 600] : [200, 80, 200],
+    data: { url: d.url || '/' },
+  }));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const target = new URL((event.notification.data && event.notification.data.url) || '/', self.location.origin).href;
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    const win = list.find(w => new URL(w.url).origin === self.location.origin);
+    return win ? win.focus() : self.clients.openWindow(target);
+  }));
 });

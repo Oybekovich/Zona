@@ -13,7 +13,7 @@
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=94">
+<link rel="stylesheet" href="style.css?v=95">
 <script src="theme-init.js?v=2"></script>
 </head>
 <body>
@@ -213,6 +213,13 @@
         <span id="trial-banner-text"></span>
       </div>
 
+      <div class="push-banner" id="push-banner" hidden>
+        <span class="push-banner-ic"><span class="material-symbols-outlined">notifications_active</span></span>
+        <span class="push-banner-text" data-i18n="push.banner">Telefonga bildirishnomalarni yoqing — ilova yopiq bo'lsa ham "5 daqiqa qoldi" va "vaqt tugadi" xabarlari keladi.</span>
+        <button class="btn btn--gold btn--sm" id="push-banner-on"><span class="material-symbols-outlined">notifications</span><span data-i18n="push.enable">Yoqish</span></button>
+        <button class="push-banner-x" id="push-banner-x" aria-label="Yopish"><span class="material-symbols-outlined">close</span></button>
+      </div>
+
       <div class="stats" id="home-stats">
         <div class="stat stat--live anim">
           <div class="stat-topline"></div>
@@ -338,6 +345,12 @@
             <button class="btn btn--ghost btn--sm" id="sound-test"><span class="material-symbols-outlined">play_arrow</span><span data-i18n="sound.test">Sinab ko'rish</span></button>
             <button class="switch" id="sound-switch" role="switch" aria-checked="true" aria-label="Ovozli signal"><i></i></button>
           </div>
+          <div class="card setting-row anim" id="push-row">
+            <span class="setting-ic"><span class="material-symbols-outlined">notifications</span></span>
+            <div class="setting-text"><div class="setting-title" data-i18n="push.title">Telefonga bildirishnomalar</div><div class="setting-sub" id="push-sub"></div></div>
+            <button class="btn btn--ghost btn--sm" id="push-test" hidden><span class="material-symbols-outlined">play_arrow</span><span data-i18n="sound.test">Sinab ko'rish</span></button>
+            <button class="switch" id="push-switch" role="switch" aria-checked="false" aria-label="Bildirishnomalar"><i></i></button>
+          </div>
           <div class="card setting-row anim">
             <span class="setting-ic"><span class="material-symbols-outlined">translate</span></span>
             <div class="setting-text"><div class="setting-title" data-i18n="lang.label">Til</div><div class="setting-sub" data-i18n="lang.sub">Interfeys tili</div></div>
@@ -390,6 +403,10 @@
           <span class="material-symbols-outlined">refresh</span>
           <span data-i18n="access.retry">Qayta tekshirish</span>
         </button>
+        <button class="btn btn--soft btn--block sys-alert-btn" id="access-push" hidden>
+          <span class="material-symbols-outlined">notifications_active</span>
+          <span data-i18n="push.accessBtn">Tasdiqlanganda xabar olish</span>
+        </button>
         <button class="btn btn--ghost btn--block sys-alert-btn" id="access-logout">
           <span class="material-symbols-outlined">logout</span>
           <span data-i18n="access.logout">Chiqish</span>
@@ -419,6 +436,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js"></script>
-<script src="app.js?v=63"></script>
+<script src="app.js?v=64"></script>
 </body>
 </html>

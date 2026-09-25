@@ -98,6 +98,7 @@ const { page: p2 } = await newPage(browser);
 await p2.goto(APP);
 await p2.fill('#login-username', email); await p2.fill('#login-password', 'secret123'); await p2.click('#login-btn');
 await p2.waitForSelector('#bottom-nav:not([hidden])');
+await p2.waitForSelector(`.table-card[data-tid="${tid}"][data-action=panel]`); // birinchi yuklash tugasin, keyin eskirgan holatni yasaymiz
 await p2.evaluate(t => { delete sessions[t]; renderHome(); }, tid); // simulate stale view
 await p2.click(`.table-card[data-tid="${tid}"]`);
 await p2.click('#start-confirm');
