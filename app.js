@@ -2678,7 +2678,12 @@ function showHistDay() {
   const d = histSel();
   $$('#history-body .bar').forEach(b => {
     const on = b.dataset.bar === d.key;
-    if (on && !b.classList.contains('is-sel')) { b.classList.remove('pick'); void b.offsetWidth; b.classList.add('pick'); }
+    b.classList.remove('bar-pop');
+    if (on && !b.classList.contains('is-sel')) {
+      void b.offsetWidth;
+      b.classList.add('bar-pop');
+      b.addEventListener('animationend', () => b.classList.remove('bar-pop'), { once: true });
+    }
     b.classList.toggle('is-sel', on);
     b.setAttribute('aria-pressed', on);
   });

@@ -147,7 +147,9 @@ await sleep(900);
 const ySel = await page.evaluate(() => ({
   hero: $('#hist-today').textContent.replace(/\D/g, ''), count: $('#hist-ms-count').textContent, rows: $$('#hist-list .hist-row').length,
   title: $('#hist-sec-title').textContent, sel: $('.bar.is-sel').dataset.bar,
+  bg: getComputedStyle($('.bar.is-sel')).backgroundColor, pick: !!$('.bar.pick'),
 }));
+check(ySel.bg === 'rgba(0, 0, 0, 0)' && !ySel.pick, `selected bar keeps a transparent background (${ySel.bg})`);
 check(ySel.hero === '4600' && ySel.count === '1' && ySel.rows === 1 && ySel.sel === yKey && !/Bugungi/.test(ySel.title),
   `selecting yesterday updates hero, stats and session list (${JSON.stringify(ySel)})`);
 await page.click('.bar.is-today');

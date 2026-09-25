@@ -885,7 +885,7 @@ html[data-theme="light"] .map-plane { box-shadow: 0 60px 100px -40px rgba(60, 20
 .bar.is-today .bar-col { background: var(--gold); box-shadow: 0 0 28px -6px var(--acc); }
 .bar-lbl { font-size: 12px; font-weight: 700; color: var(--text3); transition: color .3s; }
 .bar.is-sel .bar-lbl { color: var(--text); }
-.bar.pick .bar-col { animation: zmPick .45s var(--ease); }
+.bar.bar-pop .bar-col { animation: zmPick .45s var(--ease); }
 /* Tanlangan kun almashganda: matn suzib chiqadi, ro'yxat silliq almashadi */
 .swap { animation: zmSwap .4s var(--ease) both; }
 #hist-list { transition: opacity .16s, transform .16s; }
