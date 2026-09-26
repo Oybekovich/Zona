@@ -331,8 +331,6 @@ body:not(.fonts-loaded) .material-symbols-outlined { color: transparent !importa
 }
 .swatch:hover { transform: scale(1.14); }
 .swatch.active { box-shadow: 0 0 0 2px var(--ringBg), 0 0 0 4px var(--ringAcc); }
-.swatches--sm { gap: 8px; }
-.swatches--sm .swatch { width: 20px; height: 20px; }
 .mode-btn {
   width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
   border: 1px solid var(--line2); background: var(--surf2); color: var(--acc2);
@@ -340,8 +338,6 @@ body:not(.fonts-loaded) .material-symbols-outlined { color: transparent !importa
 }
 .mode-btn:hover { transform: rotate(-18deg); border-color: var(--acc); }
 .mode-btn .material-symbols-outlined { font-size: 17px; }
-.swatches--sm .mode-btn { width: 26px; height: 26px; }
-.swatches--sm .mode-btn .material-symbols-outlined { font-size: 15px; }
 
 /* ---------------- Kirish ekrani ---------------- */
 .view--login {
@@ -511,15 +507,6 @@ body:not(.in-app) .main { display: none; }
 }
 .nav-live-sum { position: relative; margin-top: 10px; font-family: var(--fd); font-weight: 600; font-size: 26px; line-height: 1.05; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .nav-live-note { position: relative; margin-top: 8px; font-size: 12.5px; color: var(--text2); }
-.nav-theme {
-  display: flex; flex-direction: column; align-items: stretch; gap: 10px;
-  padding: 12px 14px; border-radius: var(--rs); background: var(--surf); border: 1px solid var(--line);
-  margin-bottom: 14px; flex-shrink: 0;
-}
-.nav-theme .eyebrow { font-size: 10.5px; letter-spacing: .16em; }
-.nav-theme-name { font-size: 13px; font-weight: 700; margin-top: 3px; white-space: nowrap; }
-.nav-theme .swatches { justify-content: space-between; }
-.nav-theme .swatches .swatch { width: 24px; height: 24px; }
 .nav-user { display: flex; align-items: center; gap: 12px; padding: 4px 4px 0; flex-shrink: 0; }
 .avatar-ring {
   width: 40px; height: 40px; border-radius: 50%; padding: 2px; flex-shrink: 0;
@@ -549,7 +536,7 @@ body:not(.in-app) .main { display: none; }
     box-shadow: var(--shadowLg);
     animation: zmUp .5s both;
   }
-  .nav-brand, .nav-spacer, .nav-live, .nav-theme, .nav-user, .nav-indicator, .nav-badge { display: none !important; }
+  .nav-brand, .nav-spacer, .nav-live, .nav-user, .nav-indicator, .nav-badge { display: none !important; }
   .nav-list { flex-direction: row; gap: 2px; margin: 0; width: 100%; }
   .nav-btn {
     flex: 1; min-width: 0; height: auto; flex-direction: column; gap: 4px; padding: 8px 0 7px;
@@ -1060,7 +1047,8 @@ body:not(.in-app) .main { display: none; }
 .theme-prev-bar i:first-child { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--glow); }
 .theme-prev-bar i:last-child { flex: 1; height: 5px; border-radius: 3px; opacity: .5; background: var(--text3); }
 .theme-prev-btn { position: absolute; right: 14px; bottom: 14px; height: 26px; padding: 0 12px; border-radius: 999px; display: grid; place-items: center; font-size: 11px; font-weight: 800; background: var(--grad); color: var(--accInk); }
-.seg.theme-mode { margin-top: 18px; display: inline-flex; }
+.theme-head { align-items: center; flex-wrap: wrap; row-gap: 14px; }
+.seg.theme-mode { display: inline-flex; flex-wrap: nowrap; }
 .theme-mode button { display: inline-flex; align-items: center; gap: 7px; }
 .theme-mode .material-symbols-outlined { font-size: 17px; }
 .theme-info { display: block; padding: 12px 6px 4px; }

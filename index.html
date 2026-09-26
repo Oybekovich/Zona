@@ -13,7 +13,7 @@
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=103">
+<link rel="stylesheet" href="style.css?v=104">
 <script src="theme-init.js?v=3"></script>
 </head>
 <body>
@@ -167,13 +167,6 @@
       <div class="eyebrow eyebrow--dot"><i class="pulse-dot"></i><span data-i18n="stats.live">Joriy hisob</span></div>
       <div class="nav-live-sum shimmer" id="nav-live">0</div>
       <div class="nav-live-note" id="nav-active"></div>
-    </div>
-    <div class="nav-theme">
-      <div>
-        <div class="eyebrow" data-i18n="theme.style">Uslub</div>
-        <div class="nav-theme-name" id="nav-theme-name"></div>
-      </div>
-      <div class="swatches swatches--sm" id="nav-swatches"></div>
     </div>
     <div class="nav-user">
       <div class="avatar-ring"><div class="avatar" id="nav-avatar">A</div></div>
@@ -337,8 +330,7 @@
         </div>
         <div class="profile-side">
           <div class="card card--pad anim">
-            <div class="card-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><span class="card-meta" id="theme-count"></span></div>
-            <div class="seg theme-mode" id="theme-mode" role="group"></div>
+            <div class="card-head theme-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><div class="seg theme-mode" id="theme-mode" role="group"></div></div>
             <div class="theme-grid" id="theme-grid"></div>
           </div>
           <div class="card setting-row anim">
@@ -438,6 +430,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js"></script>
-<script src="app.js?v=70"></script>
+<script src="app.js?v=71"></script>
 </body>
 </html>

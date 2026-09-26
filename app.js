@@ -81,7 +81,6 @@ const I18N = {
     'nav.menu': 'Menyu', 'view.grid': 'Kartalar', 'view.map': 'Zal xaritasi',
     'stats.liveNow': 'Joriy hisob · jonli', 'stats.activeN': '{n} ta faol sessiya', 'stats.liveNote': '{n} ta faol sessiya · har soniyada yangilanadi',
     'stats.freeN': '{n} ta stol bo\'sh', 'stats.doneN': '{n} ta yakunlangan sessiya', 'legend.ending': '5 daq qoldi',
-    'theme.style': 'Uslub', 'theme.count': '{n} ta palitra',
     'theme.dark': 'Tungi', 'theme.light': 'Kunduzgi', 'theme.toDark': 'Tungi rejimga o\'tish', 'theme.toLight': 'Kunduzgi rejimga o\'tish',
     'theme.platinum': 'Platina', 'theme.platinumDesc': 'Obsidian va platina',
     'theme.lime': 'Neon lime', 'theme.limeDesc': 'Qora va neon lime',
@@ -185,7 +184,6 @@ const I18N = {
     'nav.menu': 'Menu', 'view.grid': 'Cards', 'view.map': 'Floor map',
     'stats.liveNow': 'Running total · live', 'stats.activeN': '{n} active sessions', 'stats.liveNote': '{n} active sessions · updates every second',
     'stats.freeN': '{n} tables free', 'stats.doneN': '{n} finished sessions', 'legend.ending': '5 min left',
-    'theme.style': 'Style', 'theme.count': '{n} palettes',
     'theme.dark': 'Dark', 'theme.light': 'Light', 'theme.toDark': 'Switch to dark mode', 'theme.toLight': 'Switch to light mode',
     'theme.platinum': 'Platinum', 'theme.platinumDesc': 'Obsidian and platinum',
     'theme.lime': 'Neon lime', 'theme.limeDesc': 'Black and neon lime',
@@ -289,7 +287,6 @@ const I18N = {
     'nav.menu': 'Меню', 'view.grid': 'Карточки', 'view.map': 'Карта зала',
     'stats.liveNow': 'Текущий счёт · онлайн', 'stats.activeN': 'Активных сессий: {n}', 'stats.liveNote': 'Активных сессий: {n} · обновляется каждую секунду',
     'stats.freeN': 'Свободно столов: {n}', 'stats.doneN': 'Завершено сессий: {n}', 'legend.ending': 'Осталось 5 мин',
-    'theme.style': 'Стиль', 'theme.count': 'Палитр: {n}',
     'theme.dark': 'Тёмный', 'theme.light': 'Светлый', 'theme.toDark': 'Включить тёмный режим', 'theme.toLight': 'Включить светлый режим',
     'theme.platinum': 'Платина', 'theme.platinumDesc': 'Обсидиан и платина',
     'theme.lime': 'Неоновый лайм', 'theme.limeDesc': 'Чёрный и неоновый лайм',
@@ -360,12 +357,9 @@ function themeCardsHTML() {
 }
 function renderThemePickers() {
   $('#login-swatches').innerHTML = swatchesHTML();
-  $('#nav-swatches').innerHTML = swatchesHTML();
   $('#theme-mode').innerHTML = themeModeHTML();
   $('#theme-grid').innerHTML = themeCardsHTML();
   $('#login-theme-name').textContent = themeName();
-  $('#nav-theme-name').textContent = themeName();
-  $('#theme-count').textContent = t('theme.count').replace('{n}', PALETTES.length);
 }
 let themeSwitchTimer = 0;
 function applyTheme(animate) {
