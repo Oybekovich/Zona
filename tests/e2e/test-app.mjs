@@ -67,6 +67,13 @@ await sleep(300);
 check(await page.evaluate(() => window.__xss !== 1), 'no XSS execution from names');
 check(await page.locator('.table-card[data-action=start]').count() === 2, 'both new tables are free (no repair state)');
 check((await page.textContent('#table-grid')).includes('<img'), 'hostile name shown as text');
+check(await page.evaluate(() => $('#home-zone-tabs').innerHTML === '' && !$('#home-zone-tabs').offsetParent), 'single zone: no zone name / tabs on home');
+const z2 = await page.evaluate(async () => { const { data } = await sb.from('zones').insert({ name: 'VIP', sort_order: 1 }).select().single(); await loadData(); return data.id; });
+await sleep(300);
+check(await page.locator('#home-zone-tabs .zone-tab').count() === 2, 'two zones: zone tabs shown');
+await page.evaluate(async id => { await sb.from('zones').delete().eq('id', id); await loadData(); }, z2);
+await sleep(300);
+check(await page.evaluate(() => $('#home-zone-tabs').innerHTML === ''), 'back to one zone: tabs hidden again');
 
 console.log('3) Countdown session: extend persists, products atomic');
 await page.click('.table-card[data-action=start]');

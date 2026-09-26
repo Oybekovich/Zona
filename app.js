@@ -1415,9 +1415,7 @@ function renderHome() {
       const busy = z.tables.filter(x => sessions[x.id]).length;
       return `<button class="zone-tab ${z.id === homeZoneId ? 'active' : ''}" data-htab="${z.id}">${escH(z.name)}${busy ? `<span class="cnt">${busy}</span>` : ''}</button>`;
     }).join('');
-  } else if (zone) {
-    tabsEl.innerHTML = `<div class="zone-chip"><span class="zone-chip-ic"><span class="material-symbols-outlined">location_on</span></span>${escH(zone.name)}</div>`;
-  } else tabsEl.innerHTML = '';
+  } else tabsEl.innerHTML = ''; /* bitta zona — zona nomi/tanlash ko'rsatilmaydi */
 
   const all = state.zones.flatMap(z => z.tables);
   const busyAll = all.filter(x => sessions[x.id]).length;
@@ -1631,7 +1629,7 @@ function renderStartSheet() {
       <span class="material-symbols-outlined mode-check">check_circle</span>
     </button>`;
   openSheet(`
-    ${sheetHead(escH(tab.name), `${t('start.title')} · ${escH(zone.name)}`)}
+    ${sheetHead(escH(tab.name), t('start.title') + (state.zones.length > 1 ? ` · ${escH(zone.name)}` : ''))}
     <div class="sheet-content">
       ${stage(tab.type)}
       <div class="mode-cards" id="mode-seg">
@@ -1751,7 +1749,7 @@ function renderPanel() {
   }).join('');
 
   openSheet(`
-    ${sheetHead(escH(tab.name), `${escH(zone.name)} · ${cd ? t('start.timer') : t('start.stopwatch')}`)}
+    ${sheetHead(escH(tab.name), (state.zones.length > 1 ? `${escH(zone.name)} · ` : '') + (cd ? t('start.timer') : t('start.stopwatch')))}
     <div class="sheet-content">
       <div class="dial-wrap st-${st}">
         <div class="dial">

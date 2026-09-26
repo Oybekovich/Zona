@@ -590,12 +590,6 @@ body:not(.in-app) .main { display: none; }
 .zone-tabs::-webkit-scrollbar { display: none; }
 .zone-tabs:empty { display: none; }
 .zone-tabs--block { margin-bottom: 22px; }
-.zone-chip {
-  display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px 0 8px; border-radius: 999px; white-space: nowrap;
-  background: var(--surf); border: 1px solid var(--line); font-weight: 800; font-size: 14px; flex-shrink: 0;
-}
-.zone-chip-ic { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--accSoft); color: var(--acc2); }
-.zone-chip-ic .material-symbols-outlined { font-size: 18px; }
 .zone-tab {
   display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; white-space: nowrap; flex-shrink: 0;
   font-size: 14px; font-weight: 700; color: var(--text2); background: var(--surf); border: 1px solid var(--line);
