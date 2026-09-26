@@ -81,7 +81,8 @@ const I18N = {
     'nav.menu': 'Menyu', 'view.grid': 'Kartalar', 'view.map': 'Zal xaritasi',
     'stats.liveNow': 'Joriy hisob · jonli', 'stats.activeN': '{n} ta faol sessiya', 'stats.liveNote': '{n} ta faol sessiya · har soniyada yangilanadi',
     'stats.freeN': '{n} ta stol bo\'sh', 'stats.doneN': '{n} ta yakunlangan sessiya', 'legend.ending': '5 daq qoldi',
-    'theme.dark': 'Tungi', 'theme.light': 'Kunduzgi', 'theme.toDark': 'Tungi rejimga o\'tish', 'theme.toLight': 'Kunduzgi rejimga o\'tish',
+    'theme.dark': 'Tungi', 'theme.light': 'Kunduzgi',
+    'theme.count': '{n} ta palitra',
     'theme.platinum': 'Platina', 'theme.platinumDesc': 'Obsidian va platina',
     'theme.lime': 'Neon lime', 'theme.limeDesc': 'Qora va neon lime',
     'theme.emerald': 'Zumrad', 'theme.emeraldDesc': 'Chuqur yashil va zumrad',
@@ -184,7 +185,8 @@ const I18N = {
     'nav.menu': 'Menu', 'view.grid': 'Cards', 'view.map': 'Floor map',
     'stats.liveNow': 'Running total · live', 'stats.activeN': '{n} active sessions', 'stats.liveNote': '{n} active sessions · updates every second',
     'stats.freeN': '{n} tables free', 'stats.doneN': '{n} finished sessions', 'legend.ending': '5 min left',
-    'theme.dark': 'Dark', 'theme.light': 'Light', 'theme.toDark': 'Switch to dark mode', 'theme.toLight': 'Switch to light mode',
+    'theme.dark': 'Dark', 'theme.light': 'Light',
+    'theme.count': '{n} palettes',
     'theme.platinum': 'Platinum', 'theme.platinumDesc': 'Obsidian and platinum',
     'theme.lime': 'Neon lime', 'theme.limeDesc': 'Black and neon lime',
     'theme.emerald': 'Emerald', 'theme.emeraldDesc': 'Deep green and emerald',
@@ -287,7 +289,8 @@ const I18N = {
     'nav.menu': 'Меню', 'view.grid': 'Карточки', 'view.map': 'Карта зала',
     'stats.liveNow': 'Текущий счёт · онлайн', 'stats.activeN': 'Активных сессий: {n}', 'stats.liveNote': 'Активных сессий: {n} · обновляется каждую секунду',
     'stats.freeN': 'Свободно столов: {n}', 'stats.doneN': 'Завершено сессий: {n}', 'legend.ending': 'Осталось 5 мин',
-    'theme.dark': 'Тёмный', 'theme.light': 'Светлый', 'theme.toDark': 'Включить тёмный режим', 'theme.toLight': 'Включить светлый режим',
+    'theme.dark': 'Тёмный', 'theme.light': 'Светлый',
+    'theme.count': 'Палитр: {n}',
     'theme.platinum': 'Платина', 'theme.platinumDesc': 'Обсидиан и платина',
     'theme.lime': 'Неоновый лайм', 'theme.limeDesc': 'Чёрный и неоновый лайм',
     'theme.emerald': 'Изумруд', 'theme.emeraldDesc': 'Глубокий зелёный и изумруд',
@@ -321,25 +324,15 @@ const cur = () => I18N[currentLang]['cur'];
 const t = k => (I18N[currentLang] && I18N[currentLang][k]) || I18N.uz[k] || k;
 
 /* ---------------- Uslub: palitra × rejim ---------------- */
-/* Ranglar faqat style.css'da ([data-palette][data-mode] bloklari). Namuna va swatchlar ham o'sha atributlar orqali
+/* Ranglar faqat style.css'da ([data-palette][data-mode] bloklari). Profildagi namunalar ham o'sha atributlar orqali
    o'z palitrasini oladi — JS'da rang qiymatlari takrorlanmaydi. Boshlang'ich holatni theme-init.js hisoblaydi. */
 const PALETTES = ['platinum', 'lime', 'emerald', 'sapphire', 'arctic', 'lavender'];
 const MODES = ['dark', 'light'];
 const theme = {
-  palette: PALETTES.includes(document.documentElement.dataset.palette) ? document.documentElement.dataset.palette : 'sapphire',
+  palette: PALETTES.includes(document.documentElement.dataset.palette) ? document.documentElement.dataset.palette : 'platinum',
   mode: MODES.includes(document.documentElement.dataset.mode) ? document.documentElement.dataset.mode : 'dark',
 };
 const modeIcon = m => m === 'dark' ? 'dark_mode' : 'light_mode';
-const themeName = () => `${t('theme.' + theme.palette)} · ${t('theme.' + theme.mode)}`;
-
-function modeBtnHTML() {
-  const next = theme.mode === 'dark' ? 'light' : 'dark';
-  const label = t(next === 'light' ? 'theme.toLight' : 'theme.toDark');
-  return `<button type="button" class="mode-btn" data-toggle-mode title="${label}" aria-label="${label}"><span class="material-symbols-outlined ms-fill">${modeIcon(theme.mode)}</span></button>`;
-}
-function swatchesHTML() {
-  return PALETTES.map(k => `<button type="button" class="swatch ${k === theme.palette ? 'active' : ''}" data-pick-palette="${k}" data-palette="${k}" data-mode="${theme.mode}" title="${t('theme.' + k)}" aria-label="${t('theme.' + k)}" aria-pressed="${k === theme.palette}"></button>`).join('') + modeBtnHTML();
-}
 function themeModeHTML() {
   return MODES.map(m => `<button type="button" class="${m === theme.mode ? 'active' : ''}" data-set-mode="${m}" aria-pressed="${m === theme.mode}"><span class="material-symbols-outlined ms-fill">${modeIcon(m)}</span>${t('theme.' + m)}</button>`).join('');
 }
@@ -356,10 +349,9 @@ function themeCardsHTML() {
       </button>`).join('');
 }
 function renderThemePickers() {
-  $('#login-swatches').innerHTML = swatchesHTML();
   $('#theme-mode').innerHTML = themeModeHTML();
   $('#theme-grid').innerHTML = themeCardsHTML();
-  $('#login-theme-name').textContent = themeName();
+  $('#theme-count').textContent = t('theme.count').replace('{n}', PALETTES.length);
 }
 let themeSwitchTimer = 0;
 function applyTheme(animate) {
@@ -392,7 +384,6 @@ function setMode(m) {
 document.addEventListener('click', e => {
   const p = e.target.closest('[data-pick-palette]');
   if (p) return setPalette(p.dataset.pickPalette);
-  if (e.target.closest('[data-toggle-mode]')) return setMode(theme.mode === 'dark' ? 'light' : 'dark');
   const m = e.target.closest('[data-set-mode]');
   if (m) setMode(m.dataset.setMode);
 });

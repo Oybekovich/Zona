@@ -38,7 +38,7 @@
 
 /* ---------------- Mavzular: 6 palitra × 2 rejim ----------------
    <html data-palette="platinum|lime|emerald|sapphire|arctic|lavender" data-mode="dark|light">.
-   Selektorlar html'ga bog'lanmagan — profil kartalari va swatchlar ham o'z palitrasini shu yerdan oladi. */
+   Selektorlar html'ga bog'lanmagan — profildagi palitra namunalari ham o'z palitrasini shu yerdan oladi. */
 :root {
   --r: 20px; --rs: 13px;
   --fd: 'Sora', 'Manrope', system-ui, sans-serif;
@@ -322,22 +322,6 @@ body:not(.fonts-loaded) .material-symbols-outlined { color: transparent !importa
   border: 2.5px solid color-mix(in srgb, var(--accInk) 25%, transparent); border-top-color: var(--accInk);
   animation: zmSpin .7s linear infinite;
 }
-.swatches { display: flex; align-items: center; gap: 10px; --ringBg: var(--bg); --ringAcc: var(--acc); --ringLine: var(--line2); }
-/* Har bir swatch o'z palitrasi tokenlarini oladi (data-palette + data-mode) — halqa esa sahifa ranglarida */
-.swatch {
-  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--bg) 0 48%, var(--acc) 52% 100%);
-  box-shadow: 0 0 0 1px var(--ringLine); transition: box-shadow .3s, transform .2s;
-}
-.swatch:hover { transform: scale(1.14); }
-.swatch.active { box-shadow: 0 0 0 2px var(--ringBg), 0 0 0 4px var(--ringAcc); }
-.mode-btn {
-  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
-  border: 1px solid var(--line2); background: var(--surf2); color: var(--acc2);
-  transition: transform .2s, border-color .2s, color .2s;
-}
-.mode-btn:hover { transform: rotate(-18deg); border-color: var(--acc); }
-.mode-btn .material-symbols-outlined { font-size: 17px; }
 
 /* ---------------- Kirish ekrani ---------------- */
 .view--login {
@@ -408,8 +392,6 @@ body:not(.fonts-loaded) .material-symbols-outlined { color: transparent !importa
   position: relative; display: flex; align-items: center; justify-content: center; padding: 56px;
   background: linear-gradient(180deg, var(--bg2), var(--bg));
 }
-.login-themes { position: absolute; top: 36px; right: 40px; display: flex; align-items: center; gap: 12px; }
-.login-theme-name { font-size: 12px; color: var(--text3); font-weight: 700; white-space: nowrap; }
 .login-form { width: 100%; max-width: 400px; animation: zmUp .8s var(--ease) both .2s; }
 .login-title { margin-top: 10px; font-family: var(--fd); font-weight: 600; font-size: 52px; line-height: 1; letter-spacing: -.02em; }
 .login-sub { margin-top: 10px; color: var(--text2); font-size: 15px; line-height: 1.5; }
@@ -1047,8 +1029,7 @@ body:not(.in-app) .main { display: none; }
 .theme-prev-bar i:first-child { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--glow); }
 .theme-prev-bar i:last-child { flex: 1; height: 5px; border-radius: 3px; opacity: .5; background: var(--text3); }
 .theme-prev-btn { position: absolute; right: 14px; bottom: 14px; height: 26px; padding: 0 12px; border-radius: 999px; display: grid; place-items: center; font-size: 11px; font-weight: 800; background: var(--grad); color: var(--accInk); }
-.theme-head { align-items: center; flex-wrap: wrap; row-gap: 14px; }
-.seg.theme-mode { display: inline-flex; flex-wrap: nowrap; }
+.seg.theme-mode { margin-top: 18px; display: inline-flex; }
 .theme-mode button { display: inline-flex; align-items: center; gap: 7px; }
 .theme-mode .material-symbols-outlined { font-size: 17px; }
 .theme-info { display: block; padding: 12px 6px 4px; }
@@ -1314,8 +1295,6 @@ body.in-app .toasts { left: calc(50% + 134px); }
   .login-art { display: none; }
   .login-form > .eyebrow, .login-title, .login-sub { text-align: center; }
   .login-side { padding: 72px 20px 48px; align-items: flex-start; }
-  .login-themes { top: 20px; right: 20px; }
-  .login-theme-name { display: none; }
   .login-title { font-size: 42px; }
 
   .page-head { padding-top: 22px; padding-bottom: 16px; }

@@ -7,14 +7,14 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="img/icon-192.png">
-<meta name="theme-color" content="#040816">
+<meta name="theme-color" content="#09090a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=104">
-<script src="theme-init.js?v=3"></script>
+<link rel="stylesheet" href="style.css?v=105">
+<script src="theme-init.js?v=4"></script>
 </head>
 <body>
 
@@ -60,10 +60,6 @@
     </div>
 
     <div class="login-side">
-      <div class="login-themes">
-        <span class="login-theme-name" id="login-theme-name"></span>
-        <div class="swatches" id="login-swatches"></div>
-      </div>
       <form id="login-form" class="login-form" novalidate>
         <div class="eyebrow" data-i18n="login.welcome">Xush kelibsiz</div>
         <h2 class="login-title" id="login-mode-title" data-i18n="login.btn">Kirish</h2>
@@ -330,7 +326,8 @@
         </div>
         <div class="profile-side">
           <div class="card card--pad anim">
-            <div class="card-head theme-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><div class="seg theme-mode" id="theme-mode" role="group"></div></div>
+            <div class="card-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><span class="card-meta" id="theme-count"></span></div>
+            <div class="seg theme-mode" id="theme-mode" role="group"></div>
             <div class="theme-grid" id="theme-grid"></div>
           </div>
           <div class="card setting-row anim">
@@ -430,6 +427,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js"></script>
-<script src="app.js?v=71"></script>
+<script src="app.js?v=72"></script>
 </body>
 </html>
