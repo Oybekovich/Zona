@@ -217,7 +217,7 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - **3 til**: o'zbek (`uz`), rus (`ru`), ingliz (`en`) — `i18n` obyekti app.js'da.
 - **Uslub — 6 palitra × 2 rejim**: `<html data-palette="platinum|lime|emerald|sapphire|arctic|lavender" data-mode="dark|light">`,
   barcha ranglar `--var` token'lar bilan (style.css boshida); tanlov `zona.palette` / `zona.mode` (localStorage),
-  birinchi ochilishda rejim — `prefers-color-scheme`, palitra — `sapphire`.
+  birinchi ochilishda rejim — `prefers-color-scheme`, palitra — `platinum`.
 - **Material Symbols** ikonkalar — lokal subset shrift `fonts/material-symbols-outlined.woff2`
   (yangi ikon qo'shilsa: `python3 tools/subset-icons.py <to'liq shrift>`); stol turi belgilari — inline SVG.
 - Toasts, tasdiqlash oynalari, bo'sh holatlar, Enter — asosiy tugma.
