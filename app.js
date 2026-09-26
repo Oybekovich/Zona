@@ -81,12 +81,14 @@ const I18N = {
     'nav.menu': 'Menyu', 'view.grid': 'Kartalar', 'view.map': 'Zal xaritasi',
     'stats.liveNow': 'Joriy hisob · jonli', 'stats.activeN': '{n} ta faol sessiya', 'stats.liveNote': '{n} ta faol sessiya · har soniyada yangilanadi',
     'stats.freeN': '{n} ta stol bo\'sh', 'stats.doneN': '{n} ta yakunlangan sessiya', 'legend.ending': '5 daq qoldi',
-    'theme.style': 'Uslub', 'theme.count': '{n} ta uslub',
-    'theme.violet': 'Qora bordo', 'theme.violetDesc': 'Qora va bordo — lyuks klub',
-    'theme.gold': 'Oltin klub', 'theme.goldDesc': 'Qora va oltin — lyuks klub',
-    'theme.teal': 'Tungi teal', 'theme.tealDesc': 'Chuqur va boy tungi uslub',
-    'theme.felt': 'Klassik movut', 'theme.feltDesc': 'Yashil movut va krem — klassik billiard',
-    'theme.light': 'Kunduzgi', 'theme.lightDesc': 'Yorug\' fon va bordo aksent — kunduzi uchun',
+    'theme.style': 'Uslub', 'theme.count': '{n} ta palitra',
+    'theme.dark': 'Tungi', 'theme.light': 'Kunduzgi', 'theme.toDark': 'Tungi rejimga o\'tish', 'theme.toLight': 'Kunduzgi rejimga o\'tish',
+    'theme.platinum': 'Platina', 'theme.platinumDesc': 'Obsidian va platina',
+    'theme.lime': 'Neon lime', 'theme.limeDesc': 'Qora va neon lime',
+    'theme.emerald': 'Zumrad', 'theme.emeraldDesc': 'Chuqur yashil va zumrad',
+    'theme.sapphire': 'Sapfir', 'theme.sapphireDesc': 'Tungi ko\'k va sapfir',
+    'theme.arctic': 'Arktika', 'theme.arcticDesc': 'Po\'lat va muz',
+    'theme.lavender': 'Lavanda', 'theme.lavenderDesc': 'Grafit va lavanda',
     'profile.sub': 'Hisob va sozlamalar', 'profile.logoutFull': 'Tizimdan chiqish',
     'sound.title': 'Vaqt tugaganda ovozli signal', 'sound.sub': '5 daqiqa qolganda qisqa signal, vaqt tugaganda qo\'ng\'iroq chalinadi.',
     'sound.test': 'Sinab ko\'rish', 'sound.on': 'Ovozli signal yoqildi', 'sound.off': 'Ovozli signal o\'chirildi',
@@ -183,12 +185,14 @@ const I18N = {
     'nav.menu': 'Menu', 'view.grid': 'Cards', 'view.map': 'Floor map',
     'stats.liveNow': 'Running total · live', 'stats.activeN': '{n} active sessions', 'stats.liveNote': '{n} active sessions · updates every second',
     'stats.freeN': '{n} tables free', 'stats.doneN': '{n} finished sessions', 'legend.ending': '5 min left',
-    'theme.style': 'Style', 'theme.count': '{n} styles',
-    'theme.violet': 'Black bordeaux', 'theme.violetDesc': 'Black and bordeaux — luxury club',
-    'theme.gold': 'Gold club', 'theme.goldDesc': 'Black and gold — luxury club',
-    'theme.teal': 'Night teal', 'theme.tealDesc': 'Deep and rich night style',
-    'theme.felt': 'Classic felt', 'theme.feltDesc': 'Green felt and cream — classic billiards',
-    'theme.light': 'Daylight', 'theme.lightDesc': 'Light background with a bordeaux accent',
+    'theme.style': 'Style', 'theme.count': '{n} palettes',
+    'theme.dark': 'Dark', 'theme.light': 'Light', 'theme.toDark': 'Switch to dark mode', 'theme.toLight': 'Switch to light mode',
+    'theme.platinum': 'Platinum', 'theme.platinumDesc': 'Obsidian and platinum',
+    'theme.lime': 'Neon lime', 'theme.limeDesc': 'Black and neon lime',
+    'theme.emerald': 'Emerald', 'theme.emeraldDesc': 'Deep green and emerald',
+    'theme.sapphire': 'Sapphire', 'theme.sapphireDesc': 'Midnight blue and sapphire',
+    'theme.arctic': 'Arctic', 'theme.arcticDesc': 'Steel and ice',
+    'theme.lavender': 'Lavender', 'theme.lavenderDesc': 'Graphite and lavender',
     'profile.sub': 'Account and settings', 'profile.logoutFull': 'Log out',
     'sound.title': 'Sound alert when time is up', 'sound.sub': 'A short beep at 5 minutes left, a bell when time is up.',
     'sound.test': 'Test', 'sound.on': 'Sound alerts on', 'sound.off': 'Sound alerts off',
@@ -285,12 +289,14 @@ const I18N = {
     'nav.menu': 'Меню', 'view.grid': 'Карточки', 'view.map': 'Карта зала',
     'stats.liveNow': 'Текущий счёт · онлайн', 'stats.activeN': 'Активных сессий: {n}', 'stats.liveNote': 'Активных сессий: {n} · обновляется каждую секунду',
     'stats.freeN': 'Свободно столов: {n}', 'stats.doneN': 'Завершено сессий: {n}', 'legend.ending': 'Осталось 5 мин',
-    'theme.style': 'Стиль', 'theme.count': 'Стилей: {n}',
-    'theme.violet': 'Чёрный бордо', 'theme.violetDesc': 'Чёрный и бордо — люкс-клуб',
-    'theme.gold': 'Золотой клуб', 'theme.goldDesc': 'Чёрный и золото — люкс-клуб',
-    'theme.teal': 'Ночной бирюзовый', 'theme.tealDesc': 'Глубокий ночной стиль',
-    'theme.felt': 'Классическое сукно', 'theme.feltDesc': 'Зелёное сукно и крем — классический бильярд',
-    'theme.light': 'Дневной', 'theme.lightDesc': 'Светлый фон и бордовый акцент',
+    'theme.style': 'Стиль', 'theme.count': 'Палитр: {n}',
+    'theme.dark': 'Тёмный', 'theme.light': 'Светлый', 'theme.toDark': 'Включить тёмный режим', 'theme.toLight': 'Включить светлый режим',
+    'theme.platinum': 'Платина', 'theme.platinumDesc': 'Обсидиан и платина',
+    'theme.lime': 'Неоновый лайм', 'theme.limeDesc': 'Чёрный и неоновый лайм',
+    'theme.emerald': 'Изумруд', 'theme.emeraldDesc': 'Глубокий зелёный и изумруд',
+    'theme.sapphire': 'Сапфир', 'theme.sapphireDesc': 'Ночной синий и сапфир',
+    'theme.arctic': 'Арктика', 'theme.arcticDesc': 'Сталь и лёд',
+    'theme.lavender': 'Лаванда', 'theme.lavenderDesc': 'Графит и лаванда',
     'profile.sub': 'Аккаунт и настройки', 'profile.logoutFull': 'Выйти из системы',
     'sound.title': 'Звуковой сигнал по окончании времени', 'sound.sub': 'Короткий сигнал за 5 минут, звонок — когда время вышло.',
     'sound.test': 'Проверить', 'sound.on': 'Звуковой сигнал включён', 'sound.off': 'Звуковой сигнал выключен',
@@ -317,64 +323,84 @@ let currentLang = localStorage.getItem('zona-lang') || 'uz';
 const cur = () => I18N[currentLang]['cur'];
 const t = k => (I18N[currentLang] && I18N[currentLang][k]) || I18N.uz[k] || k;
 
-/* ---------------- Mavzular (uslublar) ---------------- */
-/* Ko'rinish namunalari uchun har bir mavzuning asosiy ranglari (CSS'dagi token'lar bilan bir xil) */
-const THEMES = {
-  violet: { bg: '#070404', surf: '#1d0909', line: 'rgba(160,30,30,.32)', text: '#f6eaea', text3: '#8a6666', acc: '#a31c1c', gA: '#b82828', gB: '#420101', ink: '#fff2f2', r: '20px' },
-  gold: { bg: '#0a0908', surf: '#1b1713', line: 'rgba(214,178,112,.24)', text: '#f5eddf', text3: '#857a64', acc: '#d6b270', gA: '#f6e2b0', gB: '#a87c34', ink: '#1b1407', r: '22px' },
-  teal: { bg: '#050c0c', surf: '#11211f', line: 'rgba(64,224,200,.22)', text: '#e8f5f2', text3: '#61807a', acc: '#2fd6be', gA: '#b4fff2', gB: '#119983', ink: '#02201c', r: '26px' },
-  felt: { bg: '#0a1710', surf: '#162e20', line: 'rgba(236,222,186,.24)', text: '#f4ecd8', text3: '#86816b', acc: '#e6d2a0', gA: '#fff6dc', gB: '#b89a5c', ink: '#1d1a0f', r: '10px' },
-  light: { bg: '#f6f2f1', surf: '#ffffff', line: 'rgba(90,20,20,.19)', text: '#1f1010', text3: '#9c8686', acc: '#a31c1c', gA: '#cc3a3a', gB: '#6e0a0a', ink: '#fff6f6', r: '20px' },
+/* ---------------- Uslub: palitra × rejim ---------------- */
+/* Ranglar faqat style.css'da ([data-palette][data-mode] bloklari). Namuna va swatchlar ham o'sha atributlar orqali
+   o'z palitrasini oladi — JS'da rang qiymatlari takrorlanmaydi. Boshlang'ich holatni theme-init.js hisoblaydi. */
+const PALETTES = ['platinum', 'lime', 'emerald', 'sapphire', 'arctic', 'lavender'];
+const MODES = ['dark', 'light'];
+const theme = {
+  palette: PALETTES.includes(document.documentElement.dataset.palette) ? document.documentElement.dataset.palette : 'sapphire',
+  mode: MODES.includes(document.documentElement.dataset.mode) ? document.documentElement.dataset.mode : 'dark',
 };
-const normTheme = m => (m === 'dark' || !THEMES[m]) ? 'violet' : m;
-let themeMode = normTheme(localStorage.getItem('zona-theme'));
+const modeIcon = m => m === 'dark' ? 'dark_mode' : 'light_mode';
+const themeName = () => `${t('theme.' + theme.palette)} · ${t('theme.' + theme.mode)}`;
 
-const swatchBg = k => {
-  const v = THEMES[k];
-  if (k === 'violet') return `linear-gradient(135deg, ${v.acc}, ${v.gB})`;
-  return `linear-gradient(135deg, ${v.bg} 0 48%, ${v.acc} 52% 100%)`;
-};
+function modeBtnHTML() {
+  const next = theme.mode === 'dark' ? 'light' : 'dark';
+  const label = t(next === 'light' ? 'theme.toLight' : 'theme.toDark');
+  return `<button type="button" class="mode-btn" data-toggle-mode title="${label}" aria-label="${label}"><span class="material-symbols-outlined ms-fill">${modeIcon(theme.mode)}</span></button>`;
+}
 function swatchesHTML() {
-  return Object.keys(THEMES).map(k => `<button type="button" class="swatch ${k === themeMode ? 'active' : ''}" data-theme-pick="${k}" title="${t('theme.' + k)}" aria-label="${t('theme.' + k)}" style="background:${swatchBg(k)}"></button>`).join('');
+  return PALETTES.map(k => `<button type="button" class="swatch ${k === theme.palette ? 'active' : ''}" data-pick-palette="${k}" data-palette="${k}" data-mode="${theme.mode}" title="${t('theme.' + k)}" aria-label="${t('theme.' + k)}" aria-pressed="${k === theme.palette}"></button>`).join('') + modeBtnHTML();
+}
+function themeModeHTML() {
+  return MODES.map(m => `<button type="button" class="${m === theme.mode ? 'active' : ''}" data-set-mode="${m}" aria-pressed="${m === theme.mode}"><span class="material-symbols-outlined ms-fill">${modeIcon(m)}</span>${t('theme.' + m)}</button>`).join('');
 }
 function themeCardsHTML() {
-  return Object.keys(THEMES).map(k => {
-    const v = THEMES[k];
-    const prev = `radial-gradient(ellipse 80% 90% at 50% 0%, color-mix(in srgb, ${v.acc} 32%, transparent), transparent 70%), ${v.bg}`;
-    return `
-      <button type="button" class="theme-card ${k === themeMode ? 'active' : ''}" data-theme-pick="${k}">
-        <span class="theme-prev" style="border-radius:${v.r};background:${prev}">
-          <span class="theme-prev-t" style="color:${v.text}">Aa 12:40</span>
-          <span class="theme-prev-bar" style="background:${v.surf};border-color:${v.line}"><i style="background:${v.acc};box-shadow:0 0 10px ${v.acc}"></i><i style="background:${v.text3}"></i></span>
-          <span class="theme-prev-btn" style="background:linear-gradient(180deg, ${v.gA}, ${v.acc} 60%, ${v.gB});color:${v.ink}">${t('tile.start')}</span>
+  return PALETTES.map(k => `
+      <button type="button" class="theme-card ${k === theme.palette ? 'active' : ''}" data-pick-palette="${k}" aria-pressed="${k === theme.palette}">
+        <span class="theme-prev" data-palette="${k}" data-mode="${theme.mode}">
+          <span class="theme-prev-t">Aa 12:40</span>
+          <span class="theme-prev-bar"><i></i><i></i></span>
+          <span class="theme-prev-btn">${t('tile.start')}</span>
         </span>
         <span class="theme-info"><b>${t('theme.' + k)}</b><small>${t('theme.' + k + 'Desc')}</small></span>
         <span class="material-symbols-outlined theme-check">check_circle</span>
-      </button>`;
-  }).join('');
+      </button>`).join('');
 }
 function renderThemePickers() {
   $('#login-swatches').innerHTML = swatchesHTML();
   $('#nav-swatches').innerHTML = swatchesHTML();
+  $('#theme-mode').innerHTML = themeModeHTML();
   $('#theme-grid').innerHTML = themeCardsHTML();
-  $('#login-theme-name').textContent = t('theme.' + themeMode);
-  $('#nav-theme-name').textContent = t('theme.' + themeMode);
-  $('#theme-count').textContent = t('theme.count').replace('{n}', Object.keys(THEMES).length);
+  $('#login-theme-name').textContent = themeName();
+  $('#nav-theme-name').textContent = themeName();
+  $('#theme-count').textContent = t('theme.count').replace('{n}', PALETTES.length);
 }
-function applyTheme() {
-  document.documentElement.dataset.theme = themeMode;
+let themeSwitchTimer = 0;
+function applyTheme(animate) {
+  const html = document.documentElement;
+  if (animate && !reduceMotion()) {
+    html.classList.add('theme-switching');
+    clearTimeout(themeSwitchTimer);
+    themeSwitchTimer = setTimeout(() => html.classList.remove('theme-switching'), 650);
+  }
+  html.dataset.palette = theme.palette;
+  html.dataset.mode = theme.mode;
   const meta = document.querySelector('meta[name=theme-color]');
-  if (meta) meta.content = THEMES[themeMode].bg;
+  if (meta) meta.content = getComputedStyle(html).getPropertyValue('--bg').trim() || meta.content;
   renderThemePickers();
 }
-function setTheme(m) {
-  themeMode = normTheme(m);
-  try { localStorage.setItem('zona-theme', themeMode); } catch { /* xotira yopiq */ }
-  applyTheme();
+function saveTheme() {
+  try {
+    localStorage.setItem('zona.palette', theme.palette);
+    localStorage.setItem('zona.mode', theme.mode);
+  } catch { /* xotira yopiq */ }
+}
+function setPalette(p) {
+  if (!PALETTES.includes(p) || p === theme.palette) return;
+  theme.palette = p; saveTheme(); applyTheme(true);
+}
+function setMode(m) {
+  if (!MODES.includes(m) || m === theme.mode) return;
+  theme.mode = m; saveTheme(); applyTheme(true);
 }
 document.addEventListener('click', e => {
-  const b = e.target.closest('[data-theme-pick]');
-  if (b) setTheme(b.dataset.themePick);
+  const p = e.target.closest('[data-pick-palette]');
+  if (p) return setPalette(p.dataset.pickPalette);
+  if (e.target.closest('[data-toggle-mode]')) return setMode(theme.mode === 'dark' ? 'light' : 'dark');
+  const m = e.target.closest('[data-set-mode]');
+  if (m) setMode(m.dataset.setMode);
 });
 
 function applyStaticLang() {
@@ -840,7 +866,7 @@ function openSheet(html) {
   $$('#sheet-body .sheet-close, #sheet-body .sheet-handle').forEach(b => b.addEventListener('click', closeSheet));
   /* Enter — asosiy tugma (Saqlash / Boshlash) */
   $$('#sheet-body input:not([type=search])').forEach(i => i.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); $('#sheet-body .sheet-actions .btn--gold')?.click(); }
+    if (e.key === 'Enter') { e.preventDefault(); $('#sheet-body .sheet-actions .btn--acc')?.click(); }
   }));
 }
 function closeSheet() {
@@ -1659,7 +1685,7 @@ function renderStartSheet() {
       ${est !== null ? `<div class="estimate"><span>${t('start.estimate')}</span><b id="start-est">${fmtMoney(est)}</b></div>` : ''}
     </div>
     <footer class="sheet-actions">
-      <button class="btn btn--gold btn--xl" id="start-confirm"><span class="shine"></span><span class="material-symbols-outlined ms-fill">play_arrow</span>${t('start.btn')}</button>
+      <button class="btn btn--acc btn--xl" id="start-confirm"><span class="shine"></span><span class="material-symbols-outlined ms-fill">play_arrow</span>${t('start.btn')}</button>
     </footer>
   `);
 
@@ -1802,7 +1828,7 @@ function renderPanel() {
     </div>
     <footer class="sheet-actions">
       <div class="pay-total"><div class="eyebrow">${t('panel.total')}</div><b class="shimmer" data-total-price="${tab.id}">${fmtMoney(total)}</b></div>
-      <button class="btn btn--gold btn--xl" id="finish-btn"><span class="shine"></span><span class="material-symbols-outlined ms-fill">check_circle</span>${t('panel.finish')}</button>
+      <button class="btn btn--acc btn--xl" id="finish-btn"><span class="shine"></span><span class="material-symbols-outlined ms-fill">check_circle</span>${t('panel.finish')}</button>
     </footer>
   `);
   const sc = $('#sheet-body .sheet-content');
@@ -1901,7 +1927,7 @@ function finishConfirm() {
     </div>
     <div class="modal-btns">
       <button class="btn btn--ghost" id="abort-finish">${t('common.cancel')}</button>
-      <button class="btn btn--gold" id="ok-finish"><span class="shine"></span>${t('finish.confirm')}</button>
+      <button class="btn btn--acc" id="ok-finish"><span class="shine"></span>${t('finish.confirm')}</button>
     </div>
   `);
   $('#abort-finish').addEventListener('click', closeAlert);
@@ -2084,7 +2110,7 @@ function zoneHasActiveSession(z) {
 function refreshAll() { renderHome(); renderZones(); renderProducts(); }
 
 const delBtn = id => `<button class="btn btn--danger-soft" id="${id}" title="${t('modal.delete')}" aria-label="${t('modal.delete')}">${msIcon('delete')}</button>`;
-const saveBtn = id => `<button class="btn btn--gold" id="${id}">${t('modal.save')}</button>`;
+const saveBtn = id => `<button class="btn btn--acc" id="${id}">${t('modal.save')}</button>`;
 
 function openZoneModal(z) {
   const isEdit = !!z;
@@ -2333,7 +2359,7 @@ function openProfileModal() {
       </div>
       <div class="alert-btns">
         <button class="btn btn--ghost" id="cancel-profile">${t('common.cancel')}</button>
-        <button class="btn btn--gold" id="save-profile">${t('modal.save')}</button>
+        <button class="btn btn--acc" id="save-profile">${t('modal.save')}</button>
       </div>
     </div>
   `);

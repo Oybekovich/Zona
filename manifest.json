@@ -6,8 +6,8 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#070404",
-  "theme_color": "#070404",
+  "background_color": "#040816",
+  "theme_color": "#040816",
   "categories": ["business", "entertainment"],
   "icons": [
     {

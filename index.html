@@ -7,14 +7,14 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="img/icon-192.png">
-<meta name="theme-color" content="#070404">
+<meta name="theme-color" content="#040816">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=102">
-<script src="theme-init.js?v=2"></script>
+<link rel="stylesheet" href="style.css?v=103">
+<script src="theme-init.js?v=3"></script>
 </head>
 <body>
 
@@ -106,7 +106,7 @@
 
         <div class="login-error" id="login-error" data-i18n="login.error" role="alert" hidden>Email yoki parol noto'g'ri</div>
 
-        <button type="submit" class="btn btn--gold btn--block btn--xl" id="login-btn" aria-label="Kirish">
+        <button type="submit" class="btn btn--acc btn--block btn--xl" id="login-btn" aria-label="Kirish">
           <span class="shine"></span>
           <span class="spinner" hidden></span>
           <span class="btn-label" data-i18n="login.btn">Kirish</span>
@@ -216,7 +216,7 @@
       <div class="push-banner" id="push-banner" hidden>
         <span class="push-banner-ic"><span class="material-symbols-outlined">notifications_active</span></span>
         <span class="push-banner-text" data-i18n="push.banner">Telefonga bildirishnomalarni yoqing — ilova yopiq bo'lsa ham "5 daqiqa qoldi" va "vaqt tugadi" xabarlari keladi.</span>
-        <button class="btn btn--gold btn--sm" id="push-banner-on"><span class="material-symbols-outlined">notifications</span><span data-i18n="push.enable">Yoqish</span></button>
+        <button class="btn btn--acc btn--sm" id="push-banner-on"><span class="material-symbols-outlined">notifications</span><span data-i18n="push.enable">Yoqish</span></button>
         <button class="push-banner-x" id="push-banner-x" aria-label="Yopish"><span class="material-symbols-outlined">close</span></button>
       </div>
 
@@ -267,7 +267,7 @@
         <span class="empty-icon"><span class="material-symbols-outlined">table_restaurant</span></span>
         <p class="empty-title" data-i18n="home.empty">Hali stol qo'shilmagan</p>
         <p class="empty-text" data-i18n="home.emptyText">Zona va stollarni qo'shing — keyin shu yerdan sessiyalarni boshqarasiz.</p>
-        <button class="btn btn--gold" id="first-table-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="home.firstTable">Birinchi stolni qo'shish</span></button>
+        <button class="btn btn--acc" id="first-table-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="home.firstTable">Birinchi stolni qo'shish</span></button>
       </div>
 
       <div class="empty-state empty-state--sm" id="home-nomatch" hidden>
@@ -285,7 +285,7 @@
           <div class="eyebrow" data-i18n="zones.sub">Zonalar, stollar va tariflar</div>
           <h1 data-i18n="zones.title">Zonalar</h1>
         </div>
-        <button class="btn btn--gold btn--head" id="add-zone-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="zones.add">Zona qo'shish</span></button>
+        <button class="btn btn--acc btn--head" id="add-zone-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="zones.add">Zona qo'shish</span></button>
       </header>
       <div id="zones-table-list" class="zone-grid"></div>
     </section>
@@ -308,7 +308,7 @@
           <div class="eyebrow" data-i18n="products.sub">Bar va oshxona menyusi</div>
           <h1 data-i18n="products.title">Mahsulotlar</h1>
         </div>
-        <button class="btn btn--gold btn--head" id="add-product-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="products.add">Mahsulot qo'shish</span></button>
+        <button class="btn btn--acc btn--head" id="add-product-btn"><span class="shine"></span><span class="material-symbols-outlined">add</span><span data-i18n="products.add">Mahsulot qo'shish</span></button>
       </header>
       <div class="zone-tabs zone-tabs--block" id="prod-tabs"></div>
       <div class="prod-grid" id="products-list"></div>
@@ -338,6 +338,7 @@
         <div class="profile-side">
           <div class="card card--pad anim">
             <div class="card-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><span class="card-meta" id="theme-count"></span></div>
+            <div class="seg theme-mode" id="theme-mode" role="group"></div>
             <div class="theme-grid" id="theme-grid"></div>
           </div>
           <div class="card setting-row anim">
@@ -384,7 +385,7 @@
         <div class="alert-ic alert-ic--danger"><span class="material-symbols-outlined">lock</span></div>
         <h2 class="alert-title" data-i18n="block.title">Hisob bloklangan</h2>
         <p class="alert-text" data-i18n="block.text">Hisobingiz administrator tomonidan bloklangan. Blok olib tashlanganda bu oyna avtomatik yo'qoladi.</p>
-        <button class="btn btn--gold btn--block sys-alert-btn" id="blocked-retry">
+        <button class="btn btn--acc btn--block sys-alert-btn" id="blocked-retry">
           <span class="material-symbols-outlined">refresh</span>
           <span data-i18n="block.retry">Qayta tekshirish</span>
         </button>
@@ -400,7 +401,7 @@
         <h2 class="alert-title" id="access-title">Admin tasdig'i kutilmoqda</h2>
         <p class="alert-text" id="access-text"></p>
         <p class="access-email" id="access-email"></p>
-        <button class="btn btn--gold btn--block sys-alert-btn" id="access-retry">
+        <button class="btn btn--acc btn--block sys-alert-btn" id="access-retry">
           <span class="material-symbols-outlined">refresh</span>
           <span data-i18n="access.retry">Qayta tekshirish</span>
         </button>
@@ -423,7 +424,7 @@
         <div class="alert-ic alert-ic--warn"><span class="material-symbols-outlined">wifi_off</span></div>
         <h2 class="alert-title" data-i18n="net.title">Internet bilan muammo</h2>
         <p class="alert-text" data-i18n="net.text">Internet aloqasi yo'q. Aloqa tiklanganda avtomatik davom etadi.</p>
-        <button class="btn btn--gold btn--block sys-alert-btn" id="net-retry">
+        <button class="btn btn--acc btn--block sys-alert-btn" id="net-retry">
           <span class="material-symbols-outlined">refresh</span>
           <span data-i18n="net.retry">Qayta urinish</span>
         </button>
@@ -437,6 +438,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.0/dist/umd/supabase.js"></script>
-<script src="app.js?v=69"></script>
+<script src="app.js?v=70"></script>
 </body>
 </html>

@@ -205,7 +205,7 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
 - **Stollar ekrani**: statistika (band stollar, joriy hisob — jonli, bugungi tushum), zona tablari (band soni bilan),
   filtr chiplari (soni bilan), stol kartalari — billiard / tennis stoli rasmi ustida nom, holat, taymer va summa
   (telefonda 1 ustun, planshetda 2, kompyuterda 2–3).
-  Rang faqat holatni bildiradi: bo'sh — neytral, band — teal, 5 daqiqa qoldi — sariq, vaqt tugadi — qizil (miltillaydi).
+  Rang faqat holatni bildiradi: bo'sh — neytral, band — palitra aksenti, 5 daqiqa qoldi — sariq, vaqt tugadi — qizil (miltillaydi).
   Taymer rejimida qolgan vaqt progress chizig'i bilan.
 - **Sessiyani boshlash**: rejim kartalari (Sekundomer / Taymer), davomiylik tayyor variantlari (30 daq – 3 soat) va ±15 daq,
   soatlik narx, taymer uchun taxminiy summa.
@@ -215,7 +215,9 @@ Har bir jadvalda `ENABLE ROW LEVEL SECURITY` + `owner_*` policy:
   bugungi sessiyalar ro'yxati, oldingi kunlar oylar bo'yicha.
 - **Mahsulotlar**: ikonka tanlash (20 ta), sotilgan soni. **Profil**: til va mavzu sozlamalari.
 - **3 til**: o'zbek (`uz`), rus (`ru`), ingliz (`en`) — `i18n` obyekti app.js'da.
-- **Tungi/yorug' rejim**: `data-theme="dark|light"`, barcha ranglar `--var` token'lar bilan (style.css boshida).
+- **Uslub — 6 palitra × 2 rejim**: `<html data-palette="platinum|lime|emerald|sapphire|arctic|lavender" data-mode="dark|light">`,
+  barcha ranglar `--var` token'lar bilan (style.css boshida); tanlov `zona.palette` / `zona.mode` (localStorage),
+  birinchi ochilishda rejim — `prefers-color-scheme`, palitra — `sapphire`.
 - **Material Symbols** ikonkalar — lokal subset shrift `fonts/material-symbols-outlined.woff2`
   (yangi ikon qo'shilsa: `python3 tools/subset-icons.py <to'liq shrift>`); stol turi belgilari — inline SVG.
 - Toasts, tasdiqlash oynalari, bo'sh holatlar, Enter — asosiy tugma.
