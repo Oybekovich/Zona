@@ -1219,7 +1219,7 @@ const miniT = type => `<span class="mini-t mini-t--${typeKey(type)}"><i></i></sp
 /* Stol (kartalar, xarita, sheet): faol billiardda sharlar yuradi, tennisda ralli */
 function tableVis(type, active, size = '', seed = '') {
   const k = typeKey(type);
-  const marks = k === 'tennis' ? '<i class="mt-net"></i><i class="mt-line"></i>' : [1, 2, 3, 4, 5, 6].map(n => `<i class="mt-pk p${n}"></i>`).join('');
+  const marks = k === 'tennis' ? '<i class="mt-net"></i>' : [1, 2, 3, 4, 5, 6].map(n => `<i class="mt-pk p${n}"></i>`).join('');
   let fx = '';
   if (active && k === 'billiard') {
     fx = `<div class="balls" data-zbox="${size === 'sm' ? 7 : 9}">${[1, 2, 3, 4, 5].map(n => `<i class="b${n}" data-zb></i>`).join('')}</div>`;
