@@ -13,7 +13,7 @@
 <link rel="preload" href="fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=105">
+<link rel="stylesheet" href="style.css?v=106">
 <script src="theme-init.js?v=4"></script>
 </head>
 <body>
@@ -324,12 +324,12 @@
           <button class="btn btn--soft btn--block profile-edit" id="edit-profile-btn"><span class="material-symbols-outlined">edit</span><span data-i18n="profile.edit">Profilni tahrirlash</span></button>
           <button class="btn btn--danger-soft btn--block profile-logout" id="logout-btn"><span class="material-symbols-outlined">logout</span><span data-i18n="profile.logoutFull">Tizimdan chiqish</span></button>
         </div>
-        <div class="profile-side">
-          <div class="card card--pad anim">
-            <div class="card-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><span class="card-meta" id="theme-count"></span></div>
-            <div class="seg theme-mode" id="theme-mode" role="group"></div>
-            <div class="theme-grid" id="theme-grid"></div>
-          </div>
+        <div class="card card--pad profile-theme anim">
+          <div class="card-head"><h2 class="h2" data-i18n="theme.title">Ko'rinish uslubi</h2><span class="card-meta" id="theme-count"></span></div>
+          <div class="seg theme-mode" id="theme-mode" role="group"></div>
+          <div class="theme-grid" id="theme-grid"></div>
+        </div>
+        <div class="profile-settings">
           <div class="card setting-row anim">
             <span class="setting-ic"><span class="material-symbols-outlined">notifications_active</span></span>
             <div class="setting-text"><div class="setting-title" data-i18n="sound.title">Vaqt tugaganda ovozli signal</div><div class="setting-sub" data-i18n="sound.sub">5 daqiqa qolganda qisqa signal, vaqt tugaganda qo'ng'iroq chalinadi.</div></div>
