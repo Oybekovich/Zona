@@ -999,7 +999,15 @@ body:not(.in-app) .main { display: none; }
 .prod-add .material-symbols-outlined { font-size: 26px; }
 
 /* ---------------- Profil ---------------- */
-.profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 22px; align-items: start; }
+.profile-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
+/* Kompyuterda: chapda profil + sozlamalar, o'ngda uslub kartasi (ikki qatorni egallaydi). Telefonda tartib: profil → uslub → sozlamalar */
+@media (min-width: 1280px) {
+  .profile-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); grid-template-rows: auto 1fr; grid-template-areas: "card theme" "settings theme"; }
+  .profile-card { grid-area: card; }
+  .profile-theme { grid-area: theme; }
+  .profile-theme .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .profile-settings { grid-area: settings; }
+}
 .profile-card { overflow: hidden; padding: 36px 28px 28px; text-align: center; border-color: var(--line2); }
 .profile-glow { position: absolute; left: 50%; top: -140px; width: 420px; height: 300px; margin-left: -210px; pointer-events: none; background: radial-gradient(closest-side, color-mix(in srgb, var(--acc) 22%, transparent), transparent); }
 .profile-ava { position: relative; width: 112px; height: 112px; margin: 0 auto; }
@@ -1011,7 +1019,7 @@ body:not(.in-app) .main { display: none; }
 .role-pill .material-symbols-outlined { font-size: 15px; }
 .profile-edit { margin-top: 28px; }
 .profile-logout { margin-top: 10px; }
-.profile-side { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.profile-settings { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
 .theme-grid { margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
 .theme-card {
   position: relative; text-align: left; padding: 10px; border-radius: calc(var(--rs) + 4px);
